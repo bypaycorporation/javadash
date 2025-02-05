@@ -57,8 +57,8 @@ public class CollectionUtils {
      *  }</pre>
      *
      * @param collection The collection to process.
-     * @param size  The length of each chunk.
-     * @param <T>   The type of elements in the list.
+     * @param size       The length of each chunk.
+     * @param <T>        The type of elements in the list.
      * @return Returns the new collection of chunks.
      */
     public static <T> List<List<T>> chunk(Collection<? extends T> collection, int size) {
@@ -83,7 +83,7 @@ public class CollectionUtils {
      *  }</pre>
      *
      * @param collection The collection to compact.
-     * @param <T>   The type of elements in the array.
+     * @param <T>        The type of elements in the array.
      * @return Returns the new array of filtered values.
      */
     public static <T> List<T> compact(Collection<? extends T> collection) {
@@ -93,7 +93,7 @@ public class CollectionUtils {
         List<T> list = new ArrayList<>(collection);
         return list.stream()
             .filter(value -> !isFalsy(value))
-            .toList();
+            .collect(Collectors.toList());
     }
 
     /**
@@ -107,9 +107,9 @@ public class CollectionUtils {
      *      // => [1, 2, 3, 4, 5, 6]
      *  }</pre>
      *
-     * @param collection  The collection to concatenate.
-     * @param values The collection to concatenate.
-     * @param <T>    The type of elements in the array.
+     * @param collection The collection to concatenate.
+     * @param values     The collection to concatenate.
+     * @param <T>        The type of elements in the array.
      * @return Returns the new concatenated array.
      */
     @SafeVarargs
@@ -135,9 +135,9 @@ public class CollectionUtils {
      *      // => [1]
      *  }</pre>
      *
-     * @param collection  The list to inspect.
-     * @param values The lists to exclude.
-     * @param <T>    The type of elements in the list.
+     * @param collection The list to inspect.
+     * @param values     The lists to exclude.
+     * @param <T>        The type of elements in the list.
      * @return Returns the new array of filtered values.
      */
     @SafeVarargs
@@ -176,7 +176,8 @@ public class CollectionUtils {
      * @return Returns the new collection of filtered values.
      */
     @SafeVarargs
-    public static <T> List<T> differenceBy(Collection<? extends T> collection, Predicate<T> predicate, Collection<? extends T>... values) {
+    public static <T> List<T> differenceBy(Collection<? extends T> collection, Predicate<T> predicate,
+                                           Collection<? extends T>... values) {
         Objects.requireNonNull(predicate);
         if (!isValidList(collection)) {
             return Collections.emptyList();
@@ -226,7 +227,8 @@ public class CollectionUtils {
      * @return a list of elements from `array` that do not exist in any of `values`, based on the comparator
      */
     @SafeVarargs
-    public static <T> List<T> differenceWith(Collection<? extends T> collection, BiPredicate<T, T> comparator, Collection<? extends T>... values) {
+    public static <T> List<T> differenceWith(Collection<? extends T> collection, BiPredicate<T, T> comparator,
+                                             Collection<? extends T>... values) {
         Objects.requireNonNull(comparator);
         if (!isValidList(collection)) {
             return Collections.emptyList();
@@ -254,7 +256,7 @@ public class CollectionUtils {
      *  }</pre>
      *
      * @param collection The list to collection.
-     * @param n     The number of elements to drop.
+     * @param n          The number of elements to drop.
      * @return Returns the slice of collection.
      */
     public static <T> List<T> drop(Collection<? extends T> collection, int n) {
@@ -280,7 +282,7 @@ public class CollectionUtils {
      *  }</pre>
      *
      * @param collection The list to query.
-     * @param n     The number of elements to drop.
+     * @param n          The number of elements to drop.
      * @return Returns the slice of collection.
      */
     public static <T> List<T> dropRight(Collection<? extends T> collection, int n) {
@@ -363,11 +365,11 @@ public class CollectionUtils {
      *      // => [1, 0, 0, 0, 5]
      * }</pre>
      *
-     * @param list       The list to modify.
-     * @param value      The value to fill into the collection.
-     * @param start      The start position.
-     * @param end        The end position.
-     * @param <T>        The type of elements in the collection.
+     * @param list  The list to modify.
+     * @param value The value to fill into the collection.
+     * @param start The start position.
+     * @param end   The end position.
+     * @param <T>   The type of elements in the collection.
      * @return Returns collection.
      */
     public static <T> List<T> fill(List<T> list, T value, int start, int end) {
@@ -468,7 +470,7 @@ public class CollectionUtils {
                 ? ((Collection<?>) element).stream()
                 : Stream.of(element))
             .map(e -> (T) e)
-            .toList();
+            .collect(Collectors.toList());
     }
 
     /**
@@ -641,8 +643,8 @@ public class CollectionUtils {
      * }</pre>
      *
      * @param collection The first collection to inspect.
-     * @param values The other collections to compare against.
-     * @param <T> The type of elements in the collections.
+     * @param values     The other collections to compare against.
+     * @param <T>        The type of elements in the collections.
      * @return Returns the new collection of intersecting values.
      */
     @SafeVarargs
@@ -676,7 +678,8 @@ public class CollectionUtils {
      * @return Returns the new collection of intersecting values.
      */
     @SafeVarargs
-    public static <T> List<T> intersectionBy(Collection<? extends T> collection, Predicate<T> predicate, Collection<? extends T>... values) {
+    public static <T> List<T> intersectionBy(Collection<? extends T> collection, Predicate<T> predicate,
+                                             Collection<? extends T>... values) {
         Objects.requireNonNull(predicate);
         if (!isValidList(collection) || !isValidRestList(values) || hasNullOrEmptyList(values)) {
             return Collections.emptyList();
@@ -709,7 +712,8 @@ public class CollectionUtils {
      * @return Returns the new collection of intersecting values.
      */
     @SafeVarargs
-    public static <T> List<T> intersectionWith(Collection<? extends T> collection, BiPredicate<T, T> comparator, Collection<? extends T>... values) {
+    public static <T> List<T> intersectionWith(Collection<? extends T> collection, BiPredicate<T, T> comparator,
+                                               Collection<? extends T>... values) {
         Objects.requireNonNull(comparator);
         if (!isValidList(collection) || !isValidRestList(values) || hasNullOrEmptyList(values)) {
             return Collections.emptyList();
@@ -730,8 +734,8 @@ public class CollectionUtils {
      *      // => "apple, banana, cherry"
      * }</pre>
      *
-     * @param collection    The collection to convert.
-     * @param separator     The element separator.
+     * @param collection The collection to convert.
+     * @param separator  The element separator.
      * @return Returns the joined string.
      */
     public static <T> String join(Collection<? extends T> collection, String separator) {
@@ -755,7 +759,7 @@ public class CollectionUtils {
      * }</pre>
      *
      * @param collection The list to query.
-     * @param <T>   The type of elements in the list.
+     * @param <T>        The type of elements in the list.
      * @return Returns the last element of list.
      */
     @SuppressWarnings("unchecked")
@@ -863,7 +867,8 @@ public class CollectionUtils {
      * @param values     The values to remove.
      * @return Returns collection.
      */
-    public static <T> Collection<? extends T> pullAll(Collection<? extends T> collection, Collection<? extends T> values) {
+    public static <T> Collection<? extends T> pullAll(Collection<? extends T> collection,
+                                                      Collection<? extends T> values) {
         if (!isValidList(collection) || !isValidRestValues(values)) {
             return collection;
         }
@@ -888,7 +893,8 @@ public class CollectionUtils {
      * @return Returns collection.
      */
     @SuppressWarnings("unchecked")
-    public static <T> Collection<? extends T> pullAllBy(Collection<? extends T> collection, Collection<? extends T> values, Function<T, Object> iteratee) {
+    public static <T> Collection<? extends T> pullAllBy(Collection<? extends T> collection,
+                                                        Collection<? extends T> values, Function<T, Object> iteratee) {
         Objects.requireNonNull(iteratee);
         if (!isValidList(collection) || !isValidList(values)) {
             return collection;
@@ -923,7 +929,9 @@ public class CollectionUtils {
      * @param comparator The function to compare elements.
      * @return Returns collection.
      */
-    public static <T> Collection<? extends T> pullAllWith(Collection<? extends T> collection, Collection<? extends T> values, BiPredicate<T, T> comparator) {
+    public static <T> Collection<? extends T> pullAllWith(Collection<? extends T> collection,
+                                                          Collection<? extends T> values,
+                                                          BiPredicate<T, T> comparator) {
         Objects.requireNonNull(comparator);
         if (!isValidList(collection) || !isValidList(values)) {
             return collection;
@@ -943,7 +951,7 @@ public class CollectionUtils {
      *      // => ["banana", "date"]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection to modify.
      * @param indexes    The indexes of the elements to remove.
      * @return Returns the new collection of removed elements.
@@ -974,7 +982,7 @@ public class CollectionUtils {
      *      // => ["banana"]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection to modify.
      * @param predicate  The predicate to test each element.
      * @return Returns the new collection of removed elements.
@@ -1042,7 +1050,8 @@ public class CollectionUtils {
         int startN = Math.max(start, 0);
         int endN = Math.min(end, size);
         List<T> result = new ArrayList<>();
-        Iterator<? extends T> iterator = collection instanceof List ? ((List<? extends T>) collection).listIterator(startN) : collection.iterator();
+        Iterator<? extends T> iterator =
+            collection instanceof List ? ((List<? extends T>) collection).listIterator(startN) : collection.iterator();
         int index = 0;
         while (iterator.hasNext() && index < endN - startN) {
             result.add(iterator.next());
@@ -1123,7 +1132,7 @@ public class CollectionUtils {
      *      // => [3, 4, 5]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection to query.
      * @param predicate  The function invoked per iteration.
      * @return Returns the slice of collection.
@@ -1145,7 +1154,7 @@ public class CollectionUtils {
      *      // => [1, 2, 3]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection to query.
      * @param predicate  The condition to match.
      * @return Returns the slice of collection.
@@ -1168,7 +1177,7 @@ public class CollectionUtils {
      *      // => [1, 2, 3, 4, 5]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collections.
+     * @param <T>         The type of elements in the collections.
      * @param collections The collections to combine.
      * @return An Optional containing the combined list, or an empty Optional if the collections are invalid.
      */
@@ -1198,9 +1207,9 @@ public class CollectionUtils {
      *      // => [1, 2, 3, 4, 5]
      * }</pre>
      *
-     * @param <T>        The type of elements in the collections.
-     * @param iteratee   The iteratee invoked per element.
-     * @param collections     The collections to inspect.
+     * @param <T>         The type of elements in the collections.
+     * @param iteratee    The iteratee invoked per element.
+     * @param collections The collections to inspect.
      * @return Returns the new collection of combined values.
      */
     @SafeVarargs
@@ -1225,9 +1234,9 @@ public class CollectionUtils {
      *      // => [1, 2, 3, 4, 5]
      * }</pre>
      *
-     * @param <T>        The type of elements in the collections.
-     * @param comparator A comparator function to apply for determining uniqueness of elements.
-     * @param collections     The collections to inspect.
+     * @param <T>         The type of elements in the collections.
+     * @param comparator  A comparator function to apply for determining uniqueness of elements.
+     * @param collections The collections to inspect.
      * @return Returns the new collection of combined values.
      */
     @SafeVarargs
@@ -1249,8 +1258,8 @@ public class CollectionUtils {
      *      // => [1, 2, 3]
      * }</pre>
      *
-     * @param <T>   The type of elements in the collection.
-     * @param collection  The collection to inspect.
+     * @param <T>        The type of elements in the collection.
+     * @param collection The collection to inspect.
      * @return Returns the new duplicate free collection.
      */
     public static <T> List<T> uniq(Collection<? extends T> collection) {
@@ -1276,9 +1285,9 @@ public class CollectionUtils {
      *      // => [1, 2, 3]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection to inspect.
-     * @param iteratee  The iteratee invoked per element.
+     * @param iteratee   The iteratee invoked per element.
      * @return Returns the new duplicate free collection.
      */
     public static <T> List<T> uniqBy(Collection<? extends T> collection, Function<T, ?> iteratee) {
@@ -1300,7 +1309,7 @@ public class CollectionUtils {
      *
      * @param <T>        The type of elements in the collection.
      * @param collection The collection to inspect.
-     * @param comparator  The comparator invoked per element.
+     * @param comparator The comparator invoked per element.
      * @return Returns the new duplicate free collection.
      */
     public static <T> List<T> uniqWith(Collection<? extends T> collection, BiPredicate<T, T> comparator) {
@@ -1324,8 +1333,8 @@ public class CollectionUtils {
      *      // => [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
      * }</pre>
      *
-     * @param <T>        The type of elements in the collection.
-     * @param grouped    The collection of grouped elements to process.
+     * @param <T>     The type of elements in the collection.
+     * @param grouped The collection of grouped elements to process.
      * @return Returns the new array of regrouped elements.
      */
     public static <T> List<List<T>> unzip(Collection<? extends Collection<? extends T>> grouped) {
@@ -1362,12 +1371,13 @@ public class CollectionUtils {
      *      // => [12, 15, 18]
      * }</pre>
      *
-     * @param <T>            The type of elements in the collection.
-     * @param grouped        The collection of collections to unzip.
+     * @param <T>             The type of elements in the collection.
+     * @param grouped         The collection of collections to unzip.
      * @param combineFunction The function to combine regrouped values.
      * @return Returns the new collection of regrouped elements.
      */
-    public static <T> List<T> unzipWith(Collection<? extends Collection<? extends T>> grouped, Function<List<T>, T> combineFunction) {
+    public static <T> List<T> unzipWith(Collection<? extends Collection<? extends T>> grouped,
+                                        Function<List<T>, T> combineFunction) {
         Objects.requireNonNull(combineFunction);
         if (!isValidList(grouped)) {
             return Collections.emptyList();
@@ -1375,7 +1385,10 @@ public class CollectionUtils {
         List<List<T>> unzipped = unzip(grouped);
         List<T> result = new ArrayList<>();
         for (List<T> group : unzipped) {
-            result.add(combineFunction.apply(group.stream().filter(Objects::nonNull).toList()));
+            result.add(combineFunction.apply(group.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList()))
+            );
         }
         return result;
     }
@@ -1389,9 +1402,9 @@ public class CollectionUtils {
      *      // => [1, 3, 5]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collection.
-     * @param collection     The collection to inspect.
-     * @param values    The values to exclude.
+     * @param <T>        The type of elements in the collection.
+     * @param collection The collection to inspect.
+     * @param values     The values to exclude.
      * @return Returns the new collection of filtered values.
      */
     @SafeVarargs
@@ -1422,7 +1435,7 @@ public class CollectionUtils {
      *      // => [1, 2, 4, 5]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collections.
+     * @param <T>         The type of elements in the collections.
      * @param collections The collections to inspect.
      * @return Returns the new collection of filtered values.
      */
@@ -1450,9 +1463,9 @@ public class CollectionUtils {
      *      // => [1, 2, 4, 5]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collections.
-     * @param collections    The collections to inspect.
-     * @param iteratee  The iteratee invoked per element.
+     * @param <T>         The type of elements in the collections.
+     * @param collections The collections to inspect.
+     * @param iteratee    The iteratee invoked per element.
      * @return Returns the new collection of filtered values.
      */
     @SafeVarargs
@@ -1480,9 +1493,9 @@ public class CollectionUtils {
      *      // => [1, 2, 4, 5]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collections.
-     * @param collections    The collections to inspect.
-     * @param comparator The comparator invoked per element.
+     * @param <T>         The type of elements in the collections.
+     * @param collections The collections to inspect.
+     * @param comparator  The comparator invoked per element.
      * @return Returns the new collection of filtered values.
      */
     @SafeVarargs
@@ -1510,8 +1523,8 @@ public class CollectionUtils {
      *      // => [[1, 4], [2, 5], [3, 6], [null, 7]]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collections.
-     * @param collections     The collections to process.
+     * @param <T>         The type of elements in the collections.
+     * @param collections The collections to process.
      * @return Returns the new collection of grouped elements.
      */
     @SuppressWarnings("unchecked")
@@ -1551,10 +1564,10 @@ public class CollectionUtils {
      *      // => ["1-4", "2-5", "3-6"]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collections.
-     * @param <R>       The result type after applying the combiner function.
-     * @param combiner  The function to combine grouped values.
-     * @param collections     The collections to process.
+     * @param <T>         The type of elements in the collections.
+     * @param <R>         The result type after applying the combiner function.
+     * @param combiner    The function to combine grouped values.
+     * @param collections The collections to process.
      * @return Returns the new collection of grouped elements.
      */
     @SuppressWarnings("unchecked")
@@ -1592,10 +1605,10 @@ public class CollectionUtils {
      *      // => {"a": 1, "b": 2, "c": null}
      * }</pre>
      *
-     * @param <K>     The type of keys in the map.
-     * @param <V>     The type of values in the map.
-     * @param props   The collection of keys.
-     * @param values  The collection of values.
+     * @param <K>    The type of keys in the map.
+     * @param <V>    The type of values in the map.
+     * @param props  The collection of keys.
+     * @param values The collection of values.
      * @return Returns the new map.
      */
     public static <K, V> Map<K, V> zipObject(Collection<? extends K> props, Collection<? extends V> values) {
@@ -1632,7 +1645,8 @@ public class CollectionUtils {
      * @param keyMapper  The function to map each element to a key.
      * @return Returns the composed aggregate object.
      */
-    public static <T, K> Map<K, Long> countBy(Collection<? extends T> collection, Function<? super T, ? extends K> keyMapper) {
+    public static <T, K> Map<K, Long> countBy(Collection<? extends T> collection,
+                                              Function<? super T, ? extends K> keyMapper) {
         Objects.requireNonNull(keyMapper);
         if (!isValidList(collection)) {
             return Collections.emptyMap();
@@ -1652,9 +1666,9 @@ public class CollectionUtils {
      *      // => true
      * }</pre>
      *
-     * @param <T>      The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection to iterate over.
-     * @param predicate The predicate to apply to each element.
+     * @param predicate  The predicate to apply to each element.
      * @return Returns {@code true} if all elements pass the predicate check, else {@code false}.
      */
     public static <T> boolean every(Collection<? extends T> collection, Predicate<? super T> predicate) {
@@ -1679,10 +1693,10 @@ public class CollectionUtils {
      *      // => true
      * }</pre>
      *
-     * @param <K>          The type of keys in the map.
-     * @param <V>          The type of values in the map.
-     * @param map          The map to check.
-     * @param biPredicate  The biPredicate to apply to each entry (key, value).
+     * @param <K>         The type of keys in the map.
+     * @param <V>         The type of values in the map.
+     * @param map         The map to check.
+     * @param biPredicate The biPredicate to apply to each entry (key, value).
      * @return {@code true} if every entry in the map satisfies the biPredicate, {@code false} otherwise.
      */
     public static <K, V> boolean every(Map<K, V> map, BiPredicate<K, V> biPredicate) {
@@ -1732,9 +1746,9 @@ public class CollectionUtils {
      *      // => {b=2, c=3}
      * }</pre>
      *
-     * @param <K>        The type of keys in the map.
-     * @param <V>        The type of values in the map.
-     * @param map        The map to filter.
+     * @param <K>         The type of keys in the map.
+     * @param <V>         The type of values in the map.
+     * @param map         The map to filter.
      * @param biPredicate The BiPredicate to apply to each key-value entry.
      * @return A new map containing only the entries that satisfy the predicate.
      */
@@ -1758,9 +1772,9 @@ public class CollectionUtils {
      *      // => Optional[banana]
      * }</pre>
      *
-     * @param <T>         The type of elements in the collection.
-     * @param collection  The collection to search through.
-     * @param predicate   The predicate to test each element against.
+     * @param <T>        The type of elements in the collection.
+     * @param collection The collection to search through.
+     * @param predicate  The predicate to test each element against.
      * @return An Optional containing the first element that satisfies the predicate, or an empty Optional if none are found.
      */
     public static <T> Optional<T> find(Collection<? extends T> collection, Predicate<T> predicate) {
@@ -1786,9 +1800,9 @@ public class CollectionUtils {
      *      // => Optional[banana]
      * }</pre>
      *
-     * @param <T>         The type of elements in the collection.
-     * @param collection  The collection to search through.
-     * @param predicate   The predicate to test each element against.
+     * @param <T>        The type of elements in the collection.
+     * @param collection The collection to search through.
+     * @param predicate  The predicate to test each element against.
      * @return An Optional containing the last element that satisfies the predicate, or an empty Optional if none are found.
      */
     public static <T> Optional<T> findLast(Collection<? extends T> collection, Predicate<T> predicate) {
@@ -1819,10 +1833,10 @@ public class CollectionUtils {
      *      // => ["Item 1", "Item 2", "Item 3"]
      * }</pre>
      *
-     * @param <T>         The type of elements in the input collection.
-     * @param <R>         The type of elements in the resulting collection after transformation.
-     * @param collection  The collection to iterate over.
-     * @param iteratee    The function to transform each element of the input collection into a collection of type R.
+     * @param <T>        The type of elements in the input collection.
+     * @param <R>        The type of elements in the resulting collection after transformation.
+     * @param collection The collection to iterate over.
+     * @param iteratee   The function to transform each element of the input collection into a collection of type R.
      * @return A list containing all the elements from the collections returned by the iteratee.
      */
     public static <T, R> List<R> flatMap(Collection<? extends T> collection,
@@ -1851,10 +1865,10 @@ public class CollectionUtils {
      *      // => ["Item 1", "Item 2", "Item 3"]
      * }</pre>
      *
-     * @param <T>         The type of elements in the input collection.
-     * @param <R>         The type of elements in the resulting collection after transformation.
-     * @param collection  The collection to iterate over.
-     * @param iteratee    The function to transform each element of the input collection into a collection of type R.
+     * @param <T>        The type of elements in the input collection.
+     * @param <R>        The type of elements in the resulting collection after transformation.
+     * @param collection The collection to iterate over.
+     * @param iteratee   The function to transform each element of the input collection into a collection of type R.
      * @return A list containing all the elements from the collections returned by the iteratee, deeply flattened.
      */
     public static <T, R> List<R> flatMapDeep(Collection<? extends T> collection,
@@ -1884,11 +1898,11 @@ public class CollectionUtils {
      *      // => ["Item 1", "Item 2", "Item 3"]
      * }</pre>
      *
-     * @param <T>         The type of elements in the input collection.
-     * @param <R>         The type of elements in the resulting collection after transformation.
-     * @param collection  The collection to iterate over.
-     * @param iteratee    The function to transform each element of the input collection into a collection of type R.
-     * @param depth       The depth to which the resulting collections should be flattened.
+     * @param <T>        The type of elements in the input collection.
+     * @param <R>        The type of elements in the resulting collection after transformation.
+     * @param collection The collection to iterate over.
+     * @param iteratee   The function to transform each element of the input collection into a collection of type R.
+     * @param depth      The depth to which the resulting collections should be flattened.
      *                   A depth of 1 flattens one level, while greater values flatten deeper.
      * @return A list containing all the elements from the collections returned by the iteratee, flattened to the specified depth.
      */
@@ -1922,9 +1936,9 @@ public class CollectionUtils {
      *      // Element: 3
      * }</pre>
      *
-     * @param <T>         The type of elements in the collection.
-     * @param collection  The collection of elements to iterate over.
-     * @param iteratee    The action to be performed on each element of the collection.
+     * @param <T>        The type of elements in the collection.
+     * @param collection The collection of elements to iterate over.
+     * @param iteratee   The action to be performed on each element of the collection.
      */
     public static <T> void forEach(Collection<? extends T> collection, Consumer<? super T> iteratee) {
         Objects.requireNonNull(iteratee);
@@ -1949,10 +1963,10 @@ public class CollectionUtils {
      *      // b = 2
      * }</pre>
      *
-     * @param <K>         The type of keys in the map.
-     * @param <V>         The type of values in the map.
-     * @param map         The map of entries to iterate over.
-     * @param iteratee    The action to be performed on each entry of the map.
+     * @param <K>      The type of keys in the map.
+     * @param <V>      The type of values in the map.
+     * @param map      The map of entries to iterate over.
+     * @param iteratee The action to be performed on each entry of the map.
      */
     public static <K, V> void forEach(Map<? extends K, ? extends V> map, BiConsumer<? super K, ? super V> iteratee) {
         Objects.requireNonNull(iteratee);
@@ -1978,9 +1992,9 @@ public class CollectionUtils {
      *      // a
      * }</pre>
      *
-     * @param <T>         The type of elements in the collection.
-     * @param collection  The collection to iterate over.
-     * @param iteratee    The action to be performed on each element of the collection.
+     * @param <T>        The type of elements in the collection.
+     * @param collection The collection to iterate over.
+     * @param iteratee   The action to be performed on each element of the collection.
      */
     public static <T> void forEachRight(Collection<? extends T> collection, Consumer<? super T> iteratee) {
         Objects.requireNonNull(iteratee);
@@ -2010,10 +2024,10 @@ public class CollectionUtils {
      *      // a: 1
      * }</pre>
      *
-     * @param <K>        The type of keys in the map.
-     * @param <V>        The type of values in the map.
-     * @param map        The map to iterate over.
-     * @param iteratee   The action to be performed on each entry of the map.
+     * @param <K>      The type of keys in the map.
+     * @param <V>      The type of values in the map.
+     * @param map      The map to iterate over.
+     * @param iteratee The action to be performed on each entry of the map.
      */
     public static <K, V> void forEachRight(Map<? extends K, ? extends V> map,
                                            BiConsumer<? super K, ? super V> iteratee) {
@@ -2067,7 +2081,7 @@ public class CollectionUtils {
      *      // Returns: true
      * }</pre>
      *
-     * @param <T>       The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection to search through.
      * @param value      The value to check for in the collection.
      * @return `true` if the collection contains the specified value, otherwise `false`.
@@ -2095,8 +2109,8 @@ public class CollectionUtils {
      *      // Returns: {5=apple, 6=banana, 7=apricot}
      * }</pre>
      *
-     * @param <T>       The type of elements in the collection.
-     * @param <R>       The type of the generated key.
+     * @param <T>        The type of elements in the collection.
+     * @param <R>        The type of the generated key.
      * @param collection The collection of elements to be processed.
      * @param iteratee   A function that generates the key from each element in the collection.
      * @return A map where each key is generated from the iteratee and the value is the original element.
@@ -2125,8 +2139,8 @@ public class CollectionUtils {
      *      // Returns: [5, 6, 7]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collection.
-     * @param <R>       The type of elements in the returned list.
+     * @param <T>        The type of elements in the collection.
+     * @param <R>        The type of elements in the returned list.
      * @param collection The collection of elements to be processed.
      * @param iteratee   A function that processes each element and produces a new result.
      * @return A new list containing the results of applying the iteratee function to each element.
@@ -2154,7 +2168,7 @@ public class CollectionUtils {
      *      // Returns: [2, 3, 5, 8]
      * }</pre>
      *
-     * @param <T>       The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection of elements to be sorted.
      * @param comparator A comparator used to compare the elements of the collection.
      * @return A new list containing the elements of the collection sorted according to the comparator.
@@ -2165,7 +2179,7 @@ public class CollectionUtils {
             return Collections.emptyList();
         }
         List<T> list = new ArrayList<>(collection);
-        return list.stream().sorted(comparator).toList();
+        return list.stream().sorted(comparator).collect(Collectors.toList());
     }
 
     /**
@@ -2178,9 +2192,9 @@ public class CollectionUtils {
      *      // Returns: [[2, 4], [1, 3, 5]]
      * }</pre>
      *
-     * @param <T> The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection of elements to partition.
-     * @param predicate The condition used to partition the elements.
+     * @param predicate  The condition used to partition the elements.
      * @return A list containing two sublists: the first with elements that match the predicate, and the second with those that do not.
      */
     public static <T> List<List<T>> partition(Collection<? extends T> collection, Predicate<T> predicate) {
@@ -2216,9 +2230,9 @@ public class CollectionUtils {
      *      // Returns: 15 (sum of numbers)
      * }</pre>
      *
-     * @param <T> The type of elements in the collection.
-     * @param collection The collection of elements to reduce.
-     * @param identity The initial value to start the reduction.
+     * @param <T>         The type of elements in the collection.
+     * @param collection  The collection of elements to reduce.
+     * @param identity    The initial value to start the reduction.
      * @param accumulator A function that combines two elements into one result.
      * @return The result of applying the accumulator to all elements in the collection.
      */
@@ -2245,11 +2259,11 @@ public class CollectionUtils {
      *      sum.ifPresent(s -> System.out.println("Sum: " + s));  // Output: Sum: 15
      * }</pre>
      *
-     * @param <T> The type of elements in the collection.
-     * @param collection The collection of elements to reduce.
+     * @param <T>         The type of elements in the collection.
+     * @param collection  The collection of elements to reduce.
      * @param accumulator A function that combines two elements into one result.
      * @return An Optional containing the result of applying the accumulator to all elements in the collection,
-     *         or an empty Optional if the collection is empty.
+     * or an empty Optional if the collection is empty.
      */
     public static <T> Optional<T> reduce(Collection<? extends T> collection, BinaryOperator<T> accumulator) {
         Objects.requireNonNull(accumulator);
@@ -2277,12 +2291,12 @@ public class CollectionUtils {
      *      System.out.println("Sum from right: " + sumRight);  // Output: Sum from right: 15
      * }</pre>
      *
-     * @param <T> The type of elements in the collection.
-     * @param collection The collection of elements to reduce.
-     * @param identity The initial value for the reduction.
+     * @param <T>         The type of elements in the collection.
+     * @param collection  The collection of elements to reduce.
+     * @param identity    The initial value for the reduction.
      * @param accumulator A function that combines two elements into one result.
      * @return The result of applying the accumulator to all elements in the collection,
-     *         or the identity if the collection is empty.
+     * or the identity if the collection is empty.
      */
     public static <T> T reduceRight(Collection<? extends T> collection, T identity, BinaryOperator<T> accumulator) {
         Objects.requireNonNull(accumulator);
@@ -2314,11 +2328,11 @@ public class CollectionUtils {
      *      sumRight.ifPresent(sum -> System.out.println("Sum from right: " + sum));  // Output: Sum from right: 15
      * }</pre>
      *
-     * @param <T> The type of elements in the collection.
-     * @param collection The collection of elements to reduce.
+     * @param <T>         The type of elements in the collection.
+     * @param collection  The collection of elements to reduce.
      * @param accumulator A function that combines two elements into one result.
      * @return An Optional containing the result of applying the accumulator to all elements
-     *         in the collection, or Optional.empty() if the collection is empty.
+     * in the collection, or Optional.empty() if the collection is empty.
      */
     public static <T> Optional<T> reduceRight(Collection<? extends T> collection, BinaryOperator<T> accumulator) {
         Objects.requireNonNull(accumulator);
@@ -2347,9 +2361,9 @@ public class CollectionUtils {
      *      result.forEach(System.out::println);  // Output: 1 3 5
      * }</pre>
      *
-     * @param <T> The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection of elements to filter.
-     * @param predicate A function that tests each element to determine whether it should be excluded.
+     * @param predicate  A function that tests each element to determine whether it should be excluded.
      * @return A list containing the elements of the collection that do not match the predicate.
      */
     public static <T> List<T> reject(Collection<? extends T> collection, Predicate<T> predicate) {
@@ -2372,7 +2386,7 @@ public class CollectionUtils {
      *      randomElement.ifPresent(System.out::println);  // Output: A random element from the list (e.g., 3)
      * }</pre>
      *
-     * @param <T> The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection from which to sample an element.
      * @return An Optional containing the randomly selected element, or Optional.empty() if the collection is empty.
      */
@@ -2398,9 +2412,9 @@ public class CollectionUtils {
      *      System.out.println(randomElements);  // Output: A random list of 3 elements, e.g., [2, 5, 1]
      * }</pre>
      *
-     * @param <T> The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection from which to sample elements.
-     * @param n The number of elements to select.
+     * @param n          The number of elements to select.
      * @return A list containing 'n' randomly selected elements from the collection, or an empty list if the collection is empty.
      */
 
@@ -2424,7 +2438,7 @@ public class CollectionUtils {
      *      System.out.println(shuffled);  // Output: A randomly shuffled list, e.g., [3, 1, 4, 2, 5]
      * }</pre>
      *
-     * @param <T> The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection to shuffle.
      * @return A list containing the elements of the collection in random order, or an empty list if the collection is empty.
      */
@@ -2480,9 +2494,9 @@ public class CollectionUtils {
      *      boolean hasEven = CollectionUtils.some(numbers, num -> num % 2 == 0);  // Output: true
      * }</pre>
      *
-     * @param <T> The type of elements in the collection.
+     * @param <T>        The type of elements in the collection.
      * @param collection The collection of elements to test.
-     * @param predicate A predicate that tests each element.
+     * @param predicate  A predicate that tests each element.
      * @return true if any element in the collection satisfies the predicate, otherwise false.
      */
     public static <T> boolean some(Collection<T> collection, Predicate<T> predicate) {

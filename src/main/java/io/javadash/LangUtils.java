@@ -16,7 +16,7 @@ public class LangUtils {
      *
      * @param value The value to check for emptiness.
      * @return true if the value is null, an empty String, an empty Collection, an empty Map, or an empty array;
-     *         otherwise, false.
+     * otherwise, false.
      */
     public static boolean isEmpty(Object value) {
         if (value == null) {

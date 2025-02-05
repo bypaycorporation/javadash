@@ -15,7 +15,7 @@ public class FunctionUtils {
      *      consumer.accept(null); // Output: Executed
      * }</pre>
      *
-     * @param n The number of times the `accept` method needs to be called before the `Runnable` is executed.
+     * @param n    The number of times the `accept` method needs to be called before the `Runnable` is executed.
      * @param func The `Runnable` to execute after the specified number of calls.
      * @return A `Consumer` that tracks the number of calls and executes the `Runnable` when the threshold is reached.
      */

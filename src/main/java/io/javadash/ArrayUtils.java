@@ -3,6 +3,7 @@ package io.javadash;
 import static io.javadash.lib.BaseValidation.isFalsy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,18 +17,14 @@ public class ArrayUtils {
      * @return A list of chunks (each chunk is a list of elements).
      */
     public static <T> List<List<T>> chunk(T[] array, int size) {
-
         int length = array == null ? 0 : array.length;
         if (length == 0 || size < 1) {
             return Collections.emptyList();
         }
-
         List<List<T>> result = new ArrayList<>();
-
         for (int i = 0; i < length; i += size) {
-            result.add(new ArrayList<>(List.of(array).subList(i, Math.min(length, i + size))));
+            result.add(new ArrayList<>(Arrays.asList(array).subList(i, Math.min(length, i + size))));
         }
-
         return result;
     }
 

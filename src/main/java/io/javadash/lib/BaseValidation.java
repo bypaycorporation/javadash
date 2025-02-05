@@ -46,7 +46,7 @@ public class BaseValidation {
         if (collection instanceof Collection<?>) {
             return !((Collection<?>) collection).isEmpty();
         }
-        if (collection instanceof Map<?,?>) {
+        if (collection instanceof Map<?, ?>) {
             return !((Map<?, ?>) collection).isEmpty();
         }
         return false;

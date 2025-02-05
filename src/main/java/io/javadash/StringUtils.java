@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class StringUtils {
     /**
@@ -30,7 +32,7 @@ public class StringUtils {
      *      boolean contains = StringUtils.includes(sentence, "world");  // Output: true
      * }</pre>
      *
-     * @param str The string to search within.
+     * @param str   The string to search within.
      * @param value The value to search for in the string.
      * @return true if the string contains the specified value; otherwise, false.
      */
@@ -100,9 +102,15 @@ public class StringUtils {
         }
         String normalized = Normalizer.normalize(string, Normalizer.Form.NFD);
         normalized = reComboMark.matcher(normalized).replaceAll("");
-        normalized = reLatin.matcher(normalized).replaceAll(match -> deburrLetter(match.group()));
-        return normalized;
+        Matcher matcher = reLatin.matcher(normalized);
+        StringBuffer result = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(result, deburrLetter(matcher.group()));
+        }
+        matcher.appendTail(result);
+        return result.toString();
     }
+
 
     /**
      * Checks if `string` ends with the given target string.
@@ -272,7 +280,7 @@ public class StringUtils {
      *
      * @param string The string to pad.
      * @param length The target length of the resulting string.
-     * @param chars The characters to use for padding.
+     * @param chars  The characters to use for padding.
      * @return A new string padded to the specified length, or the original string if no padding is needed.
      */
     public static String pad(String string, int length, String chars) {
@@ -305,7 +313,7 @@ public class StringUtils {
      *
      * @param string The string to pad.
      * @param length The target length of the resulting string.
-     * @param chars The characters to use for padding.
+     * @param chars  The characters to use for padding.
      * @return A new string padded to the specified length from the start, or the original string if no padding is needed.
      */
     public static String padStart(String string, int length, String chars) {
@@ -335,7 +343,7 @@ public class StringUtils {
      *
      * @param string The string to pad.
      * @param length The target length of the resulting string.
-     * @param chars The characters to use for padding.
+     * @param chars  The characters to use for padding.
      * @return A new string padded to the specified length from the end, or the original string if no padding is needed.
      */
     public static String padEnd(String string, int length, String chars) {
@@ -363,19 +371,21 @@ public class StringUtils {
      * }</pre>
      *
      * @param string The string to repeat.
-     * @param n The number of times to repeat the string.
+     * @param n      The number of times to repeat the string.
      * @return A new string consisting of the original string repeated the specified number of times,
-     *         or an empty string if the repetition count is zero or negative.
+     * or an empty string if the repetition count is zero or negative.
      */
     public static String repeat(String string, int n) {
         if (string == null) {
-            string = "";
+            return "";
         }
         int nStep = Math.max(0, n);
         if (nStep == 0) {
             return "";
         }
-        return string.repeat(nStep);
+        return IntStream.range(0, nStep)
+            .mapToObj(i -> string)
+            .collect(Collectors.joining());
     }
 
     /**
@@ -386,11 +396,11 @@ public class StringUtils {
      *      System.out.println(result);  // Output: "Hello Java"
      * }</pre>
      *
-     * @param string The original string where replacement will be made.
-     * @param pattern The regular expression pattern to search for in the string.
+     * @param string      The original string where replacement will be made.
+     * @param pattern     The regular expression pattern to search for in the string.
      * @param replacement The string to replace the first occurrence of the pattern with.
      * @return A new string with the first occurrence of the pattern replaced by the replacement,
-     *         or the original string if any parameter is null.
+     * or the original string if any parameter is null.
      */
     public static String replace(String string, String pattern, String replacement) {
         if (string == null) {
@@ -444,7 +454,7 @@ public class StringUtils {
      *      System.out.println(result);  // Output: ["apple", "banana", "orange"]
      * }</pre>
      *
-     * @param string The string to be split into substrings.
+     * @param string    The string to be split into substrings.
      * @param separator The delimiter used to split the string. If null, the entire string is treated as a single element.
      * @return A list containing the substrings obtained by splitting the input string.
      */
@@ -564,7 +574,7 @@ public class StringUtils {
      * }</pre>
      *
      * @param string The string to trim.
-     * @param chars The characters to trim from both ends of the string.
+     * @param chars  The characters to trim from both ends of the string.
      * @return A new string with the specified characters removed from both ends, or the original string if no trimming is needed.
      */
 
@@ -596,7 +606,7 @@ public class StringUtils {
      * }</pre>
      *
      * @param string The string to trim.
-     * @param chars The characters to trim from the beginning of the string.
+     * @param chars  The characters to trim from the beginning of the string.
      * @return A new string with the specified characters removed from the beginning, or the original string if no trimming is needed.
      */
 
@@ -627,7 +637,7 @@ public class StringUtils {
      * }</pre>
      *
      * @param string The string to trim.
-     * @param chars The characters to trim from the end of the string.
+     * @param chars  The characters to trim from the end of the string.
      * @return A new string with the specified characters removed from the end, or the original string if no trimming is needed.
      */
 
@@ -668,7 +678,7 @@ public class StringUtils {
         StringBuilder result = new StringBuilder();
         while (matcher.find()) {
             String word = matcher.group();
-            if (!result.isEmpty()) {
+            if (result.length() > 0) {
                 result.append(" ");
             }
             result.append(word.toUpperCase());
