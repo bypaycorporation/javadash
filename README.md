@@ -17,7 +17,10 @@
 JavaDash
 ===================
 
-JavaDash, A Java utility library inspired by Lodash, providing helpful methods for common operations like manipulation, iteration, and more. This library is designed to provide similar functionality to Lodash's JavaScript methods but in a Java-friendly way.
+JavaDash, A Java utility library inspired by Lodash, 
+providing helpful methods for common operations like manipulation, iteration, and more. 
+This library is designed to provide similar functionality to Lodash's JavaScript methods 
+but in a Java-friendly way.
 
 Sponsored by
 ===================
@@ -37,8 +40,8 @@ Maven
 
 ```xml
 <dependency>
-    <groupId>io.javadash</groupId>
-    <artifactId>java-lodash</artifactId>
+    <groupId>io.github.bypaycorporation</groupId>
+    <artifactId>javadash</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
@@ -47,5 +50,5 @@ Gradle
 -------------
 
 ```xml
-  implementation 'io.javadash:java-lodash:1.0.0'
+  implementation 'io.github.bypaycorporation:javadash:1.0.0'
 ```
