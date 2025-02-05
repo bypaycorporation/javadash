@@ -61,7 +61,8 @@ public class BaseLibrary {
         return new ArrayList<>(resultSet);
     }
 
-    public static <T> List<T> baseDifference(Collection<? extends T> source, Collection<? extends T> target, BiPredicate<T, T> comparator) {
+    public static <T> List<T> baseDifference(Collection<? extends T> source, Collection<? extends T> target,
+                                             BiPredicate<T, T> comparator) {
         Objects.requireNonNull(source);
         Objects.requireNonNull(target);
         Objects.requireNonNull(comparator);
@@ -100,7 +101,8 @@ public class BaseLibrary {
         return new ArrayList<>(resultSet);
     }
 
-    public static <T> List<T> baseIntersection(Collection<? extends T> source, Collection<? extends T> target, BiPredicate<T, T> comparator) {
+    public static <T> List<T> baseIntersection(Collection<? extends T> source, Collection<? extends T> target,
+                                               BiPredicate<T, T> comparator) {
         Objects.requireNonNull(source);
         Objects.requireNonNull(target);
         Objects.requireNonNull(comparator);
@@ -111,9 +113,9 @@ public class BaseLibrary {
     /**
      * A helper method that slices the list starting from the given index to the end.
      *
-     * @param collection  The list to slice.
-     * @param start The start index for the slice.
-     * @param end   The end index for the slice.
+     * @param collection The list to slice.
+     * @param start      The start index for the slice.
+     * @param end        The end index for the slice.
      * @return A sublist from start index to end index.
      */
     public static <T> List<T> baseSlice(Collection<? extends T> collection, int start, int end) {
@@ -124,10 +126,10 @@ public class BaseLibrary {
     /**
      * Helper method that filters elements from the end of the list until the predicate returns false.
      *
-     * @param <T>       The type of elements in the list.
-     * @param collection      The list to query.
-     * @param predicate The function invoked per iteration.
-     * @param fromEnd   If true, the elements are taken from the end of the list.
+     * @param <T>        The type of elements in the list.
+     * @param collection The list to query.
+     * @param predicate  The function invoked per iteration.
+     * @param fromEnd    If true, the elements are taken from the end of the list.
      * @return A new list containing the filtered elements.
      */
     public static <T> List<T> baseWhile(Collection<? extends T> collection, Predicate<T> predicate, boolean fromEnd) {
@@ -424,12 +426,12 @@ public class BaseLibrary {
         for (char c : string.toCharArray()) {
             if (Character.isLetterOrDigit(c)) {
                 word.append(c);
-            } else if (!word.isEmpty()) {
+            } else if (word.length() > 0) {
                 words.add(word.toString());
                 word.setLength(0);
             }
         }
-        if (!word.isEmpty()) {
+        if (word.length() > 0) {
             words.add(word.toString());
         }
         return words;
