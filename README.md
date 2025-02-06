@@ -14,6 +14,10 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.bypaycorporation/javadash?label=Maven%20Central)](https://search.maven.org/artifact/io.github.bypaycorporation/javadash)
+[![Javadocs](https://javadoc.io/badge/io.github.bypaycorporation/javadash/1.0.0.svg)](https://javadoc.io/doc/io.github.bypaycorporation/javadash/1.0.0)
+
 JavaDash
 ===================
 

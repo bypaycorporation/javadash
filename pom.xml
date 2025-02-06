@@ -16,7 +16,7 @@
         This library is designed to provide similar functionality to Lodash's JavaScript methods
         but in a Java-friendly way.
     </description>
-    <url>https://github.com/bypay-corporation/javadash</url>
+    <url>https://github.com/bypaycorporation/javadash</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -156,9 +156,9 @@
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:git://github.com/bypay-corporation/javadash.git</connection>
-        <developerConnection>scm:git:git@github.com:bypay-corporation/javadash.git</developerConnection>
-        <url>https://github.com/bypay-corporation/javadash</url>
+        <connection>scm:git:git://github.com/bypaycorporation/javadash.git</connection>
+        <developerConnection>scm:git:git@github.com:bypaycorporation/javadash.git</developerConnection>
+        <url>https://github.com/bypaycorporation/javadash</url>
         <tag>HEAD</tag>
     </scm>
 
