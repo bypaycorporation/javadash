@@ -22,20 +22,16 @@ public class BaseValidation {
         if (value == null) {
             return true;
         }
-
         if (value instanceof Boolean) {
             return !(Boolean) value;
         }
-
         if (value instanceof Number) {
             double num = ((Number) value).doubleValue();
             return num == 0 || Double.isNaN(num);
         }
-
         if (value instanceof String) {
             return ((String) value).isEmpty();
         }
-
         return false;
     }
 

@@ -51,7 +51,10 @@ public class CollectionUtils {
      * If array can't be split evenly, the final chunk will be the remaining elements.<p>
      *
      * <pre>{@code
-     *      List<String> input = List.of("a", "b", "c", "d");
+     *      CollectionUtils.chunk(null, 2);
+     *      // => []
+     *
+     *      List<String> input = Arrays.asList("a", "b", "c", "d");
      *      CollectionUtils.chunk(input, 2);
      *      // => [["a", "b"], ["c", "d"]]
      *  }</pre>
@@ -77,6 +80,9 @@ public class CollectionUtils {
      * Creates an array with all falsey values removed. The values (`false`, `null`, `0`, `""`, `NaN`) are falsey.
      *
      * <pre>{@code
+     *      CollectionUtils.compact(null);
+     *      // => []
+     *
      *      List<String> input = Arrays.asList("a", null, "", "d");
      *      CollectionUtils.compact(input);
      *      // => ["a", "d"]
@@ -100,9 +106,12 @@ public class CollectionUtils {
      * Creates a new collection concatenating collection with any additional collection.
      *
      * <pre>{@code
+     *      CollectionUtils.concat(null, Arrays.asList(1, 2, 3));
+     *      // => [1, 2, 3]
+     *
      *      List<Integer> input = Arrays.asList(1);
      *      List<Integer> values1 = Arrays.asList(2, 3, 4);
-     *      List<Integer> values2 = Arrays.asList(5, 6);
+     *      List<Integer> values2 = Arrays.asList(5, 6, null);
      *      CollectionUtils.concat(input,values1,values2);
      *      // => [1, 2, 3, 4, 5, 6]
      *  }</pre>
@@ -116,9 +125,7 @@ public class CollectionUtils {
     public static <T> List<T> concat(Collection<? extends T> collection, Collection<? extends T>... values) {
         List<T> result = isValidList(collection) ? new ArrayList<>(collection) : new ArrayList<>();
         for (Collection<? extends T> value : values) {
-            if (value == null) {
-                result.add(null);
-            } else {
+            if (value != null) {
                 result.addAll(value);
             }
         }
@@ -129,9 +136,13 @@ public class CollectionUtils {
      * Creates a new list with elements from the first list that are not in any of the other given lists.
      *
      * <pre>{@code
+     *      CollectionUtils.difference(null, Arrays.asList(1, 2));
+     *      // => []
+     *
      *      List<Integer> input = Arrays.asList(2, 1);
-     *      List<Integer> values = Arrays.asList(2, 3);
-     *      CollectionUtils.difference(input,values);
+     *      List<Integer> values1 = Arrays.asList(2, 3);
+     *      List<Integer> values2 = null;
+     *      CollectionUtils.difference(input, values1, values2);
      *      // => [1]
      *  }</pre>
      *
@@ -163,9 +174,15 @@ public class CollectionUtils {
      * The comparison is performed based on a criterion derived using the provided predicate function.
      *
      * <pre>{@code
+     *      CollectionUtils.differenceBy(null, x -> x > 2 , Arrays.asList(1, 2));
+     *      // => []
+     *
+     *      CollectionUtils.differenceBy(Arrays.asList(1, 2), x -> x > 2 , null);
+     *      // => [1, 2]
+     *
      *      List<Double> input = Arrays.asList(2.1, 1.2);
      *      List<Double> exclude = Arrays.asList(2.3, 3.4);
-     *      List<Double> result = CollectionUtils.differenceBy(input, Math::floor, exclude);
+     *      List<Double> result = CollectionUtils.differenceBy(input, x -> x < 2, exclude);
      *      // => [1.2]
      *  }</pre>
      *
@@ -200,31 +217,23 @@ public class CollectionUtils {
      * Finds the difference between a list and multiple other lists, based on a custom comparator.
      *
      * <pre>{@code
-     *      List<Map<String, Integer>> objects = new ArrayList<>();
-     *      Map<String, Integer> obj1 = new HashMap<>();
-     *      obj1.put("x", 1);
-     *      obj1.put("y", 2);
-     *      Map<String, Integer> obj2 = new HashMap<>();
-     *      obj2.put("x", 2);
-     *      obj2.put("y", 1);
-     *      objects.add(obj1);
-     *      objects.add(obj2);
+     *      CollectionUtils.differenceWith(null, Objects::equals, Arrays.asList(1, 2));
+     *      // => []
      *
-     *      List<Map<String, Integer>> values = new ArrayList<>();
-     *      Map<String, Integer> objToExclude = new HashMap<>();
-     *      objToExclude.put("x", 1);
-     *      objToExclude.put("y", 2);
-     *      values.add(objToExclude);
+     *      CollectionUtils.differenceWith(Arrays.asList(1, 2), Objects::equals, null);
+     *      // => [1, 2]
      *
-     *      List<Map<String, Integer>> result = CollectionUtils.differenceWith(objects, (a, b) -> a.equals(b), values);
-     *      // => [{ 'x': 2, 'y': 1 }]
+     *      List<String> input = Arrays.asList("Apple", "Banana", "Cherry");
+     *      List<String> exclude = Arrays.asList("banana", "cherry");
+     *      CollectionUtils.differenceWith(input, String::equalsIgnoreCase, exclude);
+     *      => Arrays.asList("Apple");
      *  }</pre>
      *
      * @param collection The collection to inspect.
      * @param values     The collection to exclude.
-     * @param comparator the comparator to compare elements
+     * @param comparator the comparator to compare elements.
      * @param <T>        The type of elements in the collections.
-     * @return a list of elements from `array` that do not exist in any of `values`, based on the comparator
+     * @return Returns the new array of filtered values.
      */
     @SafeVarargs
     public static <T> List<T> differenceWith(Collection<? extends T> collection, BiPredicate<T, T> comparator,
@@ -250,7 +259,10 @@ public class CollectionUtils {
      * Creates a slice of collection with n elements dropped from the beginning.
      *
      * <pre>{@code
-     *      List<Integer> list = List.of(1, 2, 3);
+     *      CollectionUtils.drop(null, 1);
+     *      // => []
+     *
+     *      List<Integer> list = Arrays.asList(1, 2, 3);
      *      List<Integer> result = CollectionUtils.drop(input, 2);
      *      // => [3]
      *  }</pre>
@@ -276,7 +288,10 @@ public class CollectionUtils {
      * Creates a slice of collection with n elements dropped from the end.
      *
      * <pre>{@code
-     *      List<Integer> list = List.of(1, 2, 3);
+     *      CollectionUtils.dropRight(null, 1);
+     *      // => []
+     *
+     *      List<Integer> list = Arrays.asList(1, 2, 3);
      *      List<Integer> result = CollectionUtils.dropRight(input, 2);
      *      // => [1]
      *  }</pre>
@@ -300,11 +315,13 @@ public class CollectionUtils {
 
     /**
      * Creates a slice of the collection with elements dropped from the beginning until
-     * the predicate returns `false`. Once the predicate returns `false`, the remaining
-     * elements are included in the result.
+     * the predicate returns {@code false}.
      *
      * <pre>{@code
-     *      List<Integer> collection = List.of(1, 2, 3, 4);
+     *      CollectionUtils.dropWhile(null, x -> x < 3);
+     *      // => []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4);
      *      List<Integer> result = CollectionUtils.dropWhile(collection, x -> x < 3);
      *      // => [3, 4]
      * }</pre>
@@ -329,11 +346,13 @@ public class CollectionUtils {
 
     /**
      * Creates a slice of the collection with elements dropped from the end until
-     * the predicate returns `false`. Once the predicate returns `false`, the remaining
-     * elements are included in the result.
+     * the predicate returns {@code false}.
      *
      * <pre>{@code
-     *      List<Integer> collection = List.of(1, 2, 3, 4, 5);
+     *      CollectionUtils.dropRightWhile(null, x -> x < 3);
+     *      // => []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> result = CollectionUtils.dropRightWhile(collection, x -> x > 3);
      *      // => [1, 2, 3]
      * }</pre>
@@ -360,7 +379,10 @@ public class CollectionUtils {
      * Fills elements of list with value from start to end.
      *
      * <pre>{@code
-     *      List<Integer> collection = List.of(1, 2, 3, 4, 5);
+     *      CollectionUtils.fill(null, 7, 0, 4);
+     *      // =>  []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> result = CollectionUtils.fill(collection, 0, 1, 4);
      *      // => [1, 0, 0, 0, 5]
      * }</pre>
@@ -386,11 +408,14 @@ public class CollectionUtils {
 
     /**
      * Finds the index of the first element in the collection that satisfies the provided predicate,
-     * starting from the specified index. If no element satisfies the predicate, returns -1.
+     * starting from the specified index.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3, 4, 5);
-     *      int result = CollectionUtils.findIndex(collection, x -> x == 3, 0);
+     *      CollectionUtils.findIndex(null, x -> x == 3, 0);
+     *      // => -1
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
+     *      CollectionUtils.findIndex(collection, x -> x == 3, 0);
      *      // => 2
      * }</pre>
      *
@@ -417,11 +442,14 @@ public class CollectionUtils {
 
     /**
      * Finds the index of the last element in the collection that satisfies the provided predicate,
-     * starting from the specified index and searching backwards. If no element satisfies the predicate, returns -1.
+     * starting from the specified index and searching backwards.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3, 4, 5);
-     *      int result = CollectionUtils.findLastIndex(collection, x -> x == 3, 4);
+     *      CollectionUtils.findLastIndex(null, x -> x == 3, 1);
+     *      // => -1
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
+     *      CollectionUtils.findLastIndex(collection, x -> x == 3, 4);
      *      // => 2
      * }</pre>
      *
@@ -451,9 +479,12 @@ public class CollectionUtils {
      * Flattens collection a single level deep.
      *
      * <pre>{@code
-     *      Collection<List<Integer>> collection = List.of(List.of(1, 2), List.of(3, 4));
-     *      List<Integer> result = CollectionUtils.flatten(collection);
-     *      // => [1, 2, 3, 4]
+     *      CollectionUtils.flatten(null);
+     *      // => []
+     *
+     *      List<List<Integer>> collection = Arrays.asList(Arrays.asList(1, 2, null), Arrays.asList(3, 4, null));
+     *      CollectionUtils.flatten(collection);
+     *      // => [1, 2, null, 3, 4, null]
      * }</pre>
      *
      * @param collection The collection to flatten.
@@ -477,8 +508,12 @@ public class CollectionUtils {
      * Recursively flattens collection.
      *
      * <pre>{@code
-     *      Collection<Collection<Integer>> collection = List.of(List.of(1, 2), List.of(3, List.of(4, 5)));
-     *      List<Integer> result = CollectionUtils.flattenDeep(collection);
+     *      CollectionUtils.flattenDeep(null);
+     *      // => []
+     *
+     *      // [[1,2], [3, [4,5]]]
+     *      List<Object> collection = Arrays.asList(Arrays.asList(1, 2), Arrays.asList(3, Arrays.asList(4, 5)));
+     *      CollectionUtils.flattenDeep(collection);
      *      // => [1, 2, 3, 4, 5]
      * }</pre>
      *
@@ -503,9 +538,12 @@ public class CollectionUtils {
      * Recursively flatten collection up to depth times.
      *
      * <pre>{@code
-     *      Collection<Collection<Integer>> collection = List.of(List.of(1, 2), List.of(3, List.of(4, 5)));
-     *      List<Integer> result = CollectionUtils.flattenDepth(collection, 1);
-     *      // => [1, 2, 3, List.of(4, 5)]
+     *      CollectionUtils.flattenDepth(null, 1);
+     *      // => []
+     *
+     *      List<Object> collection = Arrays.asList(Arrays.asList(1, 2), Arrays.asList(3, Arrays.asList(4, 5)));
+     *      CollectionUtils.flattenDepth(collection, 1);
+     *      // => [1, 2, 3, [4, 5]]
      * }</pre>
      *
      * @param collection The collection to flatten.
@@ -533,32 +571,33 @@ public class CollectionUtils {
      * This method returns an Map composed from key-value pairs.
      *
      * <pre>{@code
-     *      List<List<Object>> pairs = List.of(
-     *          List.of("key1", "value1"),
-     *          List.of("key2"),
-     *          List.of("key3", "value3")
+     *      CollectionUtils.fromPairs(null);
+     *      // => empty Map
+     *
+     *      List<List<String>> pairs = Arrays.asList(
+     *          Arrays.asList("key1", "value1"),
+     *          Arrays.asList("key2"),
+     *          Arrays.asList("key3", "value3")
      *      );
-     *      Map<String, Object> result = CollectionUtils.fromPairs(pairs);
-     *      // => { "key1"="value1", "key2"=null, "key3"="value3" }
+     *      Map<String, String> result = CollectionUtils.fromPairs(pairs);
+     *      // => Map of { "key1"="value1", "key3"="value3" }
      * }</pre>
      *
      * @param pairs The list of key-value pairs to convert into a map.
      * @return Returns the new map.
      */
-    public static Map<String, Object> fromPairs(List<List<Object>> pairs) {
+    @SuppressWarnings("unchecked")
+    public static <T> Map<T, T> fromPairs(List<List<T>> pairs) {
         if (!isValidList(pairs)) {
             return Collections.emptyMap();
         }
-        Map<String, Object> result = new HashMap<>();
-        for (List<Object> pair : pairs) {
+        Map<T, T> result = new HashMap<>();
+        for (List<T> pair : pairs) {
             if (pair == null) {
                 continue;
             }
-            if (pair.size() == 1) {
-                result.put(pair.get(0).toString(), null);
-            }
             if (pair.size() >= 2) {
-                result.put(pair.get(0).toString(), pair.get(1));
+                result.put((T) pair.get(0).toString(), pair.get(1));
             }
         }
         return result;
@@ -569,8 +608,15 @@ public class CollectionUtils {
      * Gets the first element of collection.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3);
-     *      Optional<Integer> result = CollectionUtils.head(collection);
+     *      CollectionUtils.head(null);
+     *      // => Optional.empty()
+     *
+     *      List<String> input = Arrays.asList(null, "second");
+     *      CollectionUtils.head(input);
+     *      // => Optional.empty()
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3);
+     *      CollectionUtils.head(collection);
      *      // => Optional[1]
      * }</pre>
      *
@@ -588,8 +634,38 @@ public class CollectionUtils {
      * Gets the index at which the first occurrence of value is found in collection.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3, 4, 5);
-     *      int result = CollectionUtils.indexOf(collection, 3, 0);
+     *      CollectionUtils.indexOf(null, 3);
+     *      // => -1
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
+     *      CollectionUtils.indexOf(collection, 3);
+     *      // => 2
+     * }</pre>
+     *
+     * @param collection The collection to inspect.
+     * @param value      The value to search for.
+     * @param <T>        The type of elements in the collection.
+     * @return Returns the index of the matched value, else -1.
+     */
+    public static <T> int indexOf(Collection<? extends T> collection, T value) {
+        if (!isValidList(collection)) {
+            return -1;
+        }
+        return IntStream.range(0, collection.size())
+            .filter(i -> Objects.equals(new ArrayList<>(collection).get(i), value))
+            .findFirst()
+            .orElse(-1);
+    }
+
+    /**
+     * Gets the index at which the first occurrence of value is found in collection.
+     *
+     * <pre>{@code
+     *      CollectionUtils.indexOf(null, 3, 0);
+     *      // => -1
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
+     *      CollectionUtils.indexOf(collection, 3, 1);
      *      // => 2
      * }</pre>
      *
@@ -614,8 +690,11 @@ public class CollectionUtils {
      * Gets all but the last element of collection.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3, 4);
-     *      List<Integer> result = CollectionUtils.initial(collection);
+     *      CollectionUtils.initial(null);
+     *      // => []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4);
+     *      CollectionUtils.initial(collection);
      *      // => [1, 2, 3]
      * }</pre>
      *
@@ -632,14 +711,20 @@ public class CollectionUtils {
     }
 
     /**
-     * Creates an collection of unique values that are included in all given collections.
+     * Creates a collection of unique values that are included in all given collections.
      *
      * <pre>{@code
-     *      Collection<Integer> collection1 = List.of(1, 2, 3, 4);
-     *      Collection<Integer> collection2 = List.of(2, 3, 4, 5);
-     *      Collection<Integer> collection3 = List.of(3, 4, 6);
-     *      List<Integer> result = CollectionUtils.intersection(collection1, collection2, collection3);
-     *      // => [3, 4]
+     *      CollectionUtils.intersection(null, Arrays.asList(1, 2, 3, 4));
+     *      // => []
+     *
+     *      CollectionUtils.intersection(Arrays.asList(1, 2, 3, 4),  null);
+     *      // => []
+     *
+     *      List<Integer> collection1 = Arrays.asList(1, 2, null);
+     *      List<Integer> collection2 = Arrays.asList(2, 3);
+     *      List<Integer> collection3 = Arrays.asList(2, 4, 5);
+     *      CollectionUtils.intersection(collection1, collection2, collection3);
+     *      // => [2]
      * }</pre>
      *
      * @param collection The first collection to inspect.
@@ -664,10 +749,16 @@ public class CollectionUtils {
      * based on the result of applying the predicate function to generate the criterion for comparison.
      *
      * <pre>{@code
-     *      Collection<Integer> collection1 = List.of(1, 2, 3, 4);
-     *      Collection<Integer> collection2 = List.of(2, 3, 4, 5);
-     *      Collection<Integer> collection3 = List.of(3, 4, 6);
-     *      List<Integer> result = CollectionUtils.intersectionBy(collection1, x -> x % 2 == 0, collection2, collection3);
+     *      CollectionUtils.intersectionBy(null, x -> x % 2 == 0, Arrays.asList(1, 2, 3, 4));
+     *      // => []
+     *
+     *      CollectionUtils.intersectionBy(Arrays.asList(1, 2, 3, 4), x -> x % 2 == 0, null);
+     *      // => []
+     *
+     *      List<Integer> collection1 = Arrays.asList(1, 2, 3, 4);
+     *      List<Integer> collection2 = Arrays.asList(2, 3, 4, 5);
+     *      List<Integer> collection3 = Arrays.asList(3, 4, 6);
+     *      CollectionUtils.intersectionBy(collection1, x -> x % 2 == 0, collection2, collection3);
      *      // => [2, 4]
      * }</pre>
      *
@@ -698,10 +789,16 @@ public class CollectionUtils {
      * Computes the intersection of multiple collections using a custom comparator.
      *
      * <pre>{@code
-     *      Collection<Integer> collection1 = List.of(1, 2, 3, 4);
-     *      Collection<Integer> collection2 = List.of(2, 3, 4, 5);
-     *      Collection<Integer> collection3 = List.of(3, 4, 6);
-     *      List<Integer> result = CollectionUtils.intersectionWith(collection1, (a, b) -> a == b, collection2, collection3);
+     *      CollectionUtils.intersectionWith(null, (a, b) -> a == b, Arrays.asList(1, 2, 3, 4));
+     *      // => []
+     *
+     *      CollectionUtils.intersectionWith(Arrays.asList(1, 2, 3, 4), (a, b) -> a == b, null);
+     *      // => []
+     *
+     *      List<Integer> collection1 = Arrays.asList(1, 2, 3, 4);
+     *      List<Integer> collection2 = Arrays.asList(2, 3, 4, 5);
+     *      List<Integer> collection3 = Arrays.asList(3, 4, 6);
+     *      CollectionUtils.intersectionWith(collection1, Objects::equals, collection2, collection3);
      *      // => [3, 4]
      * }</pre>
      *
@@ -729,7 +826,18 @@ public class CollectionUtils {
      * Converts all elements in array into a string separated by separator.
      *
      * <pre>{@code
-     *      Collection<String> collection = List.of("apple", "banana", "cherry");
+     *      CollectionUtils.join(null, ",");
+     *      // => ""
+     *
+     *      List<String> collection = Arrays.asList("apple", "banana", "cherry");
+     *      CollectionUtils.join(collection, null);
+     *      // => "apple,banana,cherry"
+     *
+     *      List<Inter> collection = Arrays.asList(1, 2, 3);
+     *      CollectionUtils.join(collection, "-");
+     *      // => "1-2-3"
+     *
+     *      List<String> collection = Arrays.asList("apple", "banana", "cherry");
      *      String result = CollectionUtils.join(collection, ", ");
      *      // => "apple, banana, cherry"
      * }</pre>
@@ -753,8 +861,11 @@ public class CollectionUtils {
      * Gets the last element of list.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3);
-     *      Optional<Integer> result = CollectionUtils.last(collection);
+     *      CollectionUtils.last(null);
+     *      // => Optional.empty();
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3);
+     *      CollectionUtils.last(collection);
      *      // => Optional[3]
      * }</pre>
      *
@@ -776,8 +887,43 @@ public class CollectionUtils {
      * Finds the last index of a value in a collection, searching from right to left.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3, 2);
-     *      int index = CollectionUtils.lastIndexOf(collection, 2, 3);
+     *      CollectionUtils.lastIndexOf(null, 2);
+     *      // => -1
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 2);
+     *      CollectionUtils.lastIndexOf(collection, 2);
+     *      // => 3
+     * }</pre>
+     *
+     * @param <T>        The type of elements in the collection.
+     * @param collection The collection to inspect.
+     * @param value      The value to search for.
+     * @return Returns the index of the matched value, else -1.
+     */
+    public static <T> int lastIndexOf(Collection<? extends T> collection, T value) {
+        if (!isValidList(collection)) {
+            return -1;
+        }
+        int lastIndex = -1;
+        int index = 0;
+        for (T element : collection) {
+            if (Objects.equals(element, value)) {
+                lastIndex = index;
+            }
+            index++;
+        }
+        return lastIndex;
+    }
+
+    /**
+     * Finds the last index of a value in a collection, searching from right to left.
+     *
+     * <pre>{@code
+     *      CollectionUtils.lastIndexOf(null, 2, 3);
+     *      // => -1
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 2);
+     *      CollectionUtils.lastIndexOf(collection, 2, 3);
      *      // => 3
      * }</pre>
      *
@@ -807,8 +953,15 @@ public class CollectionUtils {
      * Gets the element at index n of collection. If n is negative, the nth element from the end is returned.
      *
      * <pre>{@code
-     *      Collection<String> collection = List.of("apple", "banana", "cherry");
-     *      Optional<String> result = CollectionUtils.nth(collection, 1);
+     *      CollectionUtils.nth(null, 1);
+     *      // => Optional.empty();
+     *
+     *      List<String> collection = Arrays.asList("apple", null, "cherry");
+     *      CollectionUtils.nth(collection, 1);
+     *      // => Optional.empty();
+     *
+     *      List<String> collection = Arrays.asList("apple", "banana", "cherry");
+     *      CollectionUtils.nth(collection, 1);
      *      // => Optional[banana]
      * }</pre>
      *
@@ -833,9 +986,9 @@ public class CollectionUtils {
      * Removes all elements from the collection that are present in the specified values.
      *
      * <pre>{@code
-     *      Collection<String> collection = new ArrayList<>(List.of("apple", "banana", "cherry"));
-     *      Collection<String> result = CollectionUtils.pull(collection, "banana", "cherry");
-     *      // => ["apple"]
+     *      List<String> collection = Arrays.asList("apple", "banana", "cherry");
+     *      CollectionUtils.pull(collection, "banana", "cherry");
+     *      // => collection = ["apple"]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -857,9 +1010,9 @@ public class CollectionUtils {
      * Removes all elements from the collection that are present in any of the specified values.
      *
      * <pre>{@code
-     *      Collection<String> collection = new ArrayList<>(List.of("apple", "banana", "cherry"));
-     *      Collection<String> result = CollectionUtils.pullAll(collection, List.of("banana", "cherry"));
-     *      // => ["apple"]
+     *      List<String> collection = Arrays.asList("apple", "banana", "cherry");
+     *      CollectionUtils.pullAll(collection, Arrays.asList("banana", "cherry"));
+     *      // => collection = ["apple"]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -881,9 +1034,9 @@ public class CollectionUtils {
      * Removes elements from the collection based on the result of applying an iteratee function to each element and value.
      *
      * <pre>{@code
-     *      Collection<String> collection = new ArrayList<>(List.of("apple", "banana", "cherry"));
-     *      Collection<String> result = CollectionUtils.pullAllBy(collection, List.of("banana", "cherry"), String::toUpperCase);
-     *      // => ["apple"]
+     *      List<String> collection = Arrays.asList("apple", "banana", "cherry");
+     *      CollectionUtils.pullAllBy(collection, Arrays.asList("banana", "cherry"), String::toUpperCase);
+     *      // => collection = ["apple"]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -918,9 +1071,9 @@ public class CollectionUtils {
      * Removes elements from the collection that match any element in the values collection based on the provided comparator.
      *
      * <pre>{@code
-     *      Collection<String> collection = new ArrayList<>(List.of("apple", "banana", "cherry"));
-     *      Collection<String> result = CollectionUtils.pullAllWith(collection, List.of("banana", "cherry"), String::equalsIgnoreCase);
-     *      // => ["apple"]
+     *      List<String> collection = Arrays.asList("apple", "banana", "cherry");
+     *      CollectionUtils.pullAllWith(collection, Arrays.asList("banana", "cherry"), String::equalsIgnoreCase);
+     *      // => collection = ["apple"]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -945,10 +1098,15 @@ public class CollectionUtils {
      * Removes and returns the elements from the collection at the specified indexes.
      *
      * <pre>{@code
-     *      Collection<String> collection = new ArrayList<>(List.of("apple", "banana", "cherry", "date"));
-     *      List<Integer> indexes = List.of(1, 3);
-     *      List<String> result = CollectionUtils.pullAt(collection, indexes);
-     *      // => ["banana", "date"]
+     *      List<String> result = CollectionUtils.pullAt(null, Arrays.asList(1, 3));
+     *      // => result = []
+     *
+     *      List<String> result = CollectionUtils.pullAt(Arrays.asList(1, 3), null);
+     *      // => result = []
+     *
+     *      List<String> collection = Arrays.asList("apple", "banana", "cherry", "date");
+     *      List<String> result = CollectionUtils.pullAt(collection, Arrays.asList(1, 3));
+     *      // => result = ["banana", "date"]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -976,10 +1134,14 @@ public class CollectionUtils {
      * Removes and returns all elements from the collection that match the given predicate.
      *
      * <pre>{@code
-     *      Collection<String> collection = new ArrayList<>(List.of("apple", "banana", "cherry", "date"));
      *      Predicate<String> predicate = s -> s.startsWith("b");
+     *
+     *      List<String> result = CollectionUtils.remove(null, predicate);
+     *      // => result = []
+     *
+     *      List<String> collection = Arrays.asList("apple", "banana", "cherry", "date");
      *      List<String> result = CollectionUtils.remove(collection, predicate);
-     *      // => ["banana"]
+     *      // => result = ["banana"]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1009,9 +1171,12 @@ public class CollectionUtils {
      * Reverses collection so that the first element becomes the last, the second element becomes the second to last, and so on.
      *
      * <pre>{@code
-     *      Collection<String> collection = new ArrayList<>(List.of("apple", "banana", "cherry"));
+     *      List<String> result = CollectionUtils.reverse(null);
+     *      // => result = []
+     *
+     *      List<String> collection = Arrays.asList("apple", "banana", "cherry");
      *      List<String> result = CollectionUtils.reverse(collection);
-     *      // => ["cherry", "banana", "apple"]
+     *      // => result = ["cherry", "banana", "apple"]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1028,12 +1193,47 @@ public class CollectionUtils {
     }
 
     /**
+     * Creates a slice of the collection from the specified start index to the end.
+     *
+     * <pre>{@code
+     *      List<Integer> result = CollectionUtils.slice(null, 1);
+     *      // => result = []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
+     *      List<Integer> result = CollectionUtils.slice(collection, 1);
+     *      // => result = [2, 3, 4, 5]
+     * }</pre>
+     *
+     * @param <T>        The type of elements in the collection.
+     * @param collection The collection to slice.
+     * @param start      The start position.
+     * @return Returns the slice of collection.
+     */
+    public static <T> List<T> slice(Collection<? extends T> collection, int start) {
+        if (!isValidList(collection)) {
+            return Collections.emptyList();
+        }
+        int size = collection.size();
+        int startN = Math.min(Math.max(start, 0), size);
+        List<T> result = new ArrayList<>();
+        Iterator<? extends T> iterator =
+            collection instanceof List ? ((List<? extends T>) collection).listIterator(startN) : collection.iterator();
+        while (iterator.hasNext()) {
+            result.add(iterator.next());
+        }
+        return result;
+    }
+
+    /**
      * Creates a slice of the collection from the specified start index to the end index.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3, 4, 5);
+     *      List<Integer> result = CollectionUtils.slice(null, 1, 4);
+     *      // => result = []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> result = CollectionUtils.slice(collection, 1, 4);
-     *      // => [2, 3, 4]
+     *      // => result = [2, 3, 4]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1064,9 +1264,12 @@ public class CollectionUtils {
      * Gets all but the first element of collection.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3, 4, 5);
+     *      List<Integer> result = CollectionUtils.tail(null);
+     *      // => result = []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> result = CollectionUtils.tail(collection);
-     *      // => [2, 3, 4, 5]
+     *      // => result = [2, 3, 4, 5]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1084,9 +1287,12 @@ public class CollectionUtils {
      * Creates a slice of collection with n elements taken from the beginning.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3, 4, 5);
+     *      List<Integer> result = CollectionUtils.take(null, 3);
+     *      // => result = []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> result = CollectionUtils.take(collection, 3);
-     *      // => [1, 2, 3]
+     *      // => result = [1, 2, 3]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1105,9 +1311,12 @@ public class CollectionUtils {
      * Creates a slice of collection with n elements taken from the end.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3, 4, 5);
+     *      List<Integer> result = CollectionUtils.takeRight(null, 3);
+     *      // => result = []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> result = CollectionUtils.takeRight(collection, 3);
-     *      // => [3, 4, 5]
+     *      // => result = [3, 4, 5]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1127,9 +1336,12 @@ public class CollectionUtils {
      * Creates a slice of collection with elements taken from the end. Elements are taken until predicate returns falsey.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3, 4, 5);
+     *      List<Integer> result = CollectionUtils.takeRight(null, 3);
+     *      // => result = []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> result = CollectionUtils.takeRightWhile(collection, x -> x > 2);
-     *      // => [3, 4, 5]
+     *      // => result = [3, 4, 5]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1149,9 +1361,12 @@ public class CollectionUtils {
      * Creates a slice of collection with elements taken from the beginning. Elements are taken until predicate returns falsey.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3, 4, 5);
+     *      List<Integer> result = CollectionUtils.takeWhile(null, x -> x < 4);
+     *      // => result = [1, 2, 3]
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> result = CollectionUtils.takeWhile(collection, x -> x < 4);
-     *      // => [1, 2, 3]
+     *      // => result = [1, 2, 3]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1168,18 +1383,24 @@ public class CollectionUtils {
     }
 
     /**
-     * Creates an collection of unique values
+     * Creates an collection of unique values.
      *
      * <pre>{@code
-     *      Collection<Integer> collection1 = List.of(1, 2, 3);
-     *      Collection<Integer> collection2 = List.of(3, 4, 5);
+     *      List<Integer> result = CollectionUtils.union(null);
+     *      // => result = []
+     *
+     *      List<Integer> result = CollectionUtils.union(null, Arrays.asList(1, 2, 3));
+     *      // => result = [1, 2, 3]
+     *
+     *      List<Integer> collection1 = Arrays.asList(1, 2, 3);
+     *      List<Integer> collection2 = Arrays.asList(3, 4, 5);
      *      List<Integer> result = CollectionUtils.union(collection1, collection2);
-     *      // => [1, 2, 3, 4, 5]
+     *      // => result = [1, 2, 3, 4, 5]
      * }</pre>
      *
      * @param <T>         The type of elements in the collections.
-     * @param collections The collections to combine.
-     * @return An Optional containing the combined list, or an empty Optional if the collections are invalid.
+     * @param collections The collections to inspect.
+     * @return Returns the new array of combined values.
      */
     @SafeVarargs
     public static <T> List<T> union(Collection<? extends T>... collections) {
@@ -1200,11 +1421,16 @@ public class CollectionUtils {
      * to determine its uniqueness and removing duplicates.
      *
      * <pre>{@code
-     *      List<Integer> collection1 = List.of(1, 2, 3);
-     *      List<Integer> collection2 = List.of(3, 4, 5);
-     *      Function<Integer, Integer> iteratee = Function.identity();
-     *      List<Integer> result = CollectionUtils.unionBy(iteratee, collection1, collection2);
-     *      // => [1, 2, 3, 4, 5]
+     *      List<String> result = CollectionUtils.unionBy(s -> s.length(), null);
+     *      // => result = []
+     *
+     *      List<String> result = CollectionUtils.unionBy(s -> s.length(), null, Arrays.asList("apple", "banana"));
+     *      // => result = ["apple", "banana"]
+     *
+     *      List<String> list1 = Arrays.asList("apple", "banana");
+     *      List<String> list2 = Arrays.asList("cherry", "date");
+     *      List<Integer> result = CollectionUtils.unionBy(String::length, list1, list2);
+     *      // => result = ["apple", "banana", "date"]
      * }</pre>
      *
      * @param <T>         The type of elements in the collections.
@@ -1227,11 +1453,16 @@ public class CollectionUtils {
      * the uniqueness of elements, removing duplicates based on the comparison.
      *
      * <pre>{@code
-     *      Collection<Integer> collection1 = List.of(1, 2, 3);
-     *      Collection<Integer> collection2 = List.of(3, 4, 5);
-     *      BiPredicate<Integer, Integer> comparator = (a, b) -> a.equals(b);
-     *      List<Integer> result = CollectionUtils.unionWith(comparator, collection1, collection2);
-     *      // => [1, 2, 3, 4, 5]
+     *      List<String> result = CollectionUtils.unionWith((a, b) -> a.equals(b), null);
+     *      // => result = []
+     *
+     *      List<String> result = CollectionUtils.unionWith((a, b) -> a.equals(b), null, Arrays.asList(1, 2));
+     *      // => result = [1, 2]
+     *
+     *      List<Integer> collection1 = Arrays.asList(1, 2, 3);
+     *      List<Integer> collection2 = Arrays.asList(3, 4, 5);
+     *      List<Integer> result = CollectionUtils.unionWith((a, b) -> a.equals(b), collection1, collection2);
+     *      // => result = [1, 2, 3, 4, 5]
      * }</pre>
      *
      * @param <T>         The type of elements in the collections.
@@ -1253,9 +1484,12 @@ public class CollectionUtils {
      * Returns a collection with unique elements, removing duplicates.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 2, 3, 3, 3);
+     *      List<Integer> result = CollectionUtils.uniq(null);
+     *      // => result = []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 2, 3, 3, 3);
      *      List<Integer> result = CollectionUtils.uniq(collection);
-     *      // => [1, 2, 3]
+     *      // => result = [1, 2, 3]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1280,9 +1514,16 @@ public class CollectionUtils {
      * Returns a collection with unique elements based on a specific criterion, removing duplicates.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 2, 3, 3, 3);
-     *      List<Integer> result = CollectionUtils.uniqBy(collection, value -> value);
-     *      // => [1, 2, 3]
+     *      List<Integer> result = CollectionUtils.uniqBy(null, value -> value);
+     *      // => result = []
+     *
+     *      List<Person> collection = Arrays.asList(
+     *          new Person("Alice", 30),
+     *          new Person("Bob", 25),
+     *          new Person("Alice", 30)
+     *      );
+     *      List<Integer> result = CollectionUtils.uniqBy(collection, Person::getName);
+     *      // => result = [new Person("Alice", 30), new Person("Bob", 25)]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1302,9 +1543,12 @@ public class CollectionUtils {
      * Returns a collection with unique elements based on a comparator function, removing duplicates.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 2, 3, 3, 3);
+     *      List<Integer> result = CollectionUtils.uniqWith(null, Integer::equals);
+     *      // => result = []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 2, 3, 3, 3);
      *      List<Integer> result = CollectionUtils.uniqWith(collection, (a, b) -> a.equals(b));
-     *      // => [1, 2, 3]
+     *      // => result = [1, 2, 3]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1324,13 +1568,16 @@ public class CollectionUtils {
      * Unzips a collection of collections into a list of lists by grouping elements at the same index.
      *
      * <pre>{@code
-     *      Collection<List<Integer>> grouped = List.of(
-     *          List.of(1, 2, 3),
-     *          List.of(4, 5, 6),
-     *          List.of(7, 8, 9)
+     *      List<List<Integer>> result = CollectionUtils.unzip(null);
+     *      // => result = []
+     *
+     *      List<List<Integer>> grouped = Arrays.asList(
+     *          Arrays.asList(1, 2, 3),
+     *          Arrays.asList(4, 5, 6),
+     *          Arrays.asList(7, 8, 9)
      *      );
      *      List<List<Integer>> result = CollectionUtils.unzip(grouped);
-     *      // => [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+     *      // => result = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
      * }</pre>
      *
      * @param <T>     The type of elements in the collection.
@@ -1362,10 +1609,13 @@ public class CollectionUtils {
      * Unzips a collection of collections into a list of lists, and applies a combine function to each list of unzipped elements.
      *
      * <pre>{@code
-     *      Collection<List<Integer>> grouped = List.of(
-     *          List.of(1, 2, 3),
-     *          List.of(4, 5, 6),
-     *          List.of(7, 8, 9)
+     *      List<List<Integer>> result = CollectionUtils.unzipWith(null);
+     *      // => result = []
+     *
+     *      List<List<Integer>> grouped = Arrays.asList(
+     *          Arrays.asList(1, 2, 3),
+     *          Arrays.asList(4, 5, 6),
+     *          Arrays.asList(7, 8, 9)
      *      );
      *      List<Integer> result = CollectionUtils.unzipWith(grouped, group -> group.stream().mapToInt(Integer::intValue).sum());
      *      // => [12, 15, 18]
@@ -1394,12 +1644,15 @@ public class CollectionUtils {
     }
 
     /**
-     * Creates an collection excluding all given values
+     * Creates a collection excluding all given values
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3, 4, 5);
+     *      List<Integer> result = CollectionUtils.without(null);
+     *      // => result = []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> result = CollectionUtils.without(collection, 2, 4);
-     *      // => [1, 3, 5]
+     *      // => result = [1, 3, 5]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1426,13 +1679,16 @@ public class CollectionUtils {
     }
 
     /**
-     * Creates an collection of unique values that is the symmetric difference of the given collections.
+     * Creates a collection of unique values that is the symmetric difference of the given collections.
      *
      * <pre>{@code
-     *      Collection<Integer> collection1 = List.of(1, 2, 3);
-     *      Collection<Integer> collection2 = List.of(3, 4, 5);
+     *      List<Integer> result = CollectionUtils.xor(null);
+     *      // => result = []
+     *
+     *      List<Integer> collection1 = Arrays.asList(1, 2, 3);
+     *      List<Integer> collection2 = Arrays.asList(3, 4, 5);
      *      List<Integer> result = CollectionUtils.xor(collection1, collection2);
-     *      // => [1, 2, 4, 5]
+     *      // => result = [1, 2, 4, 5]
      * }</pre>
      *
      * @param <T>         The type of elements in the collections.
@@ -1454,13 +1710,17 @@ public class CollectionUtils {
     }
 
     /**
-     * This method is like xor except that it accepts iteratee which is invoked for each element of each collections to generate the criterion by which by which they're compared.
+     * This method is like xor except that it accepts iteratee
+     * which is invoked for each element of each collection to generate the criterion by which they're compared.
      *
      * <pre>{@code
-     *      Collection<Integer> collection1 = List.of(1, 2, 3);
-     *      Collection<Integer> collection2 = List.of(3, 4, 5);
+     *      List<Integer> result = CollectionUtils.xorBy(Integer::doubleValue, null);
+     *      // => result = []
+     *
+     *      List<Integer> collection1 = Arrays.asList(1, 2, 3);
+     *      List<Integer> collection2 = Arrays.asList(3, 4, 5);
      *      List<Integer> result = CollectionUtils.xorBy(Integer::doubleValue, collection1, collection2);
-     *      // => [1, 2, 4, 5]
+     *      // => result = [1, 2, 4, 5]
      * }</pre>
      *
      * @param <T>         The type of elements in the collections.
@@ -1487,10 +1747,13 @@ public class CollectionUtils {
      * This method is like xor except that it accepts comparator which is invoked to compare elements of collections.
      *
      * <pre>{@code
-     *      Collection<Integer> collection1 = List.of(1, 2, 3);
-     *      Collection<Integer> collection2 = List.of(3, 4, 5);
+     *      List<Integer> result = CollectionUtils.xorWith(Integer::equals, null);
+     *      // => result = []
+     *
+     *      List<Integer> collection1 = Arrays.asList(1, 2, 3);
+     *      List<Integer> collection2 = Arrays.asList(3, 4, 5);
      *      List<Integer> result = CollectionUtils.xorWith((a, b) -> a.equals(b), collection1, collection2);
-     *      // => [1, 2, 4, 5]
+     *      // => result = [1, 2, 4, 5]
      * }</pre>
      *
      * @param <T>         The type of elements in the collections.
@@ -1514,13 +1777,18 @@ public class CollectionUtils {
     }
 
     /**
-     * Creates an collection of grouped elements, the first of which contains the first elements of the given collections, the second of which contains the second elements of the given collections, and so on.
+     * Creates a collection of grouped elements,
+     * the first of which contains the first elements of the given collections,
+     * the second of which contains the second elements of the given collections, and so on.
      *
      * <pre>{@code
-     *      Collection<Integer> collection1 = List.of(1, 2, 3);
-     *      Collection<Integer> collection2 = List.of(4, 5, 6, 7);
+     *      List<Integer> result = CollectionUtils.zip(null);
+     *      // => result = []
+     *
+     *      List<Integer> collection1 = Arrays.asList(1, 2, 3);
+     *      List<Integer> collection2 = Arrays.asList(4, 5, 6, 7);
      *      List<List<Integer>> result = CollectionUtils.zip(collection1, collection2);
-     *      // => [[1, 4], [2, 5], [3, 6], [null, 7]]
+     *      // => result = [[1, 4], [2, 5], [3, 6], [null, 7]]
      * }</pre>
      *
      * @param <T>         The type of elements in the collections.
@@ -1557,9 +1825,13 @@ public class CollectionUtils {
      * This method is like zip except that it accepts iteratee to specify how grouped values should be combined.
      *
      * <pre>{@code
-     *      Collection<Integer> collection1 = List.of(1, 2, 3);
-     *      Collection<Integer> collection2 = List.of(4, 5, 6);
      *      Function<List<Integer>, String> combiner = group -> group.stream().map(String::valueOf).collect(Collectors.joining("-"));
+     *
+     *      List<Integer> result = CollectionUtils.zipWith(combiner, null);
+     *      // => result = []
+     *
+     *      List<Integer> collection1 = Arrays.asList(1, 2, 3);
+     *      List<Integer> collection2 = Arrays.asList(4, 5, 6);
      *      List<String> result = CollectionUtils.zipWith(combiner, collection1, collection2);
      *      // => ["1-4", "2-5", "3-6"]
      * }</pre>
@@ -1599,10 +1871,16 @@ public class CollectionUtils {
      * If the second collection has fewer elements than the first, `null` is used for missing values.
      *
      * <pre>{@code
-     *      Collection<String> keys = List.of("a", "b", "c");
-     *      Collection<Integer> values = List.of(1, 2);
+     *      Map<String, Integer> result = CollectionUtils.zipObject(null, Arrays.asList(1, 2));
+     *      // => result = Collections.emptyMap();
+     *
+     *      Map<String, Integer> result = CollectionUtils.zipObject(Arrays.asList(1, 2), null);
+     *      // => result = Collections.emptyMap();
+     *
+     *      List<String> keys = Arrays.asList("a", "b", "c");
+     *      List<Integer> values = Arrays.asList(1, 2);
      *      Map<String, Integer> result = CollectionUtils.zipObject(keys, values);
-     *      // => {"a": 1, "b": 2, "c": null}
+     *      // => result = {"a": 1, "b": 2, "c": null}
      * }</pre>
      *
      * @param <K>    The type of keys in the map.
@@ -1634,9 +1912,12 @@ public class CollectionUtils {
      * and the values are the count of occurrences of each key.
      *
      * <pre>{@code
-     *      Collection<String> collection = List.of("apple", "banana", "apple", "apple", "orange");
+     *      Map<String, Long> result = CollectionUtils.countBy(null, String::toUpperCase);
+     *      // => result = Collections.emptyMap();
+     *
+     *      List<String> collection = Arrays.asList("apple", "banana", "apple", "apple", "orange");
      *      Map<String, Long> result = CollectionUtils.countBy(collection, String::toUpperCase);
-     *      // => {"APPLE": 3, "BANANA": 1, "ORANGE": 1}
+     *      // => result = {"APPLE": 3, "BANANA": 1, "ORANGE": 1}
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1661,9 +1942,12 @@ public class CollectionUtils {
      * Checks if predicate returns truthy for all elements of collection
      *
      * <pre>{@code
-     *      Collection<Integer> numbers = List.of(1, 2, 3, 4);
+     *      boolean result = CollectionUtils.every(null, num -> num > 0);
+     *      // => result = false
+     *
+     *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
      *      boolean result = CollectionUtils.every(numbers, num -> num > 0);
-     *      // => true
+     *      // => result = true
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1688,6 +1972,9 @@ public class CollectionUtils {
      * Checks if every entry in the map satisfies the given biPredicate.
      *
      * <pre>{@code
+     *      boolean result = CollectionUtils.every(null, num -> num > 0);
+     *      // => result = false
+     *
      *      Map<String, Integer> map = Map.of("a", 1, "b", 2, "c", 3);
      *      boolean result = CollectionUtils.every(map, (key, value) -> value > 0);
      *      // => true
@@ -1716,9 +2003,12 @@ public class CollectionUtils {
      * Iterates over elements of collection, returning an array of all elements predicate returns truthy for.
      *
      * <pre>{@code
-     *      List<Integer> list = List.of(1, 2, 3, 4, 5);
+     *      List<Integer> result = CollectionUtils.filter(null, x -> x % 2 == 0);
+     *      // => result = []
+     *
+     *      List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> result = CollectionUtils.filter(list, x -> x % 2 == 0);
-     *      // => [2, 4]
+     *      // => result = [2, 4]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1741,6 +2031,9 @@ public class CollectionUtils {
      * Filters elements of a map based on a BiPredicate applied to entries (key-value pairs).
      *
      * <pre>{@code
+     *      Map<String, Integer> result = CollectionUtils.filter(null, (key, value) -> value > 1);
+     *      // => result = Collections.emptyMap();
+     *
      *      Map<String, Integer> map = Map.of("a", 1, "b", 2, "c", 3);
      *      Map<String, Integer> result = CollectionUtils.filter(map, (key, value) -> value > 1);
      *      // => {b=2, c=3}
@@ -1767,9 +2060,12 @@ public class CollectionUtils {
      * Finds the first element in a collection that satisfies the predicate.
      *
      * <pre>{@code
-     *      Collection<String> collection = List.of("apple", "banana", "cherry");
+     *      Optional<String> result = CollectionUtils.find(null, s -> s.startsWith("b"));
+     *      // => result = Optional.empty();
+     *
+     *      List<String> collection = Arrays.asList("apple", "banana", "cherry");
      *      Optional<String> result = CollectionUtils.find(collection, s -> s.startsWith("b"));
-     *      // => Optional[banana]
+     *      // => result = Optional[banana]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -1795,7 +2091,10 @@ public class CollectionUtils {
      * iterating from right to left.
      *
      * <pre>{@code
-     *      Collection<String> collection = List.of("apple", "banana", "cherry");
+     *      Optional<String> result = CollectionUtils.findLast(null, s -> s.startsWith("b"));
+     *      // => result = Optional.empty();
+     *
+     *      List<String> collection = Arrays.asList("apple", "banana", "cherry");
      *      Optional<String> result = CollectionUtils.findLast(collection, s -> s.startsWith("b"));
      *      // => Optional[banana]
      * }</pre>
@@ -1827,10 +2126,14 @@ public class CollectionUtils {
      * are then flattened into a single list.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3);
-     *      Function<Integer, Collection<String>> iteratee = num -> List.of("Item " + num);
+     *      Function<Integer, Collection<String>> iteratee = num -> Arrays.asList("Item " + num);
+     *
+     *      List<String> result = CollectionUtils.flatMap(null, iteratee);
+     *      // => result = []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3);
      *      List<String> result = CollectionUtils.flatMap(collection, iteratee);
-     *      // => ["Item 1", "Item 2", "Item 3"]
+     *      // => result = ["Item 1", "Item 2", "Item 3"]
      * }</pre>
      *
      * @param <T>        The type of elements in the input collection.
@@ -1859,10 +2162,14 @@ public class CollectionUtils {
      * This method is like flatMap except that it recursively flattens the mapped results.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3);
-     *      Function<Integer, Collection<Object>> iteratee = num -> List.of(List.of("Item " + num));
+     *      Function<Integer, List<Object>> iteratee = num -> Arrays.asList(Arrays.asList("Item " + num));
+     *
+     *      List<Object> result = CollectionUtils.flatMapDeep(null, iteratee);
+     *      // => result = []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3);
      *      List<Object> result = CollectionUtils.flatMapDeep(collection, iteratee);
-     *      // => ["Item 1", "Item 2", "Item 3"]
+     *      // => result = ["Item 1", "Item 2", "Item 3"]
      * }</pre>
      *
      * @param <T>        The type of elements in the input collection.
@@ -1892,10 +2199,14 @@ public class CollectionUtils {
      * up to a specified depth.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3);
-     *      Function<Integer, Collection<Object>> iteratee = num -> List.of(List.of("Item " + num));
+     *      Function<Integer, Collection<Object>> iteratee = num -> Arrays.asList(Arrays.asList("Item " + num));
+     *
+     *      List<Object> result = CollectionUtils.flatMapDepth(null, iteratee, 2);
+     *      // => result = []
+     *
+     *      List<Integer> collection = Arrays.asList(1, 2, 3);
      *      List<Object> result = CollectionUtils.flatMapDepth(collection, iteratee, 2);
-     *      // => ["Item 1", "Item 2", "Item 3"]
+     *      // => result = ["Item 1", "Item 2", "Item 3"]
      * }</pre>
      *
      * @param <T>        The type of elements in the input collection.
@@ -1928,7 +2239,7 @@ public class CollectionUtils {
      * Iterates over elements of a collection and invokes the given iteratee for each element.
      *
      * <pre>{@code
-     *      Collection<Integer> collection = List.of(1, 2, 3);
+     *      List<Integer> collection = Arrays.asList(1, 2, 3);
      *      CollectionUtils.forEach(collection, num -> System.out.println("Element: " + num));
      *      // Prints:
      *      // Element: 1
@@ -1984,7 +2295,7 @@ public class CollectionUtils {
      * Iterates over elements of a collection from right to left and invokes the given iteratee for each element.
      *
      * <pre>{@code
-     *      List<String> list = List.of("a", "b", "c");
+     *      List<String> list = Arrays.asList("a", "b", "c");
      *      CollectionUtils.forEachRight(list, System.out::println);
      *      // Prints:
      *      // c
@@ -2049,6 +2360,9 @@ public class CollectionUtils {
      * function (iteratee) to each element.
      *
      * <pre>{@code
+     *      Map<Character, List<String>> grouped = CollectionUtils.groupBy(null, word -> word.charAt(0));
+     *      // Returns: Collections.emptyMap();
+     *
      *      List<String> words = Arrays.asList("apple", "banana", "apricot", "blueberry");
      *      Map<Character, List<String>> grouped = CollectionUtils.groupBy(words, word -> word.charAt(0));
      *      // Returns: {a=[apple, apricot], b=[banana, blueberry]}
@@ -2072,19 +2386,21 @@ public class CollectionUtils {
     }
 
     /**
-     * Checks if the given value is in the collection. If the collection is a string, it checks for a substring of the value,
-     * otherwise, it checks for equality using the `equals` method.
+     * Checks if the given value is in the collection.
      *
      * <pre>{@code
+     *      boolean result = CollectionUtils.includes(null, "banana");
+     *      // result = false
+     *
      *      List<String> words = Arrays.asList("apple", "banana", "apricot");
      *      boolean result = CollectionUtils.includes(words, "banana");
-     *      // Returns: true
+     *      // result = true
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
      * @param collection The collection to search through.
      * @param value      The value to check for in the collection.
-     * @return `true` if the collection contains the specified value, otherwise `false`.
+     * @return Returns {@code true} if value is found, else {@code false}.
      */
     public static <T> boolean includes(Collection<? extends T> collection, T value) {
         if (!isValidList(collection)) {
@@ -2104,6 +2420,9 @@ public class CollectionUtils {
      * is the last element responsible for generating that key.
      *
      * <pre>{@code
+     *      Map<Integer, String> result = CollectionUtils.keyBy(null, String::length);
+     *      // Returns: Collections.emptyMap();
+     *
      *      List<String> words = Arrays.asList("apple", "banana", "apricot");
      *      Map<Integer, String> result = CollectionUtils.keyBy(words, String::length);
      *      // Returns: {5=apple, 6=banana, 7=apricot}
@@ -2134,6 +2453,9 @@ public class CollectionUtils {
      * Creates a list of values by running each element in the collection through the given iteratee.
      *
      * <pre>{@code
+     *      List<Integer> lengths = CollectionUtils.map(null, String::length);
+     *      // Returns: []
+     *
      *      List<String> words = Arrays.asList("apple", "banana", "apricot");
      *      List<Integer> lengths = CollectionUtils.map(words, String::length);
      *      // Returns: [5, 6, 7]
@@ -2163,6 +2485,9 @@ public class CollectionUtils {
      * Sorts the collection based on a given predicate that determines the sorting order.
      *
      * <pre>{@code
+     *      List<Integer> sortedNumbers = CollectionUtils.orderBy(null, Integer::compareTo);
+     *      // Returns: []
+     *
      *      List<Integer> numbers = Arrays.asList(5, 2, 8, 3);
      *      List<Integer> sortedNumbers = CollectionUtils.orderBy(numbers, Integer::compareTo);
      *      // Returns: [2, 3, 5, 8]
@@ -2187,6 +2512,9 @@ public class CollectionUtils {
      * one group for elements where the predicate returns true, and the other for false.
      *
      * <pre>{@code
+     *      List<List<Integer>> partitioned = CollectionUtils.partition(null, n -> n % 2 == 0);
+     *      // Returns: []
+     *
      *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
      *      List<List<Integer>> partitioned = CollectionUtils.partition(numbers, n -> n % 2 == 0);
      *      // Returns: [[2, 4], [1, 3, 5]]
@@ -2225,6 +2553,9 @@ public class CollectionUtils {
      * to each element, where each successive invocation is supplied the return value of the previous.
      *
      * <pre>{@code
+     *      int sum = CollectionUtils.reduce(null, 0, Integer::sum);
+     *      // Returns: 0
+     *
      *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
      *      int sum = CollectionUtils.reduce(numbers, 0, Integer::sum);
      *      // Returns: 15 (sum of numbers)
@@ -2254,6 +2585,9 @@ public class CollectionUtils {
      * Reduces a collection to a single value without an identity.
      *
      * <pre>{@code
+     *      Optional<Integer> sum = CollectionUtils.reduce(null, Integer::sum);
+     *      // => Optional.empty();
+     *
      *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
      *      Optional<Integer> sum = CollectionUtils.reduce(numbers, Integer::sum);
      *      sum.ifPresent(s -> System.out.println("Sum: " + s));  // Output: Sum: 15
@@ -2286,6 +2620,9 @@ public class CollectionUtils {
      * to each element, where each successive invocation is supplied the return value of the previous.
      *
      * <pre>{@code
+     *      int sum = CollectionUtils.reduceRight(null, 0, Integer::sum);
+     *      // Returns: 0
+     *
      *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
      *      Integer sumRight = CollectionUtils.reduceRight(numbers, 0, Integer::sum);
      *      System.out.println("Sum from right: " + sumRight);  // Output: Sum from right: 15
@@ -2323,6 +2660,9 @@ public class CollectionUtils {
      * The result is returned as an Optional to handle the case when the collection is empty.
      *
      * <pre>{@code
+     *      Optional<Integer> sumRight = CollectionUtils.reduceRight(null, Integer::sum);
+     *      // => Optional.empty();
+     *
      *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
      *      Optional<Integer> sumRight = CollectionUtils.reduceRight(numbers, Integer::sum);
      *      sumRight.ifPresent(sum -> System.out.println("Sum from right: " + sum));  // Output: Sum from right: 15
@@ -2356,9 +2696,12 @@ public class CollectionUtils {
      * Filters out elements from the collection that do **not** satisfy the given predicate.
      *
      * <pre>{@code
+     *      List<Integer> result = CollectionUtils.reject(null, n -> n % 2 == 0);
+     *      // => result= []
+     *
      *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> result = CollectionUtils.reject(numbers, n -> n % 2 == 0);
-     *      result.forEach(System.out::println);  // Output: 1 3 5
+     *      // => result = [1, 3, 5]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -2381,9 +2724,12 @@ public class CollectionUtils {
      * Gets a random element from the collection.
      *
      * <pre>{@code
+     *      Optional<Integer> result = CollectionUtils.sample(null);
+     *      // => result = Optional.empty();
+     *
      *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
-     *      Optional<Integer> randomElement = CollectionUtils.sample(numbers);
-     *      randomElement.ifPresent(System.out::println);  // Output: A random element from the list (e.g., 3)
+     *      Optional<Integer> result = CollectionUtils.sample(numbers);
+     *      // Output: A random element from the list (e.g., 3)
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -2407,9 +2753,12 @@ public class CollectionUtils {
      * The selection is done randomly using shuffle, and the result contains exactly 'n' elements.
      *
      * <pre>{@code
+     *      List<Integer> randomElements = CollectionUtils.sampleSize(null, 3);
+     *      // Output: []
+     *
      *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> randomElements = CollectionUtils.sampleSize(numbers, 3);
-     *      System.out.println(randomElements);  // Output: A random list of 3 elements, e.g., [2, 5, 1]
+     *      // Output: A random list of 3 elements, e.g., [2, 5, 1]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -2433,9 +2782,12 @@ public class CollectionUtils {
      * Creates a shuffled version of the given collection using the Fisher-Yates shuffle algorithm.
      *
      * <pre>{@code
+     *      List<Integer> shuffled = CollectionUtils.shuffle(null);
+     *      // Output: []
+     *
      *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
      *      List<Integer> shuffled = CollectionUtils.shuffle(numbers);
-     *      System.out.println(shuffled);  // Output: A randomly shuffled list, e.g., [3, 1, 4, 2, 5]
+     *      // Output: A randomly shuffled list, e.g., [3, 1, 4, 2, 5]
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
@@ -2460,8 +2812,11 @@ public class CollectionUtils {
      * For objects, it returns the number of own properties. For Maps and Sets, it returns their size.
      *
      * <pre>{@code
+     *      int strSize = CollectionUtils.size(null);  // Output: 0
+     *
      *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
      *      int size = CollectionUtils.size(numbers);  // Output: 4
+     *
      *      String str = "Hello";
      *      int strSize = CollectionUtils.size(str);  // Output: 5
      * }</pre>
@@ -2490,8 +2845,12 @@ public class CollectionUtils {
      * Iteration is stopped once the predicate returns true.
      *
      * <pre>{@code
+     *      boolean hasEven = CollectionUtils.some(null, num -> num % 2 == 0);
+     *      // Output: false
+     *
      *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
-     *      boolean hasEven = CollectionUtils.some(numbers, num -> num % 2 == 0);  // Output: true
+     *      boolean hasEven = CollectionUtils.some(numbers, num -> num % 2 == 0);
+     *      // Output: true
      * }</pre>
      *
      * @param <T>        The type of elements in the collection.
