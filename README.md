@@ -46,7 +46,7 @@ Maven
 <dependency>
     <groupId>io.github.bypaycorporation</groupId>
     <artifactId>javadash</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
@@ -54,5 +54,5 @@ Gradle
 -------------
 
 ```xml
-  implementation 'io.github.bypaycorporation:javadash:1.0.1'
+  implementation 'io.github.bypaycorporation:javadash:1.0.2'
 ```
