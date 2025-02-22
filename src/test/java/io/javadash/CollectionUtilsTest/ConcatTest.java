@@ -12,7 +12,7 @@ public class ConcatTest {
     @Test
     public void testConcatWithMultipleLists() {
         List<Integer> array = Arrays.asList(1);
-        List<Integer> result = CollectionUtils.concat(array, Arrays.asList(2), Arrays.asList(3, 4), Arrays.asList(5));
+        List<Integer> result = CollectionUtils.concat(array, Arrays.asList(2), Arrays.asList(3, 4, null), Arrays.asList(5));
         assertEquals(Arrays.asList(1, 2, 3, 4, 5), result);
     }
 

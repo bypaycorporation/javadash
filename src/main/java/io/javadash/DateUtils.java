@@ -3,7 +3,7 @@ package io.javadash;
 public class DateUtils {
     /**
      * Returns the current time in milliseconds since the Unix epoch (January 1, 1970).
-     * This is equivalent to `System.currentTimeMillis()`.
+     * This is equivalent to {@code System.currentTimeMillis()}.
      *
      * <pre>{@code
      *      long currentTime = DateUtils.now();

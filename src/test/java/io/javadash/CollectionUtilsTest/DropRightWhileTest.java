@@ -13,7 +13,7 @@ public class DropRightWhileTest {
     @Test
     public void testDropRightWhileWithEmptyList() {
         List<Integer> emptyList = Arrays.asList();
-        List<Integer> result = CollectionUtils.dropRightWhile(emptyList, num -> num > 3);
+        List<Integer> result = CollectionUtils.dropRightWhile(emptyList, num -> num.compareTo(3) > 0);
         assertTrue(result.isEmpty(), "Result should be empty for an empty list");
     }
 
