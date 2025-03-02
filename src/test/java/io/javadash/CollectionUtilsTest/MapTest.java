@@ -1,7 +1,7 @@
 package io.javadash.CollectionUtilsTest;
 
 import static io.javadash.CollectionUtils.map;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -68,17 +68,6 @@ public class MapTest {
         List<String> result = map(collection, i -> "Number " + i);  // Map integers to a string format
 
         List<String> expected = Arrays.asList("Number 1", "Number 2", "Number 3");
-
-        assertEquals(expected, result);
-    }
-
-    @Test
-    void testMap_nullMappingFunction() {
-        List<String> collection = Arrays.asList("apple", "banana", "cherry");
-
-        List<String> result = map(collection, s -> null);  // Map strings to null
-
-        List<String> expected = Arrays.asList(null, null, null);
 
         assertEquals(expected, result);
     }

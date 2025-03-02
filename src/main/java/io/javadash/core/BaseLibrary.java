@@ -1,29 +1,29 @@
-package io.javadash.lib;
+package io.javadash.core;
 
-import static io.javadash.lib.BaseValidation.isValidList;
-import static io.javadash.lib.BaseValidation.isValidString;
-import static io.javadash.lib.Constant.ESCAPE_HTML_CHARS;
-import static io.javadash.lib.Constant.LATIN_1_A;
-import static io.javadash.lib.Constant.LATIN_1_A_LOW;
-import static io.javadash.lib.Constant.LATIN_1_C;
-import static io.javadash.lib.Constant.LATIN_1_C_LOW;
-import static io.javadash.lib.Constant.LATIN_1_D;
-import static io.javadash.lib.Constant.LATIN_1_D_LOW;
-import static io.javadash.lib.Constant.LATIN_1_E;
-import static io.javadash.lib.Constant.LATIN_1_E_LOW;
-import static io.javadash.lib.Constant.LATIN_1_I;
-import static io.javadash.lib.Constant.LATIN_1_I_LOW;
-import static io.javadash.lib.Constant.LATIN_1_O;
-import static io.javadash.lib.Constant.LATIN_1_O_LOW;
-import static io.javadash.lib.Constant.LATIN_1_SS;
-import static io.javadash.lib.Constant.LATIN_1_U;
-import static io.javadash.lib.Constant.LATIN_1_U_LOW;
-import static io.javadash.lib.Constant.LATIN_1_Y;
-import static io.javadash.lib.Constant.LATIN_1_Y_LOW;
-import static io.javadash.lib.Constant.LATIN_EXT_A_A;
-import static io.javadash.lib.Constant.LATIN_EXT_A_A_LOW;
-import static io.javadash.lib.Constant.LATIN_EXT_A_C;
-import static io.javadash.lib.Constant.LATIN_EXT_A_C_LOW;
+import static io.javadash.core.Validate.isEmpty;
+import static io.javadash.core.Validate.isValidString;
+import static io.javadash.core.Constant.ESCAPE_HTML_CHARS;
+import static io.javadash.core.Constant.LATIN_1_A;
+import static io.javadash.core.Constant.LATIN_1_A_LOW;
+import static io.javadash.core.Constant.LATIN_1_C;
+import static io.javadash.core.Constant.LATIN_1_C_LOW;
+import static io.javadash.core.Constant.LATIN_1_D;
+import static io.javadash.core.Constant.LATIN_1_D_LOW;
+import static io.javadash.core.Constant.LATIN_1_E;
+import static io.javadash.core.Constant.LATIN_1_E_LOW;
+import static io.javadash.core.Constant.LATIN_1_I;
+import static io.javadash.core.Constant.LATIN_1_I_LOW;
+import static io.javadash.core.Constant.LATIN_1_O;
+import static io.javadash.core.Constant.LATIN_1_O_LOW;
+import static io.javadash.core.Constant.LATIN_1_SS;
+import static io.javadash.core.Constant.LATIN_1_U;
+import static io.javadash.core.Constant.LATIN_1_U_LOW;
+import static io.javadash.core.Constant.LATIN_1_Y;
+import static io.javadash.core.Constant.LATIN_1_Y_LOW;
+import static io.javadash.core.Constant.LATIN_EXT_A_A;
+import static io.javadash.core.Constant.LATIN_EXT_A_A_LOW;
+import static io.javadash.core.Constant.LATIN_EXT_A_C;
+import static io.javadash.core.Constant.LATIN_EXT_A_C_LOW;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiPredicate;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -134,7 +135,7 @@ public class BaseLibrary {
      */
     public static <T> List<T> baseWhile(Collection<? extends T> collection, Predicate<T> predicate, boolean fromEnd) {
         List<T> result = new ArrayList<>();
-        if (!isValidList(collection)) {
+        if (!isEmpty(collection)) {
             return result;
         }
         List<T> list = new ArrayList<>(collection);
@@ -477,5 +478,21 @@ public class BaseLibrary {
             end--;
         }
         return end;
+    }
+
+    /**
+     * Creates a math operation that handles null values by returning a default value.
+     *
+     * @param operation The binary operation to perform (e.g., multiplication).
+     * @param defaultValue The default value to return if either input is null.
+     * @return A function that performs the operation or returns the default value if inputs are invalid.
+     */
+    public static <T extends Number> BinaryOperator<T> createMathOperation(BinaryOperator<T> operation, T defaultValue) {
+        return (a, b) -> {
+            if (a == null || b == null) {
+                return defaultValue;
+            }
+            return operation.apply(a, b);
+        };
     }
 }

@@ -1,4 +1,4 @@
-package io.javadash.lib;
+package io.javadash.core;
 
 public class Constant {
     public static final String LATIN_1_A = "\u00C0";
