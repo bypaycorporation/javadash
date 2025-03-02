@@ -17,6 +17,7 @@ public class LangUtils {
      * @param value The value to check for emptiness.
      * @return Returns true if value is empty, else false.
      */
+    @Deprecated
     public static boolean isEmpty(Object value) {
         if (value == null) {
             return true;

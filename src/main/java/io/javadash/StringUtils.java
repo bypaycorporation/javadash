@@ -1,18 +1,19 @@
 package io.javadash;
 
-import static io.javadash.lib.BaseLibrary.charsEndIndex;
-import static io.javadash.lib.BaseLibrary.charsStartIndex;
-import static io.javadash.lib.BaseLibrary.createPadding;
-import static io.javadash.lib.BaseLibrary.deburrLetter;
-import static io.javadash.lib.BaseLibrary.getEscapeReplacement;
-import static io.javadash.lib.BaseLibrary.reComboMark;
-import static io.javadash.lib.BaseLibrary.reLatin;
-import static io.javadash.lib.BaseLibrary.splitByNonAlphabets;
-import static io.javadash.lib.BaseValidation.isValidString;
-import static io.javadash.lib.Constant.REGEXP_CHARS;
-import static io.javadash.lib.Constant.RE_TRIM_END;
-import static io.javadash.lib.Constant.RE_TRIM_START;
+import static io.javadash.core.BaseLibrary.charsEndIndex;
+import static io.javadash.core.BaseLibrary.charsStartIndex;
+import static io.javadash.core.BaseLibrary.createPadding;
+import static io.javadash.core.BaseLibrary.deburrLetter;
+import static io.javadash.core.BaseLibrary.getEscapeReplacement;
+import static io.javadash.core.BaseLibrary.reComboMark;
+import static io.javadash.core.BaseLibrary.reLatin;
+import static io.javadash.core.BaseLibrary.splitByNonAlphabets;
+import static io.javadash.core.Validate.isValidString;
+import static io.javadash.core.Constant.REGEXP_CHARS;
+import static io.javadash.core.Constant.RE_TRIM_END;
+import static io.javadash.core.Constant.RE_TRIM_START;
 
+import io.javadash.core.Validate;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +25,24 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class StringUtils {
+
+    /**
+     * Tests if a String is empty or null.
+     *
+     * <pre>{@code
+     *      CollectionUtils.isEmpty(null)                  = true
+     *      CollectionUtils.isEmpty("")                    = true
+     *      CollectionUtils.isEmpty("Hello JavaDash")      = false
+     * }</pre>
+     *
+     * @param str the {@link String} to test, may be {@code null}
+     * @return {@code true} if the object has a supported type and is empty or null,
+     * {@code false} otherwise
+     */
+    public static boolean isEmpty(final Object str) {
+        return Validate.isEmpty(str);
+    }
+
     /**
      * Checks if the given value is in the string (substring match).
      *
@@ -288,7 +307,7 @@ public class StringUtils {
      *      // Output: "**hello***"
      * }</pre>
      *
-     * @param str The string to pad.
+     * @param str    The string to pad.
      * @param length The padding length.
      * @param chars  The string used as padding.
      * @return Returns the padded string.
@@ -321,7 +340,7 @@ public class StringUtils {
      *      // Output: "*****hello"
      * }</pre>
      *
-     * @param str The string to pad.
+     * @param str    The string to pad.
      * @param length The padding length.
      * @param chars  The string used as padding.
      * @return Returns the padded string.
@@ -351,7 +370,7 @@ public class StringUtils {
      *      // Output: "hello*****"
      * }</pre>
      *
-     * @param str The string to pad.
+     * @param str    The string to pad.
      * @param length The padding length.
      * @param chars  The string used as padding.
      * @return Returns the padded string.
@@ -466,7 +485,7 @@ public class StringUtils {
      *      // Output: ["apple", "banana", "orange"]
      * }</pre>
      *
-     * @param str    The string to split.
+     * @param str       The string to split.
      * @param separator The separator pattern to split by.
      * @return Returns the string segments.
      */
@@ -522,7 +541,7 @@ public class StringUtils {
      *      // Output: true
      * }</pre>
      *
-     * @param str The string to inspect.
+     * @param str    The string to inspect.
      * @param target The string to search for.
      * @return Returns {@code true} if string starts with target, else {@code false}.
      */
@@ -583,8 +602,8 @@ public class StringUtils {
      *      // Output: "hello world"
      * }</pre>
      *
-     * @param str The string to trim.
-     * @param chars  The characters to trim.
+     * @param str   The string to trim.
+     * @param chars The characters to trim.
      * @return Returns the trimmed string.
      */
 
@@ -614,8 +633,8 @@ public class StringUtils {
      *      // Output: "hello world  "
      * }</pre>
      *
-     * @param str The string to trim.
-     * @param chars  The characters to trim.
+     * @param str   The string to trim.
+     * @param chars The characters to trim.
      * @return Returns the trimmed string.
      */
 
@@ -644,8 +663,8 @@ public class StringUtils {
      *      // Output: "  hello world"
      * }</pre>
      *
-     * @param str    The string to trim.
-     * @param chars  The characters to trim.
+     * @param str   The string to trim.
+     * @param chars The characters to trim.
      * @return Returns the trimmed string.
      */
 

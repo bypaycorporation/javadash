@@ -1,22 +1,23 @@
 package io.javadash;
 
-import static io.javadash.lib.BaseLibrary.baseDifference;
-import static io.javadash.lib.BaseLibrary.baseFlatten;
-import static io.javadash.lib.BaseLibrary.baseIntersection;
-import static io.javadash.lib.BaseLibrary.baseList;
-import static io.javadash.lib.BaseLibrary.baseSlice;
-import static io.javadash.lib.BaseLibrary.baseUniq;
-import static io.javadash.lib.BaseLibrary.baseWhile;
-import static io.javadash.lib.BaseLibrary.baseXor;
-import static io.javadash.lib.BaseLibrary.baseXorBy;
-import static io.javadash.lib.BaseLibrary.baseXorWith;
-import static io.javadash.lib.BaseValidation.hasNullOrEmptyList;
-import static io.javadash.lib.BaseValidation.isFalsy;
-import static io.javadash.lib.BaseValidation.isValidList;
-import static io.javadash.lib.BaseValidation.isValidRestList;
-import static io.javadash.lib.BaseValidation.isValidRestValues;
-import static io.javadash.lib.BaseValidation.isValidRestZip;
+import static io.javadash.core.BaseLibrary.baseDifference;
+import static io.javadash.core.BaseLibrary.baseFlatten;
+import static io.javadash.core.BaseLibrary.baseIntersection;
+import static io.javadash.core.BaseLibrary.baseList;
+import static io.javadash.core.BaseLibrary.baseSlice;
+import static io.javadash.core.BaseLibrary.baseUniq;
+import static io.javadash.core.BaseLibrary.baseWhile;
+import static io.javadash.core.BaseLibrary.baseXor;
+import static io.javadash.core.BaseLibrary.baseXorBy;
+import static io.javadash.core.BaseLibrary.baseXorWith;
+import static io.javadash.core.Validate.hasNullOrEmptyList;
+import static io.javadash.core.Validate.isEmpty;
+import static io.javadash.core.Validate.isFalsy;
+import static io.javadash.core.Validate.isValidArray;
+import static io.javadash.core.Validate.isValidRestList;
+import static io.javadash.core.Validate.isValidRestZip;
 
+import io.javadash.core.Validate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,6 +33,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -45,6 +47,25 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class CollectionUtils {
+
+    /**
+     * Tests if a Collection is empty or null.
+     *
+     * <pre>{@code
+     *      CollectionUtils.isEmpty(null)                        = true
+     *      CollectionUtils.isEmpty(Collections.emptyList())     = true
+     *      CollectionUtils.isEmpty(Collections.emptyMap())      = true
+     *      CollectionUtils.isEmpty(Collections.emptySet())      = true
+     *      CollectionUtils.isEmpty(Arrays.asList(1, 2))         = false
+     * }</pre>
+     *
+     * @param collection the {@link Collection} to test, may be {@code null}
+     * @return {@code true} if the object has a supported type and is empty or null,
+     * {@code false} otherwise
+     */
+    public static boolean isEmpty(final Object collection) {
+        return Validate.isEmpty(collection);
+    }
 
     /**
      * Creates a collection of elements split into groups the length of size. If collection can't be split evenly, the final chunk will be the remaining elements.
@@ -64,7 +85,7 @@ public class CollectionUtils {
      * @return Returns the new collection of chunks.
      */
     public static <T> List<List<T>> chunk(Collection<? extends T> collection, int size) {
-        if (!isValidList(collection) || size < 1) {
+        if (isEmpty(collection) || size < 1) {
             return Collections.emptyList();
         }
         List<T> list = new ArrayList<>(collection);
@@ -92,7 +113,7 @@ public class CollectionUtils {
      * @return Returns the new collection of filtered values.
      */
     public static <T> List<T> compact(Collection<? extends T> collection) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<T> list = new ArrayList<>(collection);
@@ -122,7 +143,7 @@ public class CollectionUtils {
      */
     @SafeVarargs
     public static <T> List<T> concat(Collection<? extends T> collection, Collection<? extends T>... values) {
-        List<T> result = isValidList(collection) ? new ArrayList<>(collection) : new ArrayList<>();
+        List<T> result = isEmpty(collection) ? new ArrayList<>(collection) : new ArrayList<>();
         for (Collection<? extends T> value : values) {
             if (value != null) {
                 result.addAll(value.stream()
@@ -154,7 +175,7 @@ public class CollectionUtils {
      */
     @SafeVarargs
     public static <T> List<T> difference(Collection<? extends T> collection, Collection<? extends T>... values) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         if (!isValidRestList(values)) {
@@ -197,7 +218,7 @@ public class CollectionUtils {
     public static <T> List<T> differenceBy(Collection<? extends T> collection, Predicate<T> predicate,
                                            Collection<? extends T>... values) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         if (!isValidRestList(values)) {
@@ -239,7 +260,7 @@ public class CollectionUtils {
     public static <T> List<T> differenceWith(Collection<? extends T> collection, BiPredicate<T, T> comparator,
                                              Collection<? extends T>... values) {
         Objects.requireNonNull(comparator);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         if (!isValidRestList(values)) {
@@ -273,7 +294,7 @@ public class CollectionUtils {
      * @return Returns the slice of collection.
      */
     public static <T> List<T> drop(Collection<? extends T> collection, int n) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<T> list = new ArrayList<>(collection);
@@ -303,7 +324,7 @@ public class CollectionUtils {
      * @return Returns the slice of collection.
      */
     public static <T> List<T> dropRight(Collection<? extends T> collection, int n) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<T> list = new ArrayList<>(collection);
@@ -335,7 +356,7 @@ public class CollectionUtils {
      */
     public static <T> List<T> dropWhile(Collection<? extends T> collection, Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<T> list = new ArrayList<>(collection);
@@ -366,7 +387,7 @@ public class CollectionUtils {
      */
     public static <T> List<T> dropRightWhile(Collection<? extends T> collection, Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<T> list = new ArrayList<>(collection);
@@ -397,7 +418,7 @@ public class CollectionUtils {
      * @return Returns list.
      */
     public static <T> List<T> fill(List<T> list, T value, int start, int end) {
-        if (!isValidList(list)) {
+        if (isEmpty(list)) {
             return Collections.emptyList();
         }
         int startN = Math.max(0, start);
@@ -429,7 +450,7 @@ public class CollectionUtils {
      */
     public static <T> int findIndex(Collection<? extends T> collection, Predicate<T> predicate, int fromIndex) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection) || fromIndex > collection.size() - 1) {
+        if (isEmpty(collection) || fromIndex > collection.size() - 1) {
             return -1;
         }
         List<T> list = new ArrayList<>(collection);
@@ -463,7 +484,7 @@ public class CollectionUtils {
      */
     public static <T> int findLastIndex(Collection<? extends T> collection, Predicate<T> predicate, int fromIndex) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection) || fromIndex < 0) {
+        if (isEmpty(collection) || fromIndex < 0) {
             return -1;
         }
         List<T> list = new ArrayList<>(collection);
@@ -495,7 +516,7 @@ public class CollectionUtils {
      */
     @SuppressWarnings("unchecked")
     public static <T> List<T> flatten(Collection<? extends T> collection) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         return collection.stream()
@@ -525,7 +546,7 @@ public class CollectionUtils {
      */
     @SuppressWarnings("unchecked")
     public static <T> List<T> flattenDeep(Collection<? extends T> collection) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         return collection.stream()
@@ -556,7 +577,7 @@ public class CollectionUtils {
      */
     @SuppressWarnings("unchecked")
     public static <T> List<T> flattenDepth(Collection<? extends T> collection, int depth) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         if (depth <= 0) {
@@ -591,7 +612,7 @@ public class CollectionUtils {
      */
     @SuppressWarnings("unchecked")
     public static <T> Map<T, T> fromPairs(List<List<T>> pairs) {
-        if (!isValidList(pairs)) {
+        if (isEmpty(pairs)) {
             return Collections.emptyMap();
         }
         Map<T, T> result = new HashMap<>();
@@ -628,7 +649,7 @@ public class CollectionUtils {
      * @return Returns the first element of the collection.
      */
     public static <T> Optional<T> head(Collection<? extends T> collection) {
-        return isValidList(collection) && !collection.isEmpty()
+        return isEmpty(collection) && !collection.isEmpty()
             ? Optional.ofNullable(collection.iterator().next())
             : Optional.empty();
     }
@@ -651,7 +672,7 @@ public class CollectionUtils {
      * @return Returns the index of the matched value, else {@code -1}.
      */
     public static <T> int indexOf(Collection<? extends T> collection, T value) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return -1;
         }
         return IntStream.range(0, collection.size())
@@ -679,7 +700,7 @@ public class CollectionUtils {
      * @return Returns the index of the matched value, else {@code -1}.
      */
     public static <T> int indexOf(Collection<? extends T> collection, T value, int fromIndex) {
-        if (!isValidList(collection) || fromIndex > collection.size() - 1) {
+        if (isEmpty(collection) || fromIndex > collection.size() - 1) {
             return -1;
         }
         int index = Math.max(fromIndex, 0);
@@ -706,7 +727,7 @@ public class CollectionUtils {
      * @return Returns the slice of collection.
      */
     public static <T> List<T> initial(Collection<? extends T> collection) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<T> list = new ArrayList<>(collection);
@@ -737,7 +758,7 @@ public class CollectionUtils {
      */
     @SafeVarargs
     public static <T> List<T> intersection(Collection<? extends T> collection, Collection<? extends T>... values) {
-        if (!isValidList(collection) || !isValidRestList(values) || hasNullOrEmptyList(values)) {
+        if (isEmpty(collection) || !isValidRestList(values) || hasNullOrEmptyList(values)) {
             return Collections.emptyList();
         }
         Set<T> resultSet = new LinkedHashSet<>(collection);
@@ -775,7 +796,7 @@ public class CollectionUtils {
     public static <T> List<T> intersectionBy(Collection<? extends T> collection, Predicate<T> predicate,
                                              Collection<? extends T>... values) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection) || !isValidRestList(values) || hasNullOrEmptyList(values)) {
+        if (isEmpty(collection) || !isValidRestList(values) || hasNullOrEmptyList(values)) {
             return Collections.emptyList();
         }
         List<T> source = baseList(collection, predicate);
@@ -814,7 +835,7 @@ public class CollectionUtils {
     public static <T> List<T> intersectionWith(Collection<? extends T> collection, BiPredicate<T, T> comparator,
                                                Collection<? extends T>... values) {
         Objects.requireNonNull(comparator);
-        if (!isValidList(collection) || !isValidRestList(values) || hasNullOrEmptyList(values)) {
+        if (isEmpty(collection) || !isValidRestList(values) || hasNullOrEmptyList(values)) {
             return Collections.emptyList();
         }
         Set<T> resultSet = new LinkedHashSet<>(collection);
@@ -850,7 +871,7 @@ public class CollectionUtils {
      * @return Returns the joined string.
      */
     public static <T> String join(Collection<? extends T> collection, String separator) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return "";
         }
         String actualSeparator = (separator == null || separator.isEmpty()) ? "," : separator;
@@ -878,7 +899,7 @@ public class CollectionUtils {
      */
     @SuppressWarnings("unchecked")
     public static <T> Optional<T> last(Collection<? extends T> collection) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Optional.empty();
         }
         return (Optional<T>) collection.stream()
@@ -904,7 +925,7 @@ public class CollectionUtils {
      * @return Returns the index of the matched value, else {@code -1}.
      */
     public static <T> int lastIndexOf(Collection<? extends T> collection, T value) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return -1;
         }
         int lastIndex = -1;
@@ -937,7 +958,7 @@ public class CollectionUtils {
      * @return Returns the index of the matched value, else {@code -1}.
      */
     public static <T> int lastIndexOf(Collection<? extends T> collection, T value, int fromIndex) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return -1;
         }
         int length = collection.size();
@@ -974,7 +995,7 @@ public class CollectionUtils {
      * @return Returns the nth element of collection.
      */
     public static <T> Optional<T> nth(Collection<? extends T> collection, int n) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Optional.empty();
         }
         int size = collection.size();
@@ -1001,7 +1022,7 @@ public class CollectionUtils {
      */
     @SafeVarargs
     public static <T> Collection<? extends T> pull(Collection<? extends T> collection, T... values) {
-        if (!isValidList(collection) || !isValidRestValues(values)) {
+        if (isEmpty(collection) || !isValidArray(values)) {
             return collection;
         }
         Set<T> valuesSet = new HashSet<>(Arrays.asList(values));
@@ -1025,7 +1046,7 @@ public class CollectionUtils {
      */
     public static <T> Collection<? extends T> pullAll(Collection<? extends T> collection,
                                                       Collection<? extends T> values) {
-        if (!isValidList(collection) || !isValidRestValues(values)) {
+        if (isEmpty(collection) || !isValidArray(values)) {
             return collection;
         }
         Set<T> valuesSet = new HashSet<>(values);
@@ -1052,7 +1073,7 @@ public class CollectionUtils {
     public static <T> Collection<? extends T> pullAllBy(Collection<? extends T> collection,
                                                         Collection<? extends T> values, Function<T, Object> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(collection) || !isValidList(values)) {
+        if (isEmpty(collection) || isEmpty(values)) {
             return collection;
         }
         Set<Object> transformedValuesSet = new HashSet<>();
@@ -1089,7 +1110,7 @@ public class CollectionUtils {
                                                           Collection<? extends T> values,
                                                           BiPredicate<T, T> comparator) {
         Objects.requireNonNull(comparator);
-        if (!isValidList(collection) || !isValidList(values)) {
+        if (isEmpty(collection) || isEmpty(values)) {
             return collection;
         }
         Set<T> valuesSet = new HashSet<>(values);
@@ -1118,7 +1139,7 @@ public class CollectionUtils {
      * @return Returns the new collection of removed elements.
      */
     public static <T> List<T> pullAt(Collection<? extends T> collection, List<Integer> indexes) {
-        if (!isValidList(collection) || !isValidList(indexes)) {
+        if (isEmpty(collection) || isEmpty(indexes)) {
             return Collections.emptyList();
         }
         List<T> list = new ArrayList<>(collection);
@@ -1155,7 +1176,7 @@ public class CollectionUtils {
     @SuppressWarnings("unchecked")
     public static <T> List<T> remove(Collection<? extends T> collection, Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<T> result = new ArrayList<>();
@@ -1187,7 +1208,7 @@ public class CollectionUtils {
      * @return Returns collection.
      */
     public static <T> List<T> reverse(Collection<? extends T> collection) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<T> list = new ArrayList<>(collection);
@@ -1213,7 +1234,7 @@ public class CollectionUtils {
      * @return Returns the slice of collection.
      */
     public static <T> List<T> slice(Collection<? extends T> collection, int start) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         int size = collection.size();
@@ -1246,7 +1267,7 @@ public class CollectionUtils {
      * @return Returns the slice of collection.
      */
     public static <T> List<T> slice(Collection<? extends T> collection, int start, int end) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         int size = collection.size();
@@ -1280,7 +1301,7 @@ public class CollectionUtils {
      * @return Returns the slice of collection.
      */
     public static <T> List<T> tail(Collection<? extends T> collection) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         return baseSlice(collection, 1, collection.size());
@@ -1304,7 +1325,7 @@ public class CollectionUtils {
      * @return Returns the slice of collection.
      */
     public static <T> List<T> take(Collection<? extends T> collection, int n) {
-        if (!isValidList(collection) || n < 0) {
+        if (isEmpty(collection) || n < 0) {
             return Collections.emptyList();
         }
         return baseSlice(collection, 0, n);
@@ -1328,7 +1349,7 @@ public class CollectionUtils {
      * @return Returns the slice of collection.
      */
     public static <T> List<T> takeRight(Collection<? extends T> collection, int n) {
-        if (!isValidList(collection) || n < 0) {
+        if (isEmpty(collection) || n < 0) {
             return Collections.emptyList();
         }
         int start = Math.max(0, collection.size() - n);
@@ -1354,7 +1375,7 @@ public class CollectionUtils {
      */
     public static <T> List<T> takeRightWhile(Collection<? extends T> collection, Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         return baseWhile(collection, predicate, true);
@@ -1379,7 +1400,7 @@ public class CollectionUtils {
      */
     public static <T> List<T> takeWhile(Collection<? extends T> collection, Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         return baseWhile(collection, predicate, false);
@@ -1500,7 +1521,7 @@ public class CollectionUtils {
      * @return Returns the new duplicate free collection.
      */
     public static <T> List<T> uniq(Collection<? extends T> collection) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         Set<T> seen = new HashSet<>();
@@ -1536,7 +1557,7 @@ public class CollectionUtils {
      */
     public static <T> List<T> uniqBy(Collection<? extends T> collection, Function<T, ?> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         return baseUniq(collection, iteratee);
@@ -1561,7 +1582,7 @@ public class CollectionUtils {
      */
     public static <T> List<T> uniqWith(Collection<? extends T> collection, BiPredicate<T, T> comparator) {
         Objects.requireNonNull(comparator);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         return baseUniq(collection, comparator);
@@ -1588,7 +1609,7 @@ public class CollectionUtils {
      * @return Returns the new array of regrouped elements.
      */
     public static <T> List<List<T>> unzip(Collection<? extends Collection<? extends T>> grouped) {
-        if (!isValidList(grouped)) {
+        if (isEmpty(grouped)) {
             return Collections.emptyList();
         }
         int maxLength = 0;
@@ -1632,7 +1653,7 @@ public class CollectionUtils {
     public static <T> List<T> unzipWith(Collection<? extends Collection<? extends T>> grouped,
                                         Function<List<T>, T> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(grouped)) {
+        if (isEmpty(grouped)) {
             return Collections.emptyList();
         }
         List<List<T>> unzipped = unzip(grouped);
@@ -1665,10 +1686,10 @@ public class CollectionUtils {
      */
     @SafeVarargs
     public static <T> List<T> without(Collection<? extends T> collection, T... values) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
-        if (!isValidRestValues(values)) {
+        if (!isValidArray(values)) {
             return new ArrayList<>(collection);
         }
         Set<T> valuesSet = new HashSet<>(Arrays.asList(values));
@@ -1700,7 +1721,7 @@ public class CollectionUtils {
      */
     @SafeVarargs
     public static <T> List<T> xor(Collection<? extends T>... collections) {
-        if (!isValidRestValues(collections)) {
+        if (!isValidArray(collections)) {
             return Collections.emptyList();
         }
         List<Collection<? extends T>> collectionList = new ArrayList<>();
@@ -1734,7 +1755,7 @@ public class CollectionUtils {
     @SafeVarargs
     public static <T> List<T> xorBy(Function<T, ?> iteratee, Collection<? extends T>... collections) {
         Objects.requireNonNull(iteratee);
-        if (!isValidRestValues(collections)) {
+        if (!isValidArray(collections)) {
             return Collections.emptyList();
         }
         List<Collection<? extends T>> collectionList = new ArrayList<>();
@@ -1893,7 +1914,7 @@ public class CollectionUtils {
      * @return Returns the new map.
      */
     public static <K, V> Map<K, V> zipObject(Collection<? extends K> props, Collection<? extends V> values) {
-        if (!isValidList(props) || values == null) {
+        if (isEmpty(props) || values == null) {
             return Collections.emptyMap();
         }
         Map<K, V> result = new HashMap<>();
@@ -1926,13 +1947,13 @@ public class CollectionUtils {
      * @param <T>        The type of elements in the collection.
      * @param <K>        The type of keys in the map.
      * @param collection The collection to count items from.
-     * @param iteratee  The function to map each element to a key.
+     * @param iteratee   The function to map each element to a key.
      * @return Returns the new map.
      */
     public static <T, K> Map<K, Long> countBy(Collection<? extends T> collection,
                                               Function<? super T, ? extends K> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyMap();
         }
         return collection.stream()
@@ -1960,7 +1981,7 @@ public class CollectionUtils {
      */
     public static <T> boolean every(Collection<? extends T> collection, Predicate<? super T> predicate) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return false;
         }
         for (T element : collection) {
@@ -1991,7 +2012,7 @@ public class CollectionUtils {
      */
     public static <K, V> boolean every(Map<K, V> map, BiPredicate<K, V> biPredicate) {
         Objects.requireNonNull(biPredicate);
-        if (!isValidList(map)) {
+        if (isEmpty(map)) {
             return false;
         }
         for (Map.Entry<K, V> entry : map.entrySet()) {
@@ -2021,7 +2042,7 @@ public class CollectionUtils {
      */
     public static <T> List<T> filter(Collection<? extends T> collection, Predicate<? super T> predicate) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         return collection.stream()
@@ -2050,7 +2071,7 @@ public class CollectionUtils {
      */
     public static <K, V> Map<K, V> filter(Map<K, V> map, BiPredicate<K, V> biPredicate) {
         Objects.requireNonNull(biPredicate);
-        if (!isValidList(map)) {
+        if (isEmpty(map)) {
             return Collections.emptyMap();
         }
         return map.entrySet().stream()
@@ -2078,7 +2099,7 @@ public class CollectionUtils {
      */
     public static <T> Optional<T> find(Collection<? extends T> collection, Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Optional.empty();
         }
         for (T element : collection) {
@@ -2108,7 +2129,7 @@ public class CollectionUtils {
      */
     public static <T> Optional<T> findLast(Collection<? extends T> collection, Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Optional.empty();
         }
         List<? extends T> list = new ArrayList<>(collection);
@@ -2147,7 +2168,7 @@ public class CollectionUtils {
     public static <T, R> List<R> flatMap(Collection<? extends T> collection,
                                          Function<? super T, ? extends Collection<? extends R>> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<R> result = new ArrayList<>();
@@ -2183,7 +2204,7 @@ public class CollectionUtils {
     public static <T, R> List<R> flatMapDeep(Collection<? extends T> collection,
                                              Function<? super T, ? extends Collection<? extends R>> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<R> result = new ArrayList<>();
@@ -2223,7 +2244,7 @@ public class CollectionUtils {
                                               Function<? super T, ? extends Collection<? extends R>> iteratee,
                                               int depth) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         int minDepth = Math.max(1, depth);
@@ -2255,7 +2276,7 @@ public class CollectionUtils {
      */
     public static <T> void forEach(Collection<? extends T> collection, Consumer<? super T> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return;
         }
         for (T element : collection) {
@@ -2283,7 +2304,7 @@ public class CollectionUtils {
      */
     public static <K, V> void forEach(Map<? extends K, ? extends V> map, BiConsumer<? super K, ? super V> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(map)) {
+        if (isEmpty(map)) {
             return;
         }
         for (Map.Entry<? extends K, ? extends V> entry : map.entrySet()) {
@@ -2311,7 +2332,7 @@ public class CollectionUtils {
      */
     public static <T> void forEachRight(Collection<? extends T> collection, Consumer<? super T> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return;
         }
         @SuppressWarnings("unchecked")
@@ -2345,7 +2366,7 @@ public class CollectionUtils {
     public static <K, V> void forEachRight(Map<? extends K, ? extends V> map,
                                            BiConsumer<? super K, ? super V> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(map)) {
+        if (isEmpty(map)) {
             return;
         }
         List<Map.Entry<? extends K, ? extends V>> entries = new ArrayList<>(map.entrySet());
@@ -2379,7 +2400,7 @@ public class CollectionUtils {
     public static <T, K> Map<K, List<T>> groupBy(Collection<? extends T> collection,
                                                  Function<? super T, ? extends K> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyMap();
         }
         return collection.stream()
@@ -2405,7 +2426,7 @@ public class CollectionUtils {
      * @return Returns {@code true} if value is found, else {@code false}.
      */
     public static <T> boolean includes(Collection<? extends T> collection, T value) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return false;
         }
         for (T element : collection) {
@@ -2438,7 +2459,7 @@ public class CollectionUtils {
      */
     public static <T, R> Map<R, T> keyBy(Collection<? extends T> collection, Function<T, R> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyMap();
         }
         Map<R, T> result = new LinkedHashMap<>();
@@ -2471,16 +2492,14 @@ public class CollectionUtils {
      */
     public static <T, R> List<R> map(Collection<? extends T> collection, Function<T, R> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
-        List<R> result = new ArrayList<>();
-        for (T value : collection) {
-            if (value != null) {
-                result.add(iteratee.apply(value));
-            }
-        }
-        return result;
+        return collection.stream()
+            .filter(Objects::nonNull)
+            .map(iteratee)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
     }
 
     /**
@@ -2502,7 +2521,7 @@ public class CollectionUtils {
      */
     public static <T> List<T> orderBy(Collection<? extends T> collection, Comparator<? super T> comparator) {
         Objects.requireNonNull(comparator);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<T> list = new ArrayList<>(collection);
@@ -2529,7 +2548,7 @@ public class CollectionUtils {
      */
     public static <T> List<List<T>> partition(Collection<? extends T> collection, Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<T> trueGroup = new ArrayList<>();
@@ -2571,7 +2590,7 @@ public class CollectionUtils {
      */
     public static <T> T reduce(Collection<? extends T> collection, T identity, BinaryOperator<T> accumulator) {
         Objects.requireNonNull(accumulator);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return identity;
         }
         T result = identity;
@@ -2602,7 +2621,7 @@ public class CollectionUtils {
      */
     public static <T> Optional<T> reduce(Collection<? extends T> collection, BinaryOperator<T> accumulator) {
         Objects.requireNonNull(accumulator);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Optional.empty();
         }
         Iterator<? extends T> iterator = collection.iterator();
@@ -2637,7 +2656,7 @@ public class CollectionUtils {
      */
     public static <T> T reduceRight(Collection<? extends T> collection, T identity, BinaryOperator<T> accumulator) {
         Objects.requireNonNull(accumulator);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return identity;
         }
         @SuppressWarnings("unchecked")
@@ -2675,7 +2694,7 @@ public class CollectionUtils {
      */
     public static <T> Optional<T> reduceRight(Collection<? extends T> collection, BinaryOperator<T> accumulator) {
         Objects.requireNonNull(accumulator);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Optional.empty();
         }
         @SuppressWarnings("unchecked")
@@ -2710,7 +2729,7 @@ public class CollectionUtils {
      */
     public static <T> List<T> reject(Collection<? extends T> collection, Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         return collection.stream()
@@ -2736,7 +2755,7 @@ public class CollectionUtils {
      * @return Returns an Optional of the random element.
      */
     public static <T> Optional<T> sample(Collection<? extends T> collection) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Optional.empty();
         }
         List<? extends T> list = new ArrayList<>(collection);
@@ -2767,7 +2786,7 @@ public class CollectionUtils {
      */
 
     public static <T> List<T> sampleSize(Collection<? extends T> collection, int n) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         int size = collection.size();
@@ -2794,7 +2813,7 @@ public class CollectionUtils {
      * @return Returns the new shuffled collection.
      */
     public static <T> List<T> shuffle(Collection<? extends T> collection) {
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return Collections.emptyList();
         }
         List<T> list = new ArrayList<>(collection);
@@ -2859,7 +2878,7 @@ public class CollectionUtils {
      */
     public static <T> boolean some(Collection<T> collection, Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
-        if (!isValidList(collection)) {
+        if (isEmpty(collection)) {
             return false;
         }
         for (T element : collection) {
@@ -2870,4 +2889,217 @@ public class CollectionUtils {
         return false;
     }
 
+    /**
+     * Computes the minimum value of the collection. If the collection is empty or null,
+     * an empty Optional is returned.
+     *
+     * <pre>{@code
+     *
+     *      Optional<Integer> minNull = NumberUtils.min(null);
+     *      System.out.println("Result : " + minNull);
+     *      // Output: OptionalDouble.empty();
+     *
+     *      List<Integer> numbers = Arrays.asList(3, 1, 4, 1, 5);
+     *      Optional<Integer> minValue = NumberUtils.min(numbers);
+     *      minValue.ifPresent(min -> System.out.println("Minimum value: " + min));
+     *      // Output: Minimum value: 1
+     *
+     * }</pre>
+     *
+     * @param <T>        The type of elements in the collection, which must be comparable.
+     * @param collection The collection to iterate over.
+     * @return An Optional containing the minimum value, or empty if the collection is null or empty.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Number & Comparable<? super T>> Optional<T> min(Collection<? extends T> collection) {
+        if (isEmpty(collection)) {
+            return Optional.empty();
+        }
+        return (Optional<T>) collection.stream()
+            .filter(Objects::nonNull)
+            .min(Comparable::compareTo);
+    }
+
+    /**
+     * This method is like {@code min}. It accepts a collection and a function (iteratee)
+     * which is invoked for each element in the collection to generate the criterion by which
+     * the value is ranked.
+     *
+     * <pre>{@code
+     *
+     *      Optional<Integer> minNull = NumberUtils.min(null, Number::intValue);
+     *      System.out.println("Result : " + minNull);
+     *      // Output: Optional.empty();
+     *
+     *      List<Person> people = Arrays.asList(
+     *          new Person("Alice", 25),
+     *          new Person("Bob", 30),
+     *          new Person("Charlie", 20)
+     *      );
+     *      Optional<Person> youngestPerson = NumberUtils.minBy(people, Person::getAge);
+     *      youngestPerson.ifPresent(person -> System.out.println("Youngest person: " + person.getName()));
+     *      // Output: Youngest person: Charlie
+     *
+     * }</pre>
+     *
+     * @param <T>        The type of elements in the collection.
+     * @param <U>        The type of the criterion used for comparison.
+     * @param collection The collection to iterate over.
+     * @param iteratee   The function invoked per element.
+     * @return An Optional containing the minimum value, or empty if the collection is null or empty.
+     */
+    public static <T, U extends Comparable<? super U>> Optional<T> minBy(Collection<T> collection,
+                                                                         Function<T, U> iteratee) {
+        Objects.requireNonNull(iteratee);
+        if (isEmpty(collection)) {
+            return Optional.empty();
+        }
+        return collection.stream()
+            .filter(Objects::nonNull)
+            .min(Comparator.comparing(iteratee));
+    }
+
+    /**
+     * Computes the maximum value of {@code collection} according to the natural ordering of its elements.
+     * If the collection is {@code null}, empty, or contains only {@code null} elements, an empty {@link Optional} is returned.
+     *
+     * <pre>{@code
+     *      Optional<Integer> maxNull = NumberUtils.max(null);
+     *      System.out.println("Max number: " + maxNull);
+     *      // Output: Optional.empty()
+     *
+     *      List<Integer> numbers = Arrays.asList(3, 7, 1, 9, 5);
+     *      Optional<Integer> maxNumber = NumberUtils.max(numbers);
+     *      maxNumber.ifPresent(max -> System.out.println("Max number: " + max));
+     *      // Output: Max number: 9
+     *
+     *      List<String> strings = Arrays.asList("apple", "banana", "kiwi", "cherry");
+     *      Optional<String> maxString = NumberUtils.max(strings);
+     *      maxString.ifPresent(max -> System.out.println("Max string: " + max));
+     *      // Output: Max string: kiwi
+     *
+     * }</pre>
+     *
+     * @param collection the {@link Collection} of elements to search for the maximum value
+     * @param <T>        the type of elements in the collection, which must be {@link Comparable} or a subtype of it
+     * @return an {@link Optional} containing the maximum element of the collection, or {@link Optional#empty()} if the collection is {@code null}, empty, or contains only {@code null} elements
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Comparable<? super T>> Optional<T> max(Collection<? extends T> collection) {
+        if (isEmpty(collection)) {
+            return Optional.empty();
+        }
+        return (Optional<T>) collection.stream()
+            .filter(Objects::nonNull)
+            .max(Comparator.naturalOrder());
+    }
+
+    /**
+     * This method is like {@code max}. It accepts a list and a function (iteratee)
+     * which is invoked for each element in the list to generate the criterion by which
+     * the value is ranked.
+     *
+     * <pre>{@code
+     *      Optional<Integer> maxNull = NumberUtils.maxBy(null, Number::intValue);
+     *      System.out.println("Max : " + maxNull);
+     *      // Output: Optional.empty()
+     *
+     *      List<Person> people = Arrays.asList(
+     *          new Person("Alice", 25),
+     *          new Person("Bob", 30),
+     *          new Person("Charlie", 20)
+     *      );
+     *      Optional<Person> oldestPerson = NumberUtils.maxBy(people, Person::getAge);
+     *      oldestPerson.ifPresent(person -> System.out.println("Oldest person: " + person.getName()));
+     *      // Output: Oldest person: Bob
+     *
+     * }</pre>
+     *
+     * @param <T>        The type of elements in the list.
+     * @param <U>        The type of the criterion used for comparison.
+     * @param collection The collection to iterate over.
+     * @param iteratee   The iteratee invoked per element.
+     * @return an {@link Optional} containing the maximum element of the collection, or {@link Optional#empty()} if the collection is {@code null}, empty, or contains only {@code null} elements
+     */
+    @SuppressWarnings("unchecked")
+    public static <T, U extends Comparable<? super U>> Optional<T> maxBy(Collection<? extends T> collection,
+                                                                         Function<T, U> iteratee) {
+        Objects.requireNonNull(iteratee);
+        if (isEmpty(collection)) {
+            return Optional.empty();
+        }
+        return (Optional<T>) collection.stream()
+            .filter(Objects::nonNull)
+            .max(Comparator.comparing(iteratee));
+    }
+
+    /**
+     * Computes the mean of the values in the collection.
+     *
+     * <pre>{@code
+     *
+     *      Optional<Integer> meanNull = NumberUtils.mean(null);
+     *      System.out.println("Result : " + meanNull);
+     *      // Output: OptionalDouble.empty();
+     *
+     *      List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+     *      OptionalDouble meanValue = NumberUtils.mean(numbers);
+     *      meanValue.ifPresent(mean -> System.out.println("Mean value: " + mean));
+     *      // Output: Mean value: 3.0
+     *
+     *      List<Double> decimals = Arrays.asList(1.5, 2.5, 3.5, 4.5);
+     *      OptionalDouble meanDecimal = NumberUtils.mean(decimals);
+     *      meanDecimal.ifPresent(mean -> System.out.println("Mean decimal: " + mean));
+     *      // Output: Mean decimal: 3.0
+     *
+     * }</pre>
+     *
+     * @param collection the {@link Collection} of {@link Number} elements to calculate the mean of
+     * @return an {@link OptionalDouble} containing the mean of the collection, or {@link OptionalDouble#empty()} if the collection is {@code null}, empty, or contains only {@code null} elements
+     */
+    public static OptionalDouble mean(Collection<? extends Number> collection) {
+        if (isEmpty(collection)) {
+            return OptionalDouble.empty();
+        }
+        return collection.stream()
+            .filter(Objects::nonNull)
+            .mapToDouble(Number::doubleValue)
+            .average();
+    }
+
+    /**
+     * This method is like {@code mean}. It accepts a collection and a function (iteratee)
+     * which is invoked for each element in the collection to generate the value to be averaged.
+     *
+     * <pre>{@code
+     *
+     *      Optional<Integer> meanNull = NumberUtils.mean(null, Number::doubleValue);
+     *      System.out.println("Result : " + meanNull);
+     *      // Output: OptionalDouble.empty();
+     *
+     *      List<Person> people = Arrays.asList(
+     *          new Person("Alice", 25),
+     *          new Person("Bob", 30),
+     *          new Person("Charlie", 35)
+     *      );
+     *      OptionalDouble meanAge = NumberUtils.meanBy(people, Person::getAge);
+     *      meanAge.ifPresent(mean -> System.out.println("Mean age: " + mean));
+     *      // Output: Mean age: 30.0
+     *
+     * }</pre>
+     *
+     * @param collection The collection to iterate over.
+     * @param iteratee   The function invoked per element.
+     * @return an {@link OptionalDouble} containing the mean of the collection, or {@link OptionalDouble#empty()} if the collection is {@code null}, empty, or contains only {@code null} elements
+     */
+    public static OptionalDouble meanBy(Collection<? extends Number> collection, Function<Number, Double> iteratee) {
+        Objects.requireNonNull(iteratee);
+        if (isEmpty(collection)) {
+            return OptionalDouble.empty();
+        }
+        return collection.stream()
+            .filter(Objects::nonNull)
+            .mapToDouble(iteratee::apply)
+            .average();
+    }
 }

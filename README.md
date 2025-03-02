@@ -16,7 +16,7 @@
 -->
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.bypaycorporation/javadash?label=Maven%20Central)](https://search.maven.org/artifact/io.github.bypaycorporation/javadash)
-[![Javadocs](https://javadoc.io/badge/io.github.bypaycorporation/javadash/1.0.1.svg)](https://javadoc.io/doc/io.github.bypaycorporation/javadash/1.0.1)
+[![Javadocs](https://javadoc.io/badge/io.github.bypaycorporation/javadash/2.0.0.svg)](https://javadoc.io/doc/io.github.bypaycorporation/javadash/2.0.0)
 
 JavaDash
 ===================
@@ -46,7 +46,7 @@ Maven
 <dependency>
     <groupId>io.github.bypaycorporation</groupId>
     <artifactId>javadash</artifactId>
-    <version>1.0.2</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
@@ -54,5 +54,5 @@ Gradle
 -------------
 
 ```xml
-  implementation 'io.github.bypaycorporation:javadash:1.0.2'
+  implementation 'io.github.bypaycorporation:javadash:2.0.0'
 ```
