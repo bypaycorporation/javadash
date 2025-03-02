@@ -135,7 +135,7 @@ public class BaseLibrary {
      */
     public static <T> List<T> baseWhile(Collection<? extends T> collection, Predicate<T> predicate, boolean fromEnd) {
         List<T> result = new ArrayList<>();
-        if (!isEmpty(collection)) {
+        if (isEmpty(collection)) {
             return result;
         }
         List<T> list = new ArrayList<>(collection);

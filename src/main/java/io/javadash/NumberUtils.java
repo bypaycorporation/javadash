@@ -1,17 +1,14 @@
 package io.javadash;
 
 import static io.javadash.core.BaseLibrary.createMathOperation;
-import static io.javadash.core.Validate.isEmpty;
 import static io.javadash.core.Validate.isValidArray;
 import static io.javadash.core.Validate.isValidNumber;
 
 import io.javadash.core.Validate;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -30,7 +27,7 @@ public class NumberUtils {
      * ObjectUtils.isEmpty(1234)             = false
      * </pre>
      *
-     * @param number  the {@link Number} to test, may be {@code null}
+     * @param number the {@link Number} to test, may be {@code null}
      * @return {@code true} if the number has a supported type and is empty or null,
      * {@code false} otherwise
      */
@@ -266,9 +263,7 @@ public class NumberUtils {
         if (!isValidArray(values)) {
             return Optional.empty();
         }
-        return Stream.of(values)
-            .filter(Objects::nonNull)
-            .max(Comparator.naturalOrder());
+        return Stream.of(values).filter(Objects::nonNull).max(Comparator.naturalOrder());
     }
 
     /**
@@ -286,19 +281,18 @@ public class NumberUtils {
      *
      * }</pre>
      *
-     * @param iteratee   The iteratee invoked per element.
-     * @param values     The array of values.
+     * @param iteratee The iteratee invoked per element.
+     * @param values   The array of values.
      * @return An Optional containing the maximum value, or empty if the array is null or empty.
      */
     @SafeVarargs
-    public static <T, U extends Comparable<? super U>> Optional<T> maxBy(final Function<T, U> iteratee, final T... values) {
+    public static <T, U extends Comparable<? super U>> Optional<T> maxBy(final Function<T, U> iteratee,
+                                                                         final T... values) {
         Objects.requireNonNull(iteratee);
         if (!isValidArray(values)) {
             return Optional.empty();
         }
-        return Stream.of(values)
-            .filter(Objects::nonNull)
-            .max(Comparator.comparing(iteratee));
+        return Stream.of(values).filter(Objects::nonNull).max(Comparator.comparing(iteratee));
     }
 
     /**
@@ -328,9 +322,7 @@ public class NumberUtils {
         if (!isValidArray(values)) {
             return Optional.empty();
         }
-        return Stream.of(values)
-            .filter(Objects::nonNull)
-            .min(Comparator.naturalOrder());
+        return Stream.of(values).filter(Objects::nonNull).min(Comparator.naturalOrder());
     }
 
     /**
@@ -356,14 +348,13 @@ public class NumberUtils {
      * @return An Optional containing the minimum value, or empty if the array is null or empty.
      */
     @SafeVarargs
-    public static <T, U extends Comparable<? super U>> Optional<T> minBy(final Function<T, U> iteratee, final T... values) {
+    public static <T, U extends Comparable<? super U>> Optional<T> minBy(final Function<T, U> iteratee,
+                                                                         final T... values) {
         Objects.requireNonNull(iteratee);
         if (!isValidArray(values)) {
             return Optional.empty();
         }
-        return Stream.of(values)
-            .filter(Objects::nonNull)
-            .min(Comparator.comparing(iteratee));
+        return Stream.of(values).filter(Objects::nonNull).min(Comparator.comparing(iteratee));
     }
 
     /**
@@ -393,10 +384,7 @@ public class NumberUtils {
         if (!isValidArray(values)) {
             return OptionalDouble.empty();
         }
-        return Stream.of(values)
-            .filter(Objects::nonNull)
-            .mapToDouble(Number::doubleValue)
-            .average();
+        return Stream.of(values).filter(Objects::nonNull).mapToDouble(Number::doubleValue).average();
     }
 
     /**
@@ -428,9 +416,7 @@ public class NumberUtils {
         if (!isValidArray(values)) {
             return OptionalDouble.empty();
         }
-        return Stream.of(values)
-            .filter(Objects::nonNull)
-            .mapToDouble(value -> iteratee.apply(value).doubleValue())
+        return Stream.of(values).filter(Objects::nonNull).mapToDouble(value -> iteratee.apply(value).doubleValue())
             .average();
     }
 
@@ -751,13 +737,10 @@ public class NumberUtils {
      * @return The sum of the values, or 0 if the collection is null or empty.
      */
     public static <T extends Integer> int sumInt(Collection<? extends T> collection) {
-        if (!isEmpty(collection)) {
+        if (isEmpty(collection)) {
             return 0;
         }
-        return collection.stream()
-            .filter(Objects::nonNull)
-            .mapToInt(Integer::intValue)
-            .sum();
+        return collection.stream().filter(Objects::nonNull).mapToInt(Integer::intValue).sum();
     }
 
     /**
@@ -779,13 +762,10 @@ public class NumberUtils {
      * @return The sum of the values, or 0 if the collection is null or empty.
      */
     public static <T extends Long> long sumLong(Collection<? extends T> collection) {
-        if (!isEmpty(collection)) {
+        if (isEmpty(collection)) {
             return 0L;
         }
-        return collection.stream()
-            .filter(Objects::nonNull)
-            .mapToLong(Long::longValue)
-            .sum();
+        return collection.stream().filter(Objects::nonNull).mapToLong(Long::longValue).sum();
     }
 
     /**
@@ -807,12 +787,10 @@ public class NumberUtils {
      * @return The sum of the values, or 0 if the collection is null or empty.
      */
     public static <T extends Float> float sumFloat(Collection<? extends T> collection) {
-        if (!isEmpty(collection)) {
+        if (isEmpty(collection)) {
             return 0F;
         }
-        return (float) collection.stream()
-            .filter(Objects::nonNull)
-            .mapToDouble(Float::doubleValue)
+        return (float) collection.stream().filter(Objects::nonNull).mapToDouble(Float::doubleValue)
             .reduce(0.0, Double::sum);
     }
 
@@ -835,13 +813,10 @@ public class NumberUtils {
      * @return The sum of the values, or 0 if the collection is null or empty.
      */
     public static <T extends Double> double sumDouble(Collection<? extends T> collection) {
-        if (!isEmpty(collection)) {
+        if (isEmpty(collection)) {
             return 0.0;
         }
-        return collection.stream()
-            .filter(Objects::nonNull)
-            .mapToDouble(Double::doubleValue)
-            .sum();
+        return collection.stream().filter(Objects::nonNull).mapToDouble(Double::doubleValue).sum();
     }
 
     /**
@@ -866,13 +841,10 @@ public class NumberUtils {
     public static <T extends Integer> int sumByInt(Collection<? extends T> collection,
                                                    Function<? super T, Integer> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isEmpty(collection)) {
+        if (isEmpty(collection)) {
             return 0;
         }
-        return collection.stream()
-            .filter(Objects::nonNull)
-            .mapToInt(iteratee::apply)
-            .sum();
+        return collection.stream().filter(Objects::nonNull).mapToInt(iteratee::apply).sum();
     }
 
     /**
@@ -897,13 +869,10 @@ public class NumberUtils {
     public static <T extends Long> long sumByLong(Collection<? extends T> collection,
                                                   Function<? super T, Long> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isEmpty(collection)) {
+        if (isEmpty(collection)) {
             return 0L;
         }
-        return collection.stream()
-            .filter(Objects::nonNull)
-            .mapToLong(iteratee::apply)
-            .sum();
+        return collection.stream().filter(Objects::nonNull).mapToLong(iteratee::apply).sum();
     }
 
     /**
@@ -928,12 +897,10 @@ public class NumberUtils {
     public static <T extends Float> float sumByFloat(Collection<? extends T> collection,
                                                      Function<? super T, Float> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isEmpty(collection)) {
+        if (isEmpty(collection)) {
             return 0F;
         }
-        return (float) collection.stream()
-            .filter(Objects::nonNull)
-            .mapToDouble(t -> iteratee.apply(t).doubleValue())
+        return (float) collection.stream().filter(Objects::nonNull).mapToDouble(t -> iteratee.apply(t).doubleValue())
             .sum();
     }
 
@@ -959,13 +926,10 @@ public class NumberUtils {
     public static <T extends Double> double sumByDouble(Collection<? extends T> collection,
                                                         Function<? super T, Double> iteratee) {
         Objects.requireNonNull(iteratee);
-        if (!isEmpty(collection)) {
+        if (isEmpty(collection)) {
             return 0.0;
         }
-        return collection.stream()
-            .filter(Objects::nonNull)
-            .mapToDouble(iteratee::apply)
-            .sum();
+        return collection.stream().filter(Objects::nonNull).mapToDouble(iteratee::apply).sum();
     }
 
     /**

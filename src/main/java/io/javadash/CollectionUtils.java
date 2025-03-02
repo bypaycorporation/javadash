@@ -143,7 +143,7 @@ public class CollectionUtils {
      */
     @SafeVarargs
     public static <T> List<T> concat(Collection<? extends T> collection, Collection<? extends T>... values) {
-        List<T> result = isEmpty(collection) ? new ArrayList<>(collection) : new ArrayList<>();
+        List<T> result = !isEmpty(collection) ? new ArrayList<>(collection) : new ArrayList<>();
         for (Collection<? extends T> value : values) {
             if (value != null) {
                 result.addAll(value.stream()
@@ -649,7 +649,7 @@ public class CollectionUtils {
      * @return Returns the first element of the collection.
      */
     public static <T> Optional<T> head(Collection<? extends T> collection) {
-        return isEmpty(collection) && !collection.isEmpty()
+        return !isEmpty(collection)
             ? Optional.ofNullable(collection.iterator().next())
             : Optional.empty();
     }
