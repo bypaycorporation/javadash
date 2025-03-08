@@ -1,0 +1,64 @@
+name: Java CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions: read-all
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        java: [11, 17, 21, 23]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: ${{ matrix.java }}
+          cache: 'maven'
+      - name: Build with Maven
+        run: mvn test jacoco:report --file pom.xml -B
+
+  build-sonar:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version:  17
+          cache: 'maven'
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: 141cf8d0b32ae5d8613f7469cfddc964f02a970b
+        run: mvn -B test jacoco:report coveralls:report org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.organization=bypay-corporation -Dsonar.host.url=https://sonarcloud.io -Dsonar.projectKey=bypay-corporation_javadash
+      - name: Build examples
+        run: mvn -B -f examples/pom.xml package
+      - name: Build spring-boot
+        run: mvn -B -f spring-boot-example/pom.xml package
+      - uses: codecov/codecov-action@v5
+        with:
+          files: target/site/jacoco/jacoco.xml
+          name: codecov
+          fail_ci_if_error: true
+        env:
+          CODECOV_TOKEN: a7a3a75d-8ee9-483e-8430-59b6b39471e2
