@@ -30,8 +30,8 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/tx7icv3i08qowv6r?svg=true)](https://ci.appveyor.com/project/vantuan0101/javadash)
 [![javadoc](https://javadoc.io/badge2/io.github.bypaycorporation/javadash/javadoc.svg)](https://javadoc.io/doc/io.github.bypaycorporation/javadash)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bypay-corporation_javadash&metric=alert_status)](https://sonarcloud.io/summary/overall?id=bypay-corporation_javadash)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=bypay-corporation_javadash&metric=sqale_rating)](https://sonarcloud.io/summary/overall?id=bypay-corporation_javadash)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bypaycorporation_javadash&metric=alert_status)](https://sonarcloud.io/summary/overall?id=bypaycorporation_javadash)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=bypaycorporation_javadash&metric=sqale_rating)](https://sonarcloud.io/summary/overall?id=bypaycorporation_javadash)
 
 [![Hits-of-Code](https://hitsofcode.com/github/bypaycorporation/javadash?branch=main)](https://hitsofcode.com/github/bypaycorporation/javadash/view?branch=main)
 [![codebeat badge](https://codebeat.co/badges/1060a230-7634-4ae1-94bf-bd2d659bb9c3)](https://codebeat.co/projects/github-com-bypaycorporation-javadash-main)
