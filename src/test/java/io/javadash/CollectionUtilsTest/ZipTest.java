@@ -4,6 +4,7 @@ import static io.javadash.CollectionUtils.zip;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -35,20 +36,20 @@ public class ZipTest {
 
     @Test
     void testZipWithEmptyLists() {
-        List<Integer> list1 = Arrays.asList();
-        List<Integer> list2 = Arrays.asList();
+        List<Integer> list1 = Collections.emptyList();
+        List<Integer> list2 = Collections.emptyList();
 
         // Zip operation between two empty lists
         List<List<Integer>> result = zip(list1, list2);
 
         // The result should be an empty list
-        assertEquals(Arrays.asList(), result);
+        assertEquals(Collections.emptyList(), result);
     }
 
     @Test
     void testZipWithNullAndEmptyLists() {
         List<Integer> list1 = Arrays.asList(1, 2, 3);
-        List<Integer> list2 = Arrays.asList();
+        List<Integer> list2 = Collections.emptyList();
 
         // Zip operation where one list is empty
         List<List<Integer>> result = zip(list1, list2);
@@ -85,14 +86,14 @@ public class ZipTest {
 
     @Test
     void testZipWithNullAndEmpty() {
-        List<Integer> list1 = Arrays.asList();
+        List<Integer> list1 = Collections.emptyList();
         List<Integer> list2 = null;
 
         // Zip operation with an empty list and a null list
         List<List<Integer>> result = zip(list1, list2);
 
         // The result should return an empty list
-        assertEquals(Arrays.asList(), result);
+        assertEquals(Collections.emptyList(), result);
     }
 }
 

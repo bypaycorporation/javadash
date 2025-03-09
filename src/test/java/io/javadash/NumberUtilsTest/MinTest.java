@@ -1,6 +1,7 @@
 package io.javadash.NumberUtilsTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.javadash.NumberUtils;
@@ -31,7 +32,7 @@ public class MinTest {
     void testMinWithAllNullValues() {
         Integer[] values = {null, null, null};
         Optional<Integer> result = NumberUtils.min(values);
-        assertTrue(!result.isPresent(), "Result should be empty when all values are null");
+        assertFalse(result.isPresent(), "Result should be empty when all values are null");
     }
 
     // Test for min() method with an empty array
@@ -39,14 +40,14 @@ public class MinTest {
     void testMinWithEmptyArray() {
         Integer[] values = {};
         Optional<Integer> result = NumberUtils.min(values);
-        assertTrue(!result.isPresent(), "Result should be empty when the array is empty");
+        assertFalse(result.isPresent(), "Result should be empty when the array is empty");
     }
 
     // Test for min() method with a null array
     @Test
     void testMinWithNullArray() {
         Optional<Integer> result = NumberUtils.min((Integer[]) null);
-        assertTrue(!result.isPresent(), "Result should be empty when the array is null");
+        assertFalse(result.isPresent(), "Result should be empty when the array is null");
     }
 
     // Test for min() method with an array of equal values
@@ -81,6 +82,6 @@ public class MinTest {
     void testMinWithSingleNullValue() {
         Integer[] values = {null};
         Optional<Integer> result = NumberUtils.min(values);
-        assertTrue(!result.isPresent(), "Result should be empty when the array contains only null");
+        assertFalse(result.isPresent(), "Result should be empty when the array contains only null");
     }
 }

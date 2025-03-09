@@ -28,7 +28,7 @@ public class MinByTest {
     @Test
     void testMinByWithEmptyArray() {
         Optional<String> result = NumberUtils.minBy(String::length);
-        assertTrue(!result.isPresent(), "Result should be empty when the array is empty");
+        assertFalse(result.isPresent(), "Result should be empty when the array is empty");
     }
 
     // Test for minBy() with null values mixed with valid elements
@@ -44,14 +44,14 @@ public class MinByTest {
     @Test
     void testMinByWithNullArray() {
         Optional<String> result = NumberUtils.minBy(String::length, (String[]) null);
-        assertTrue(!result.isPresent(), "Result should be empty when the array is null");
+        assertFalse(result.isPresent(), "Result should be empty when the array is null");
     }
 
     // Test for minBy() with all null values in the array
     @Test
     void testMinByWithAllNullValues() {
         Optional<String> result = NumberUtils.minBy(String::length, null, null);
-        assertTrue(!result.isPresent(), "Result should be empty when all values are null");
+        assertFalse(result.isPresent(), "Result should be empty when all values are null");
     }
 
     // Test for minBy() with a single valid value

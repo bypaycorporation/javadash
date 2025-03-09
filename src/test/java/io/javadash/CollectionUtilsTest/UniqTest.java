@@ -82,8 +82,8 @@ public class UniqTest {
 
     // Custom class for testing with unique functionality
     static class Person {
-        private String name;
-        private int age;
+        private final String name;
+        private final int age;
 
         Person(String name, int age) {
             this.name = name;

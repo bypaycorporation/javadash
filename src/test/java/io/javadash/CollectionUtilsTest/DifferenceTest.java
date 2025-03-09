@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.javadash.CollectionUtils;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -37,17 +38,17 @@ public class DifferenceTest {
 
         List<Integer> result = CollectionUtils.difference(array, exclude1, exclude2);
 
-        assertEquals(Arrays.asList(1), result, "The result should exclude 2, 3, 4, and 5 from the array.");
+        assertEquals(Collections.singletonList(1), result, "The result should exclude 2, 3, 4, and 5 from the array.");
     }
 
     @Test
     public void testDifference_withEmptyArray() {
-        List<Integer> array = Arrays.asList();
+        List<Integer> array = Collections.emptyList();
         List<Integer> exclude = Arrays.asList(2, 3);
 
         List<Integer> result = CollectionUtils.difference(array, exclude);
 
-        assertEquals(Arrays.asList(), result, "The result should be an empty list as the input array is empty.");
+        assertEquals(Collections.emptyList(), result, "The result should be an empty list as the input array is empty.");
     }
 
     @Test
@@ -78,7 +79,7 @@ public class DifferenceTest {
         List<Integer> exclude2 = null;  // Null list
         List<Integer> result = CollectionUtils.difference(array, exclude1, exclude2);
 
-        assertEquals(Arrays.asList(), result,
+        assertEquals(Collections.emptyList(), result,
             "The result should return empty list");
     }
 
@@ -89,7 +90,7 @@ public class DifferenceTest {
         List<Integer> exclude2 = null;  // Null list
         List<Integer> result = CollectionUtils.difference(array, exclude1, exclude2);
 
-        assertEquals(Arrays.asList(1), result,
+        assertEquals(Collections.singletonList(1), result,
             "The result should return empty list");
     }
 }

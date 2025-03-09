@@ -128,7 +128,7 @@ public class SliceTest {
 
         List<String> slicedList = slice(list, 0, 1);
 
-        assertEquals(new ArrayList<>(Arrays.asList("apple")), slicedList);
+        assertEquals(new ArrayList<>(Collections.singletonList("apple")), slicedList);
     }
 
     @Test

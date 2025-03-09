@@ -4,6 +4,7 @@ import static io.javadash.CollectionUtils.xorBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,7 @@ public class XorByTest {
     @Test
     void testXorByWithEmptyList() {
         List<Integer> list1 = Arrays.asList(1, 2, 3);
-        List<Integer> list2 = Arrays.asList();
+        List<Integer> list2 = Collections.emptyList();
 
         // Define the iteratee as a simple identity function (no transformation)
         Function<Integer, Integer> iteratee = value -> value;
@@ -83,7 +84,7 @@ public class XorByTest {
         // XOR operation between two identical lists should return an empty list
         List<Integer> result = xorBy(iteratee, list1, list2);
 
-        assertEquals(Arrays.asList(), result);
+        assertEquals(Collections.emptyList(), result);
     }
 
     @Test
@@ -113,13 +114,13 @@ public class XorByTest {
         // XOR operation with identical elements should return an empty list
         List<Integer> result = xorBy(iteratee, list1, list2);
 
-        assertEquals(Arrays.asList(), result);
+        assertEquals(Collections.emptyList(), result);
     }
 
     @Test
     void testXorByWithEmptyLists() {
-        List<Integer> list1 = Arrays.asList();
-        List<Integer> list2 = Arrays.asList();
+        List<Integer> list1 = Collections.emptyList();
+        List<Integer> list2 = Collections.emptyList();
 
         // Define the iteratee as a simple identity function (no transformation)
         Function<Integer, Integer> iteratee = value -> value;
@@ -127,7 +128,7 @@ public class XorByTest {
         // XOR operation with two empty lists should return an empty list
         List<Integer> result = xorBy(iteratee, list1, list2);
 
-        assertEquals(Arrays.asList(), result);
+        assertEquals(Collections.emptyList(), result);
     }
 }
 

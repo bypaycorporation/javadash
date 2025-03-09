@@ -4,6 +4,7 @@ import static io.javadash.CollectionUtils.join;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -49,7 +50,7 @@ public class JoinTest {
 
     @Test
     void testJoinWithEmptyList() {
-        List<String> array = Arrays.asList();
+        List<String> array = Collections.emptyList();
         String separator = "-";
 
         String result = join(array, separator);

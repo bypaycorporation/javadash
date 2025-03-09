@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.javadash.NumberUtils;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ public class SumByTest {
         assertEquals(8, NumberUtils.sumByInt(integersWithNulls, iteratee), "Sum should be 8 (1*2 + 3*2)");
 
         // Test with an empty collection
-        List<Integer> emptyList = Arrays.asList();
+        List<Integer> emptyList = Collections.emptyList();
         assertEquals(0, NumberUtils.sumByInt(emptyList, iteratee), "Sum of an empty collection should be 0");
 
         // Test with null collection
@@ -41,7 +42,7 @@ public class SumByTest {
         assertEquals(80L, NumberUtils.sumByLong(longsWithNulls, iteratee), "Sum should be 80 (10*2 + 30*2)");
 
         // Test with an empty collection
-        List<Long> emptyList = Arrays.asList();
+        List<Long> emptyList = Collections.emptyList();
         assertEquals(0L, NumberUtils.sumByLong(emptyList, iteratee), "Sum of an empty collection should be 0");
 
         // Test with null collection
@@ -61,7 +62,7 @@ public class SumByTest {
         assertEquals(10.0F, NumberUtils.sumByFloat(floatsWithNulls, iteratee), "Sum should be 10.0 (1.5*2 + 3.5*2)");
 
         // Test with an empty collection
-        List<Float> emptyList = Arrays.asList();
+        List<Float> emptyList = Collections.emptyList();
         assertEquals(0.0F, NumberUtils.sumByFloat(emptyList, iteratee), "Sum of an empty collection should be 0.0F");
 
         // Test with null collection
@@ -81,7 +82,7 @@ public class SumByTest {
         assertEquals(8.8, NumberUtils.sumByDouble(doublesWithNulls, iteratee), "Sum should be 8.8 (1.1*2 + 3.3*2)");
 
         // Test with an empty collection
-        List<Double> emptyList = Arrays.asList();
+        List<Double> emptyList = Collections.emptyList();
         assertEquals(0.0, NumberUtils.sumByDouble(emptyList, iteratee), "Sum of an empty collection should be 0.0");
 
         // Test with null collection

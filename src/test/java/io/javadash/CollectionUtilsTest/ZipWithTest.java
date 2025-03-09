@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -83,14 +84,14 @@ public class ZipWithTest {
             list
         );
 
-        assertEquals(Arrays.asList(), result);
+        assertEquals(Collections.emptyList(), result);
     }
 
     @Test
     void testZipWithMixedNullAndEmptyLists() {
         List<Integer> list1 = Arrays.asList(1, 2, 3);
         List<Integer> list2 = null;
-        List<Integer> list3 = Arrays.asList();
+        List<Integer> list3 = Collections.emptyList();
 
         List<String> result = zipWith(
             group -> group.get(0) + (group.size() > 1 ? "+" + group.get(1) : ""),

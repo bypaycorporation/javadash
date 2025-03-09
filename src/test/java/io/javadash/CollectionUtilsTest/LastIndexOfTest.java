@@ -4,6 +4,7 @@ import static io.javadash.CollectionUtils.lastIndexOf;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -58,7 +59,7 @@ public class LastIndexOfTest {
 
     @Test
     void testLastIndexOfWithEmptyList() {
-        List<String> array = Arrays.asList();
+        List<String> array = Collections.emptyList();
 
         int result = lastIndexOf(array, "apple", 0);
 

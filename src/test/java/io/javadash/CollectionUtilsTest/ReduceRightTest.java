@@ -197,8 +197,8 @@ public class ReduceRightTest {
     }
 
     static class Student {
-        private String name;
-        private int score;
+        private final String name;
+        private final int score;
 
         // Constructor
         public Student(String name, int score) {

@@ -73,7 +73,8 @@ public class FlatMapDeepTest {
     @Test
     void testFlatMapDeep_recursiveFlattening() {
         Collection<Integer> collection = Arrays.asList(1, 2, 3);
-        Function<Integer, Collection<Object>> iteratee = i -> Arrays.asList(i, Arrays.asList(i * 2, Arrays.asList(i * 3)));
+        Function<Integer, Collection<Object>> iteratee = i -> Arrays.asList(i, Arrays.asList(i * 2,
+            Collections.singletonList(i * 3)));
 
         List<Object> result = flatMapDeep(collection, iteratee);
 
@@ -92,7 +93,8 @@ public class FlatMapDeepTest {
     @Test
     void testFlatMapDeep_complexNestedCollection() {
         Collection<String> collection = Arrays.asList("a", "b");
-        Function<String, Collection<Object>> iteratee = s -> Arrays.asList(s, Arrays.asList(s + "1", Arrays.asList(s + "2")));
+        Function<String, Collection<Object>> iteratee = s -> Arrays.asList(s, Arrays.asList(s + "1",
+            Collections.singletonList(s + "2")));
 
         List<Object> result = flatMapDeep(collection, iteratee);
 

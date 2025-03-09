@@ -133,7 +133,7 @@ public class UnionByTest {
         List<Person> result = unionBy(byName, list1, list2);
 
         // The result should be equal to list2 as list1 is null
-        assertEquals(new ArrayList<>(Arrays.asList(new Person("Alice", 30))), result);
+        assertEquals(new ArrayList<>(Collections.singletonList(new Person("Alice", 30))), result);
     }
 
     @Test
@@ -159,8 +159,8 @@ public class UnionByTest {
 
     // Custom class for testing with union functionality
     static class Person {
-        private String name;
-        private int age;
+        private final String name;
+        private final int age;
 
         Person(String name, int age) {
             this.name = name;

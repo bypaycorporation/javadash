@@ -4,6 +4,7 @@ import static io.javadash.CollectionUtils.findIndex;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +45,7 @@ public class FindIndexTest {
 
     @Test
     public void testFindIndexWithEmptyArray() {
-        List<String> emptyList = Arrays.asList();
+        List<String> emptyList = Collections.emptyList();
 
         // Test case 7: Empty array should return -1
         int index7 = findIndex(emptyList, name -> "Alice".equals(name), 0);

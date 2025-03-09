@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -57,7 +58,7 @@ public class UnzipTest {
         List<List<Integer>> grouped = new ArrayList<>();
         grouped.add(new ArrayList<>(Arrays.asList(1, 2)));
         grouped.add(new ArrayList<>(Arrays.asList(3, 4, 5)));
-        grouped.add(new ArrayList<>(Arrays.asList(6)));
+        grouped.add(new ArrayList<>(Collections.singletonList(6)));
 
         List<List<Integer>> result = unzip(grouped);
 

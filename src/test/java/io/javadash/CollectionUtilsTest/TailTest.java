@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -72,7 +73,7 @@ public class TailTest {
 
         List<String> tailList = tail(list);
 
-        assertEquals(new ArrayList<>(Arrays.asList("banana")), tailList);  // Should return a list with the second element
+        assertEquals(new ArrayList<>(Collections.singletonList("banana")), tailList);  // Should return a list with the second element
     }
 }
 

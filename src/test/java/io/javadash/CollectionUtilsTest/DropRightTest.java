@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import io.javadash.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -21,14 +22,14 @@ public class DropRightTest {
     public void testDropRight_TwoElementsDropped() {
         List<Integer> input = Arrays.asList(1, 2, 3);
         List<Integer> result = CollectionUtils.dropRight(input, 2);
-        assertEquals(Arrays.asList(1), result, "Two elements should be dropped");
+        assertEquals(Collections.singletonList(1), result, "Two elements should be dropped");
     }
 
     @Test
     public void testDropRight_MoreThanListSize() {
         List<Integer> input = Arrays.asList(1, 2, 3);
         List<Integer> result = CollectionUtils.dropRight(input, 5);
-        assertEquals(Arrays.asList(), result, "When n > list size, it should return an empty list");
+        assertEquals(Collections.emptyList(), result, "When n > list size, it should return an empty list");
     }
 
     @Test
@@ -40,16 +41,16 @@ public class DropRightTest {
 
     @Test
     public void testDropRight_EmptyList() {
-        List<Integer> emptyList = Arrays.asList();
+        List<Integer> emptyList = Collections.emptyList();
         List<Integer> result = CollectionUtils.dropRight(emptyList, 1);
-        assertEquals(Arrays.asList(), result, "Dropping elements from an empty list should return an empty list");
+        assertEquals(Collections.emptyList(), result, "Dropping elements from an empty list should return an empty list");
     }
 
     @Test
     public void testDropRight_SingleElementList() {
-        List<Integer> singleElementList = Arrays.asList(5);
+        List<Integer> singleElementList = Collections.singletonList(5);
         List<Integer> result = CollectionUtils.dropRight(singleElementList, 1);
-        assertEquals(Arrays.asList(), result, "Dropping the only element in a list should return an empty list");
+        assertEquals(Collections.emptyList(), result, "Dropping the only element in a list should return an empty list");
     }
 
     @Test

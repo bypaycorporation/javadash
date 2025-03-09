@@ -14,8 +14,8 @@ public class FlattenTest {
 
     @Test
     public void testFlattenWithNestedLists() {
-        List<Object> input = Arrays.asList(1, Arrays.asList(2, Arrays.asList(3, Arrays.asList(4)), 5));
-        List<Object> expected = Arrays.asList(1, 2, Arrays.asList(3, Arrays.asList(4)), 5);
+        List<Object> input = Arrays.asList(1, Arrays.asList(2, Arrays.asList(3, Collections.singletonList(4)), 5));
+        List<Object> expected = Arrays.asList(1, 2, Arrays.asList(3, Collections.singletonList(4)), 5);
         assertEquals(expected, flatten(input));
     }
 

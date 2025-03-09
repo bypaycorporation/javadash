@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ public class IntersectionByTest {
         List<Integer> result = intersectionBy(list1, isEven, list2, list3);
 
         // Assert the result
-        assertEquals(Arrays.asList(4), result);
+        assertEquals(Collections.singletonList(4), result);
     }
 
     @Test
@@ -64,7 +65,7 @@ public class IntersectionByTest {
     public void testIntersectionByWithEmptyList() {
         // Define input lists, one of them being empty
         List<Integer> list1 = Arrays.asList(1, 2, 3);
-        List<Integer> list2 = Arrays.asList();
+        List<Integer> list2 = Collections.emptyList();
 
         // Predicate to check even numbers
         Predicate<Integer> isEven = num -> num % 2 == 0;
@@ -108,7 +109,7 @@ public class IntersectionByTest {
         List<Integer> result = intersectionBy(list1, greaterThanTwo, list2, list3, list4);
 
         // Assert the result
-        assertEquals(Arrays.asList(), result);
+        assertEquals(Collections.emptyList(), result);
     }
 }
 

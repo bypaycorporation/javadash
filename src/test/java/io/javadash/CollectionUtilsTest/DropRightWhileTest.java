@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.javadash.CollectionUtils;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,7 @@ public class DropRightWhileTest {
     // Additional test cases if needed
     @Test
     public void testDropRightWhileWithEmptyList() {
-        List<Integer> emptyList = Arrays.asList();
+        List<Integer> emptyList = Collections.emptyList();
         List<Integer> result = CollectionUtils.dropRightWhile(emptyList, num -> num.compareTo(3) > 0);
         assertTrue(result.isEmpty(), "Result should be empty for an empty list");
     }

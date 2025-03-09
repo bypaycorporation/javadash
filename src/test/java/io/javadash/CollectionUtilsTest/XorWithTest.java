@@ -4,6 +4,7 @@ import static io.javadash.CollectionUtils.xorWith;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ public class XorWithTest {
     @Test
     void testXorWithEmptyList() {
         List<Integer> list1 = Arrays.asList(1, 2, 3);
-        List<Integer> list2 = Arrays.asList();
+        List<Integer> list2 = Collections.emptyList();
 
         // Define the comparator to compare elements
         BiPredicate<Integer, Integer> comparator = (a, b) -> a.equals(b);
@@ -66,7 +67,7 @@ public class XorWithTest {
         // XOR operation between two identical lists should return an empty list
         List<Integer> result = xorWith(comparator, list1, list2);
 
-        assertEquals(Arrays.asList(), result);
+        assertEquals(Collections.emptyList(), result);
     }
 
     @Test
@@ -113,7 +114,7 @@ public class XorWithTest {
         List<Integer> result = xorWith(comparator, list1, list2);
 
         // The result should contain the elements [1, 2]
-        assertEquals(Arrays.asList(), result); // No unique elements after XOR
+        assertEquals(Collections.emptyList(), result); // No unique elements after XOR
     }
 }
 

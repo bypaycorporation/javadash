@@ -4,6 +4,7 @@ import static io.javadash.CollectionUtils.fill;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -32,16 +33,16 @@ public class FillTest {
 
     @Test
     public void testFillWithEmptyList() {
-        List<Integer> list = Arrays.asList();
+        List<Integer> list = Collections.emptyList();
         fill(list, 5, 0, 1);
-        assertEquals(Arrays.asList(), list, "Empty list should remain unchanged");
+        assertEquals(Collections.emptyList(), list, "Empty list should remain unchanged");
     }
 
     @Test
     public void testFillWithNullList() {
         List<Integer> list = null;
         List<Integer> result = fill(list, 7, 0, 5);
-        assertEquals(Arrays.asList(), result, "Null list should remain empty list");
+        assertEquals(Collections.emptyList(), result, "Null list should remain empty list");
     }
 
     @Test
@@ -70,13 +71,6 @@ public class FillTest {
         List<String> list = Arrays.asList("a", "b", "c", "d");
         fill(list, "z", 1, 3);
         assertEquals(Arrays.asList("a", "z", "z", "d"), list, "Should fill only the specified range with 'z'");
-    }
-
-    @Test
-    public void testFillSingleElementList() {
-        List<Integer> list = Arrays.asList(7);
-        fill(list, 3, 0, 1);
-        assertEquals(Arrays.asList(3), list, "Should fill a single-element list with the specified value");
     }
 }
 

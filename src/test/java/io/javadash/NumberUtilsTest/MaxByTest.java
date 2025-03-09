@@ -2,6 +2,7 @@ package io.javadash.NumberUtilsTest;
 
 import static io.javadash.NumberUtils.maxBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
@@ -52,14 +53,14 @@ public class MaxByTest {
     @Test
     void testMaxByWithEmptyArray() {
         Optional<Integer> result = maxBy(Integer::intValue);
-        assertTrue(!result.isPresent(), "Result should be empty when the array is empty");
+        assertFalse(result.isPresent(), "Result should be empty when the array is empty");
     }
 
     // Test for maxBy() method with a null array (edge case)
     @Test
     void testMaxByWithNullArray() {
         Optional<String> result = maxBy(String::length, (String[]) null);
-        assertTrue(!result.isPresent(), "Result should be empty when the array is null");
+        assertFalse(result.isPresent(), "Result should be empty when the array is null");
     }
 
     // Test for maxBy() method with custom comparator for strings with mixed case
@@ -75,6 +76,6 @@ public class MaxByTest {
     @Test
     void testMaxByWithAllNullValues() {
         Optional<String> result = maxBy(String::length, null, null, null);
-        assertTrue(!result.isPresent(), "Result should be empty when all values are null");
+        assertFalse(result.isPresent(), "Result should be empty when all values are null");
     }
 }

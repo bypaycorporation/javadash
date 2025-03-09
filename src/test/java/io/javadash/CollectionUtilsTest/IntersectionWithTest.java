@@ -23,7 +23,7 @@ public class IntersectionWithTest {
 
         List<Integer> result = intersectionWith(array, comparator, values1, values2);
 
-        assertEquals(Arrays.asList(4), result);
+        assertEquals(Collections.singletonList(4), result);
     }
 
     @Test

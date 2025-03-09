@@ -12,7 +12,7 @@ public class FlattenDeepTest {
 
     @Test
     public void testFlattenDeep_withNestedList() {
-        List<Object> nestedList = Arrays.asList(1, Arrays.asList(2, Arrays.asList(3, Arrays.asList(4)), 5));
+        List<Object> nestedList = Arrays.asList(1, Arrays.asList(2, Arrays.asList(3, Collections.singletonList(4)), 5));
         List<Object> expected = Arrays.asList(1, 2, 3, 4, 5);
         List<Object> result = flattenDeep(nestedList);
         assertEquals(expected, result);

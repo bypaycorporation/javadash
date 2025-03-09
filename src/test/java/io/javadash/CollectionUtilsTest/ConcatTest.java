@@ -11,8 +11,9 @@ import org.junit.jupiter.api.Test;
 public class ConcatTest {
     @Test
     public void testConcatWithMultipleLists() {
-        List<Integer> array = Arrays.asList(1);
-        List<Integer> result = CollectionUtils.concat(array, Arrays.asList(2), Arrays.asList(3, 4, null), Arrays.asList(5));
+        List<Integer> array = Collections.singletonList(1);
+        List<Integer> result = CollectionUtils.concat(array, Collections.singletonList(2), Arrays.asList(3, 4, null),
+            Collections.singletonList(5));
         System.out.println(result);
         assertEquals(Arrays.asList(1, 2, 3, 4, 5), result);
     }
@@ -25,22 +26,22 @@ public class ConcatTest {
 
     @Test
     public void testConcatWithNullValues() {
-        List<Integer> array = Arrays.asList(1);
-        List<Integer> result = CollectionUtils.concat(array, null, Arrays.asList(2), null, Arrays.asList(3));
+        List<Integer> array = Collections.singletonList(1);
+        List<Integer> result = CollectionUtils.concat(array, null, Collections.singletonList(2), null, Collections.singletonList(3));
         assertEquals(Arrays.asList(1, 2, 3), result);
     }
 
     @Test
     public void testConcatWithEmptyList() {
-        List<Integer> array = Arrays.asList(1);
+        List<Integer> array = Collections.singletonList(1);
         List<Integer> result = CollectionUtils.concat(array, Collections.emptyList());
-        assertEquals(Arrays.asList(1), result);
+        assertEquals(Collections.singletonList(1), result);
     }
 
     @Test
     public void testConcatWithNullElementInList() {
-        List<Integer> array = Arrays.asList(1);
-        List<Integer> result = CollectionUtils.concat(array, Arrays.asList(2), null, Arrays.asList(3));
+        List<Integer> array = Collections.singletonList(1);
+        List<Integer> result = CollectionUtils.concat(array, Collections.singletonList(2), null, Collections.singletonList(3));
         assertEquals(Arrays.asList(1, 2, 3), result);
     }
 
@@ -52,8 +53,8 @@ public class ConcatTest {
 
     @Test
     public void testConcatWithOnlyNullValues() {
-        List<Integer> result = CollectionUtils.concat(Arrays.asList(1), null, null, null);
-        assertEquals(Arrays.asList(1), result);
+        List<Integer> result = CollectionUtils.concat(Collections.singletonList(1), null, null, null);
+        assertEquals(Collections.singletonList(1), result);
     }
 
     @Test

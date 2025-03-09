@@ -44,7 +44,7 @@ public class DifferenceWithTest {
     @Test
     void testDifferenceWith_simpleCase() {
         List<String> input = Arrays.asList("apple", "banana", "cherry");
-        List<String> exclude = Arrays.asList("banana");
+        List<String> exclude = Collections.singletonList("banana");
 
         // Using BiPredicate for case-sensitive comparison
         List<String> result = CollectionUtils.differenceWith(input, String::equals, exclude);
@@ -67,7 +67,7 @@ public class DifferenceWithTest {
     void testDifferenceWith_multipleExclusions() {
         List<Integer> input = Arrays.asList(1, 2, 3, 4);
         List<Integer> exclude1 = Arrays.asList(2, 3);
-        List<Integer> exclude2 = Arrays.asList(4);
+        List<Integer> exclude2 = Collections.singletonList(4);
 
         // BiPredicate for integer equality
         List<Integer> result = CollectionUtils.differenceWith(input, Integer::equals, exclude1, exclude2);

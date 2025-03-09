@@ -54,7 +54,7 @@ public class DifferenceByTest {
         List<Double> exclude2 = Arrays.asList(1.9, 4.1);
 
         List<Double> result = CollectionUtils.differenceBy(input, x -> x < 2, exclude1, exclude2);
-        assertEquals(Arrays.asList(1.2), result);
+        assertEquals(Collections.singletonList(1.2), result);
     }
 
     @Test

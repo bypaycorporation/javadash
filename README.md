@@ -18,6 +18,30 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.bypaycorporation/javadash?label=Maven%20Central)](https://search.maven.org/artifact/io.github.bypaycorporation/javadash)
 [![Javadocs](https://javadoc.io/badge/io.github.bypaycorporation/javadash/2.0.0.svg)](https://javadoc.io/doc/io.github.bypaycorporation/javadash/2.0.0)
 
+[![MIT License](http://img.shields.io/badge/license-MIT-green.svg)](https://github.com/bypaycorporation/javadash/blob/main/LICENSE)
+[![Java CI](https://github.com/bypaycorporation/javadash/actions/workflows/maven.yml/badge.svg)](https://github.com/bypaycorporation/javadash/actions/workflows/maven.yml)
+[![CodeQL](https://github.com/bypaycorporation/javadash/actions/workflows/codeql.yml/badge.svg)](https://github.com/bypaycorporation/javadash/actions/workflows/codeql.yml)
+[![Semgrep](https://github.com/bypaycorporation/javadash/actions/workflows/semgrep.yml/badge.svg)](https://github.com/bypaycorporation/javadash/actions/workflows/semgrep.yml)
+[![Scorecard supply-chain security](https://github.com/bypaycorporation/javadash/actions/workflows/scorecard.yml/badge.svg?branch=main)](https://github.com/bypaycorporation/javadash/actions/workflows/scorecard.yml)
+[![OSSAR](https://github.com/bypaycorporation/javadash/actions/workflows/ossar.yml/badge.svg?branch=main)](https://github.com/bypaycorporation/javadash/actions/workflows/ossar.yml)
+[![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/7019/badge)](https://bestpractices.coreinfrastructure.org/projects/7019)
+[![Coverage Status](https://coveralls.io/repos/github/bypaycorporation/javadash/badge.svg?branch=main)](https://coveralls.io/github/bypaycorporation/javadash?branch=main)
+[![CircleCI](https://circleci.com/gh/bypaycorporation/javadash.svg?style=svg)](https://circleci.com/gh/bypaycorporation/javadash)
+[![Build status](https://ci.appveyor.com/api/projects/status/tx7icv3i08qowv6r?svg=true)](https://ci.appveyor.com/project/vantuan0101/javadash)
+[![javadoc](https://javadoc.io/badge2/io.github.bypaycorporation/javadash/javadoc.svg)](https://javadoc.io/doc/io.github.bypaycorporation/javadash)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bypay-corporation_javadash&metric=alert_status)](https://sonarcloud.io/summary/overall?id=bypay-corporation_javadash)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=bypay-corporation_javadash&metric=sqale_rating)](https://sonarcloud.io/summary/overall?id=bypay-corporation_javadash)
+
+[![Hits-of-Code](https://hitsofcode.com/github/bypaycorporation/javadash?branch=main)](https://hitsofcode.com/github/bypaycorporation/javadash/view?branch=main)
+[![codebeat badge](https://codebeat.co/badges/1060a230-7634-4ae1-94bf-bd2d659bb9c3)](https://codebeat.co/projects/github-com-bypaycorporation-javadash-main)
+![Java Version](https://img.shields.io/badge/java-%3E%3D%208-success)
+[![](https://img.shields.io/github/stars/bypaycorporation/javadash?style=flat-square)](https://github.com/bypaycorporation/javadash)
+[![](https://img.shields.io/github/forks/bypaycorporation/javadash?style=flat-square)](https://github.com/bypaycorporation/javadash/fork)
+
+Requirements
+============
+
 JavaDash
 ===================
 

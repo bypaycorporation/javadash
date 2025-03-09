@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ class SplitTest {
         // Test for a string with null separator (entire string as one element)
         String input = "apple,banana,orange";
         String separator = null;
-        List<String> expected = Arrays.asList("apple,banana,orange");
+        List<String> expected = Collections.singletonList("apple,banana,orange");
         assertEquals(expected, split(input, separator));
     }
 
@@ -51,7 +52,7 @@ class SplitTest {
         // Test for a string without any separators
         String input = "apple";
         String separator = ",";
-        List<String> expected = Arrays.asList("apple");
+        List<String> expected = Collections.singletonList("apple");
         assertEquals(expected, split(input, separator));
     }
 

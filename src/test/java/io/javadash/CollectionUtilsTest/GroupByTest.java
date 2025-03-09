@@ -50,7 +50,7 @@ public class GroupByTest {
 
         Map<Character, List<String>> expected = new HashMap<>();
         expected.put('a', Arrays.asList("apple", "avocado"));
-        expected.put('b', Arrays.asList("banana"));
+        expected.put('b', Collections.singletonList("banana"));
 
         assertEquals(expected, result);  // Null elements should be ignored
     }
@@ -63,8 +63,8 @@ public class GroupByTest {
 
         Map<Integer, List<String>> expected = new HashMap<>();
         expected.put(3, Arrays.asList("bat", "cat", "dog", "pie"));
-        expected.put(5, Arrays.asList("apple"));
-        expected.put(8, Arrays.asList("elephant"));
+        expected.put(5, Collections.singletonList("apple"));
+        expected.put(8, Collections.singletonList("elephant"));
 
         assertEquals(expected, result);
     }

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ public class FromPairsTest {
     @Test
     void testFromPairsEmptyInput() {
         // Given
-        List<List<String>> pairs = Arrays.asList();
+        List<List<String>> pairs = Collections.emptyList();
 
         // When
         Map<String, String> result = fromPairs(pairs);
@@ -57,7 +58,7 @@ public class FromPairsTest {
         // Given
         List<List<String>> pairs = Arrays.asList(
             Arrays.asList("a", "1"),
-            Arrays.asList("b")
+            Collections.singletonList("b")
         );
 
         // When

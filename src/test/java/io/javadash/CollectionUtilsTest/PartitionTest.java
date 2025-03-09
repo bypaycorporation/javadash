@@ -63,7 +63,7 @@ public class PartitionTest {
         List<List<String>> result = partition(collection, startsWithB);
 
         List<List<String>> expected = new ArrayList<>();
-        expected.add(Arrays.asList("banana"));  // Starts with 'b'
+        expected.add(Collections.singletonList("banana"));  // Starts with 'b'
         expected.add(Arrays.asList("apple", "cherry", "date"));  // Does not start with 'b'
 
         assertEquals(expected, result);
@@ -80,7 +80,7 @@ public class PartitionTest {
 
         List<List<String>> expected = new ArrayList<>();
         expected.add(Arrays.asList("apple", "banana", "cherry"));  // Non-null values
-        expected.add(Arrays.asList());
+        expected.add(Collections.emptyList());
         assertEquals(expected, result);
     }
 
@@ -136,8 +136,8 @@ public class PartitionTest {
     }
 
     static class Student {
-        private String name;
-        private int age;
+        private final String name;
+        private final int age;
 
         public Student(String name, int age) {
             this.name = name;

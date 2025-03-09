@@ -4,6 +4,7 @@ import static io.javadash.CollectionUtils.without;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -22,13 +23,13 @@ public class WithoutTest {
 
     @Test
     void testWithoutEmptyList() {
-        List<Integer> list = Arrays.asList();
+        List<Integer> list = Collections.emptyList();
 
         // Remove 2 and 4 from the empty list
         List<Integer> result = without(list, 2, 4);
 
         // The result should be an empty list
-        assertEquals(Arrays.asList(), result);
+        assertEquals(Collections.emptyList(), result);
     }
 
     @Test
@@ -39,7 +40,7 @@ public class WithoutTest {
         List<Integer> result = without(list, 2, 4);
 
         // The result should be an empty list since the input is null
-        assertEquals(Arrays.asList(), result);
+        assertEquals(Collections.emptyList(), result);
     }
 
     @Test
@@ -61,7 +62,7 @@ public class WithoutTest {
         List<Integer> result = without(list, 1, 2, 3, 4, 5);
 
         // The result should be an empty list
-        assertEquals(Arrays.asList(), result);
+        assertEquals(Collections.emptyList(), result);
     }
 
     @Test

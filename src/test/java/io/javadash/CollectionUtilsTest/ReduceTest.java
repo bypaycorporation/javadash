@@ -163,8 +163,8 @@ public class ReduceTest {
     }
 
     static class Student {
-        private String name;
-        private int score;
+        private final String name;
+        private final int score;
 
         public Student(String name, int score) {
             this.name = name;

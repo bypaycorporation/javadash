@@ -4,6 +4,7 @@ import static io.javadash.CollectionUtils.zipObject;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +59,7 @@ public class ZipObjectTest {
 
     @Test
     void testZipObjectWithEmptyKeys() {
-        List<String> keys = Arrays.asList();
+        List<String> keys = Collections.emptyList();
         List<Integer> values = Arrays.asList(1, 2, 3);
 
         Map<String, Integer> result = zipObject(keys, values);
@@ -69,7 +70,7 @@ public class ZipObjectTest {
     @Test
     void testZipObjectWithEmptyValues() {
         List<String> keys = Arrays.asList("a", "b", "c");
-        List<Integer> values = Arrays.asList();
+        List<Integer> values = Collections.emptyList();
 
         Map<String, Integer> result = zipObject(keys, values);
 
@@ -127,8 +128,8 @@ public class ZipObjectTest {
 
     @Test
     void testZipObjectWithSinglePair() {
-        List<String> keys = Arrays.asList("a");
-        List<Integer> values = Arrays.asList(1);
+        List<String> keys = Collections.singletonList("a");
+        List<Integer> values = Collections.singletonList(1);
 
         Map<String, Integer> result = zipObject(keys, values);
 

@@ -2,6 +2,7 @@ package io.javadash.NumberUtilsTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.javadash.NumberUtils;
+import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,7 +21,7 @@ public class SumTest {
         assertEquals(4, NumberUtils.sumInt(integersWithNulls), "Sum should be 4, null values are ignored");
 
         // Test with an empty collection
-        List<Integer> emptyList = Arrays.asList();
+        List<Integer> emptyList = Collections.emptyList();
         assertEquals(0, NumberUtils.sumInt(emptyList), "Sum of an empty collection should be 0");
 
         // Test with null collection
@@ -39,7 +40,7 @@ public class SumTest {
         assertEquals(40L, NumberUtils.sumLong(longsWithNulls), "Sum should be 40, null values are ignored");
 
         // Test with an empty collection
-        List<Long> emptyList = Arrays.asList();
+        List<Long> emptyList = Collections.emptyList();
         assertEquals(0L, NumberUtils.sumLong(emptyList), "Sum of an empty collection should be 0");
 
         // Test with null collection
@@ -58,7 +59,7 @@ public class SumTest {
         assertEquals(5.0F, NumberUtils.sumFloat(floatsWithNulls), "Sum should be 5.0, null values are ignored");
 
         // Test with an empty collection
-        List<Float> emptyList = Arrays.asList();
+        List<Float> emptyList = Collections.emptyList();
         assertEquals(0.0F, NumberUtils.sumFloat(emptyList), "Sum of an empty collection should be 0.0F");
 
         // Test with null collection
@@ -77,7 +78,7 @@ public class SumTest {
         assertEquals(4.4, NumberUtils.sumDouble(doublesWithNulls), "Sum should be 4.4, null values are ignored");
 
         // Test with an empty collection
-        List<Double> emptyList = Arrays.asList();
+        List<Double> emptyList = Collections.emptyList();
         assertEquals(0.0, NumberUtils.sumDouble(emptyList), "Sum of an empty collection should be 0.0");
 
         // Test with null collection

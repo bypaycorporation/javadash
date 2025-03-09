@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +31,7 @@ public class TakeTest {
 
         List<String> takenList = take(list, 3);  // Using the take method directly
 
-        assertEquals(Arrays.asList("apple"), takenList);  // Should return the only element in the list
+        assertEquals(Collections.singletonList("apple"), takenList);  // Should return the only element in the list
     }
 
     @Test

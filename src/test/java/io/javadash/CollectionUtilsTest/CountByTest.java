@@ -73,8 +73,8 @@ public class CountByTest {
     @Test
     public void testCountBy_withComplexObjects() {
         class Person {
-            String name;
-            int age;
+            final String name;
+            final int age;
 
             Person(String name, int age) {
                 this.name = name;

@@ -25,7 +25,7 @@ public class HeadTest {
 
     @Test
     void testHeadWithSingleElementList() {
-        List<String> input = Arrays.asList("single");
+        List<String> input = Collections.singletonList("single");
 
         Optional<String> result = head(input);
 
