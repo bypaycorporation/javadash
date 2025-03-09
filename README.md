@@ -85,3 +85,25 @@ Gradle
 ```groovy
   implementation 'io.github.bypaycorporation:javadash:2.0.0'
 ```
+
+### Usage
+
+```java
+  import java.util.*;
+  import static io.javadash.CollectionUtils.chunk;
+  public class Main {
+    public static void main(String[] args) {
+      List<String> input = Arrays.asList("a", "b", "c", "d");
+      int size = 2;
+      List<List<String>> result = chunk(input, size);
+      System.out.println(result);
+    }
+  }
+```
+
+In addition to porting JavaDash's functionality, JavaDash includes matching unit tests.
+
+For docs, license, tests, and downloads, see:
+https://github.com/bypaycorporation/javadash
+
+Thanks to Van Tuan and Jake Moek and all contributors to JavaDash.
